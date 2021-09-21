@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:crush/Constants/constants.dart';
 import 'package:crush/Model/homeModel.dart';
 import 'package:crush/Services/homeServices.dart';
+import 'package:crush/Services/sendnotification.dart';
 import 'package:crush/util/App_constants/appconstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -446,14 +447,17 @@ class _homePgState extends State<homePg> {
                                                                   .circular(5)),
                                                       child: FlatButton(
                                                           onPressed: () {
-                                                            // Navigator
-                                                            //     .pushReplacement(
-                                                            //         context,
-                                                            //         MaterialPageRoute(
-                                                            //             builder: (context) =>
-                                                            //                 videoCallPg(
-                                                            //                   user_id: widget.user_id,
-                                                            //                 )));
+                                                            sendingpost('lll',
+                                                                'token', '0');
+
+                                                            Navigator
+                                                                .pushReplacement(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder: (context) =>
+                                                                            videoCallPg(
+                                                                              user_id: widget.user_id,
+                                                                            )));
                                                           },
                                                           child: Text(
                                                             'Ok',

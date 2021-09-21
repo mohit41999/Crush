@@ -1,8 +1,13 @@
+import 'dart:convert';
+
 import 'package:crush/Constants/constants.dart';
 import 'package:crush/Screens/signinScreen.dart';
+import 'package:crush/Services/sendnotification.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 
 class splashScreen extends StatefulWidget {
   const splashScreen({Key? key}) : super(key: key);
@@ -12,6 +17,9 @@ class splashScreen extends StatefulWidget {
 }
 
 class _splashScreenState extends State<splashScreen> {
+  late FirebaseMessaging messaging;
+  late Future send;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
