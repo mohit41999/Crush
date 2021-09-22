@@ -22,4 +22,5 @@ class AppConstants {
   static const String DELETE_ACCOUNT = 'delete_user.php';
   static const String ADD_COINS = 'add_coins_plan.php';
   static const String WITHDRAWCOINS = 'withdraw_coins.php';
+  static const String GENERATECHANNEL = 'random_channel.php';
 }

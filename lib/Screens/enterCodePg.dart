@@ -1,12 +1,15 @@
 import 'dart:convert';
 
 import 'package:crush/Constants/constants.dart';
+import 'package:crush/Services/fcmServices.dart';
 import 'package:crush/util/App_constants/appconstants.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:http/http.dart' as http;
 
+import '../firebase_notification_handler.dart';
 import 'buildUrProfilePg.dart';
 import 'generalHomeScreen.dart';
 
@@ -54,6 +57,18 @@ class _enterCodePgState extends State<enterCodePg> {
 
   TextEditingController otpController = TextEditingController();
   late String OTP;
+  late FirebaseMessaging _getfcmtoken;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getfcmtoken = FirebaseMessaging.instance;
+    FirebaseNotifications().setupFirebase(context, widget.user_id);
+    _getfcmtoken.getToken().then((value) {
+      Fcm_Services().sendfcm(widget.user_id, value!);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

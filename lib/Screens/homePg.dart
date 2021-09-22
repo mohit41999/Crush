@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 import 'package:crush/Constants/constants.dart';
 import 'package:crush/Model/homeModel.dart';
+import 'package:crush/Services/generatechannelservices.dart';
 import 'package:crush/Services/homeServices.dart';
 import 'package:crush/Services/sendnotification.dart';
 import 'package:crush/util/App_constants/appconstants.dart';
@@ -24,6 +25,7 @@ class homePg extends StatefulWidget {
 }
 
 class _homePgState extends State<homePg> {
+  late String cn;
   Future addFavourites(String fav_id) async {
     var response = await http
         .post(Uri.parse(BASE_URL + AppConstants.ADD_FAVOURITES), body: {
@@ -447,17 +449,34 @@ class _homePgState extends State<homePg> {
                                                                   .circular(5)),
                                                       child: FlatButton(
                                                           onPressed: () {
-                                                            sendingpost('lll',
-                                                                'token', '0');
+                                                            // sendnotification(
+                                                            //     'lll',
+                                                            //     'token',
+                                                            //     '0');
 
-                                                            Navigator
-                                                                .pushReplacement(
+                                                            generatechannel()
+                                                                .GenerateChannel()
+                                                                .then((value) {
+                                                              setState(() {
+                                                                cn = value;
+                                                                print(cn.toString() +
+                                                                    '////////////');
+                                                                sendnotification(
+                                                                    cn,
+                                                                    gethomeDetails
+                                                                        .data[
+                                                                            startIndex]
+                                                                        .fcm_token,
+                                                                    '0');
+                                                                Navigator.pushReplacement(
                                                                     context,
                                                                     MaterialPageRoute(
-                                                                        builder: (context) =>
-                                                                            videoCallPg(
+                                                                        builder: (context) => videoCallPg(
                                                                               user_id: widget.user_id,
+                                                                              channelname: cn,
                                                                             )));
+                                                              });
+                                                            });
                                                           },
                                                           child: Text(
                                                             'Ok',

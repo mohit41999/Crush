@@ -1,6 +1,6 @@
-
 import 'package:crush/Constants/constants.dart';
 import 'package:crush/Screens/verifyNumberPg.dart';
+import 'package:crush/firebase_notification_handler.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -13,6 +13,13 @@ class signInScreen extends StatefulWidget {
 }
 
 class _signInScreenState extends State<signInScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

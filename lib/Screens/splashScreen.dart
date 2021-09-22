@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:crush/Constants/constants.dart';
 import 'package:crush/Screens/signinScreen.dart';
+import 'package:crush/Services/generatechannelservices.dart';
 import 'package:crush/Services/sendnotification.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,9 +18,6 @@ class splashScreen extends StatefulWidget {
 }
 
 class _splashScreenState extends State<splashScreen> {
-  late FirebaseMessaging messaging;
-  late Future send;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,3 +74,45 @@ class _splashScreenState extends State<splashScreen> {
     );
   }
 }
+
+//   List Data = [];
+// Future get() async {
+//   var response = await http.post(
+//     Uri.parse(
+//         'https://g.tenor.com/v1/search?q=funny%20cat&key=780X74Y20AF8&limit=100'),
+//   );
+//   var Response = jsonDecode(response.body);
+//   setState(() {
+//     Data = Response['results'];
+//   });
+//
+//   print(Data.length);
+//   print(Data);
+// }
+//
+//   @override
+//   void initState() {
+//     // TODO: implement initState
+//     super.initState();
+//     get();
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: GridView.builder(
+//         gridDelegate:
+//             SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+//         itemBuilder: (context, index) {
+//           return Container(
+//             decoration: BoxDecoration(
+//                 image: DecorationImage(
+//                     image: NetworkImage(
+//                         Data[index]['media'][0]['nanogif']['url']))),
+//           );
+//         },
+//         itemCount: Data.length,
+//       ),
+//     );
+//   }
+// }

@@ -34,15 +34,16 @@ class Home {
 }
 
 class Datum {
-  Datum({
-    required this.userId,
-    required this.fullName,
-    required this.profileImage,
-    required this.age,
-    required this.city,
-    required this.gender,
-    required this.status,
-  });
+  Datum(
+      {required this.userId,
+      required this.fullName,
+      required this.profileImage,
+      required this.age,
+      required this.city,
+      required this.gender,
+      required this.status,
+      required this.mobile_number,
+      required this.fcm_token});
 
   String userId;
   String fullName;
@@ -51,6 +52,8 @@ class Datum {
   String city;
   String gender;
   dynamic status;
+  String mobile_number;
+  String fcm_token;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         userId: json["user_id"],
@@ -60,6 +63,8 @@ class Datum {
         city: json["city"],
         gender: json["gender"],
         status: json["status"],
+        mobile_number: json["mobile_number"],
+        fcm_token: json["fcm_token"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -70,5 +75,7 @@ class Datum {
         "city": city,
         "gender": gender,
         "status": status,
+        "mobile_number": mobile_number,
+        "fcm_token": fcm_token,
       };
 }

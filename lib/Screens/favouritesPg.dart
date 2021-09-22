@@ -24,6 +24,7 @@ class _favouritesPgState extends State<favouritesPg> {
     favourites =
         getFavUsersService().getFav_users(widget.user_id).then((value) {
       setState(() {
+        print(value);
         favourite_users = value;
         loading = false;
       });

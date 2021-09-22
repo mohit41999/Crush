@@ -1,19 +1,22 @@
 import 'dart:async';
-//
-// import 'package:agora_rtc_engine/rtc_engine.dart';
+
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-const APP_ID = '6b462cbcdf254436ab726620f1edb93b';
+const APP_ID = '2af01518a23a4f35a6098c9b50467e85';
+
 const Token =
-    '0066b462cbcdf254436ab726620f1edb93bIACxI3Q0SfDcOr91SZJwxwKuVYWmmlL80QuoTAmQEXLDJtJjSIgAAAAAEAD+bihb4PRKYQEAAQDg9Eph';
+    '0066b462cbcdf254436ab726620f1edb93bIABuntCwp0/RdFu7vSGX7rKs7WOlQcs+nD6NrZ8Fhm5kUbIhF1sAAAAAEAD+bihbwWpMYQEAAQDCakxh';
 
 class videoCallPg extends StatefulWidget {
   final String user_id;
-  const videoCallPg({Key? key, required this.user_id}) : super(key: key);
+  final String channelname;
+  const videoCallPg(
+      {Key? key, required this.user_id, required this.channelname})
+      : super(key: key);
 
   @override
   _videoCallPgState createState() => _videoCallPgState();
@@ -26,6 +29,7 @@ class _videoCallPgState extends State<videoCallPg> {
 
   @override
   void initState() {
+    print(widget.channelname);
     super.initState();
 
     initPlatformState();
@@ -33,10 +37,17 @@ class _videoCallPgState extends State<videoCallPg> {
 
   Future<void> initPlatformState() async {
     await [Permission.camera, Permission.microphone].request();
+    var engine = await RtcEngine.create(APP_ID);
+    engine.joinChannel(null, widget.channelname, null, 0);
+    await engine.enableVideo();
 
     // Create RTC client instance
-    RtcEngineContext context = RtcEngineContext(APP_ID);
-    var engine = await RtcEngine.createWithContext(context);
+
+    // RtcEngineContext context = RtcEngineContext(APP_ID);
+    //   var engine = await RtcEngine.createWithContext(context);
+    // await engine.joinChannel(Token, 'imm', null, 0);
+    print('After join channelqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq' +
+        widget.channelname);
     // Define event handling logic
     engine.setEventHandler(RtcEngineEventHandler(
         joinChannelSuccess: (String channel, int uid, int elapsed) {
@@ -56,9 +67,8 @@ class _videoCallPgState extends State<videoCallPg> {
       });
     }));
     // Enable video
-    await engine.enableVideo();
+
     // Join channel with channel name as 123
-    await engine.joinChannel(Token, 'Crush', null, 0);
   }
 
   // Build UI
@@ -116,7 +126,7 @@ class _videoCallPgState extends State<videoCallPg> {
     if (_remoteUid != 0) {
       return RtcRemoteView.SurfaceView(
         uid: _remoteUid,
-        channelId: "123",
+        channelId: widget.channelname,
       );
     } else {
       return Text(
@@ -126,3 +136,56 @@ class _videoCallPgState extends State<videoCallPg> {
     }
   }
 }
+// import 'package:flutter/material.dart';
+// import 'package:agora_uikit/agora_uikit.dart';
+//
+//
+//
+// class videoCallPg extends StatefulWidget {
+//   final String user_id;
+//   final String channelname;
+//
+//   const videoCallPg(
+//       {Key? key, required this.user_id, required this.channelname})
+//       : super(key: key);
+//   @override
+//   _videoCallPgState createState() => _videoCallPgState();
+// }
+//
+// class _videoCallPgState extends State<videoCallPg> {
+//   final AgoraClient client = AgoraClient(
+//     agoraConnectionData: AgoraConnectionData(
+//       appId: APP_ID,
+//       channelName: "test",
+//     ),
+//     enabledPermission: [
+//       Permission.camera,
+//       Permission.microphone,
+//     ],
+//   );
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       home: Scaffold(
+//         appBar: AppBar(
+//           title: const Text('Agora UIKit'),
+//           centerTitle: true,
+//         ),
+//         body: SafeArea(
+//           child: Stack(
+//             children: [
+//               AgoraVideoViewer(
+//                 client: client,
+//               ),
+//               AgoraVideoButtons(
+//                 client: client,
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

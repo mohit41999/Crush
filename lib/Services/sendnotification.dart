@@ -3,18 +3,17 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-Future sendingpost(String channelname, String token, String screenId) async {
+Future sendnotification(
+    String channelname, String token, String screenId) async {
   var Response =
       await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
           body: jsonEncode({
             "registration_ids": [
-              "exDb_ABfQjSFPaJI0hMRoN:APA91bH8T3bf_RkG9kj9IKqecRRBxv3zP2PMg0cHL9Xe5F2rC"
-                  "CtyKjuPA53CCKWD2tV25OgfakQM24MWl1z6fsM-HEjX_Tp_g8pH__xMU"
-                  "VseOoiedovfOaRWCQCtazmNJgmhKRsMZKGa",
+              token,
             ], //token
             "collapse_key": "type_a",
             "notification": {
-              "body": "Body of Your Notification",
+              "body": channelname,
               "title": "Title of Your Notification"
             },
             "data": {
