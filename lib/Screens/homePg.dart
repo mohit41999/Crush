@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 import 'package:crush/Constants/constants.dart';
 import 'package:crush/Model/homeModel.dart';
+import 'package:crush/Screens/VoiceCall.dart';
 import 'package:crush/Services/generatechannelservices.dart';
 import 'package:crush/Services/homeServices.dart';
 import 'package:crush/Services/sendnotification.dart';
@@ -471,8 +472,8 @@ class _homePgState extends State<homePg> {
                                                                 Navigator.pushReplacement(
                                                                     context,
                                                                     MaterialPageRoute(
-                                                                        builder: (context) => videoCallPg(
-                                                                              user_id: widget.user_id,
+                                                                        builder: (context) => voiceCallPg(
+                                                                              // user_id: widget.user_id,
                                                                               channelname: cn,
                                                                             )));
                                                               });

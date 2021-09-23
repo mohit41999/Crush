@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:crush/Screens/VideoCallPg.dart';
+import 'package:crush/Screens/incomingcallScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
@@ -24,9 +25,9 @@ class FirebaseNotifications {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => videoCallPg(
+                builder: (context) => callIncomingScreen(
                       user_id: user_id,
-                      channelname: event.data['channel_name'],
+                      channel_name: event.data['channel_name'],
                     )));
       }
     });
