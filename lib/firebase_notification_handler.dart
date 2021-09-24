@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:crush/Screens/VideoCallPg.dart';
 import 'package:crush/Screens/incomingcallScreen.dart';
+import 'package:crush/Screens/signinScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
@@ -11,25 +12,53 @@ import 'package:flutter/material.dart';
 class FirebaseNotifications {
   late FirebaseMessaging _firebaseMessaging;
 
-  void setupFirebase(BuildContext context, String user_id) {
+  void setupFirebase(BuildContext context) {
     _firebaseMessaging = FirebaseMessaging.instance;
-    notificationhandler(context, user_id);
-  }
+    _firebaseMessaging.getInitialMessage().then((value) {
+      if (value != null) {
+        String channel_name = value.data['channel_name'];
+        print(channel_name + 'inside videocalllllllllllllllllllllll');
+        String screenId = value.data['screenId'];
 
-  void notificationhandler(BuildContext context, String user_id) {
-    FirebaseMessaging.onMessage.listen((event) {
-      String channel_name = event.data['channel_name'];
-      print(channel_name + 'inside videocalllllllllllllllllllllll');
-      String screenId = event.data['screenId'];
-      if (screenId == '0') {
         Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => callIncomingScreen(
-                      user_id: user_id,
-                      channel_name: event.data['channel_name'],
+                      channel_name: value.data['channel_name'],
+                      Screen_id: value.data['screenId'],
                     )));
       }
+    });
+    notificationhandler(context);
+  }
+
+  void notificationhandler(BuildContext context) {
+    FirebaseMessaging.onMessage.listen((event) {
+      String channel_name = event.data['channel_name'];
+      print(channel_name + 'inside videocalllllllllllllllllllllll');
+      String screenId = event.data['screenId'];
+
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => callIncomingScreen(
+                    channel_name: event.data['channel_name'],
+                    Screen_id: event.data['screenId'],
+                  )));
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((event) {
+      String channel_name = event.data['channel_name'];
+      print(channel_name + 'inside videocalllllllllllllllllllllll');
+      String screenId = event.data['screenId'];
+
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => callIncomingScreen(
+                    channel_name: event.data['channel_name'],
+                    Screen_id: event.data['screenId'],
+                  )));
     });
   }
 }

@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
+import '../firebase_notification_handler.dart';
+
 class splashScreen extends StatefulWidget {
   const splashScreen({Key? key}) : super(key: key);
 
@@ -18,6 +20,13 @@ class splashScreen extends StatefulWidget {
 }
 
 class _splashScreenState extends State<splashScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    FirebaseNotifications().setupFirebase(context);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

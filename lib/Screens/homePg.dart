@@ -297,8 +297,34 @@ class _homePgState extends State<homePg> {
                                                                   .circular(5)),
                                                       child: FlatButton(
                                                           onPressed: () {
-                                                            Navigator.pop(
-                                                                context);
+                                                            // sendnotification(
+                                                            //     'lll',
+                                                            //     'token',
+                                                            //     '0');
+
+                                                            generatechannel()
+                                                                .GenerateChannel()
+                                                                .then((value) {
+                                                              setState(() {
+                                                                cn = value;
+                                                                print(cn.toString() +
+                                                                    '////////////');
+                                                                sendnotification(
+                                                                    cn,
+                                                                    gethomeDetails
+                                                                        .data[
+                                                                            startIndex]
+                                                                        .fcm_token,
+                                                                    '1');
+                                                                Navigator.pushReplacement(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder: (context) => voiceCallPg(
+                                                                              //user_id: widget.user_id,
+                                                                              channelName: cn,
+                                                                            )));
+                                                              });
+                                                            });
                                                           },
                                                           child: Text(
                                                             'Ok',
@@ -472,9 +498,9 @@ class _homePgState extends State<homePg> {
                                                                 Navigator.pushReplacement(
                                                                     context,
                                                                     MaterialPageRoute(
-                                                                        builder: (context) => voiceCallPg(
-                                                                              // user_id: widget.user_id,
-                                                                              channelname: cn,
+                                                                        builder: (context) => CallPage(
+                                                                              //user_id: widget.user_id,
+                                                                              channelName: cn,
                                                                             )));
                                                               });
                                                             });

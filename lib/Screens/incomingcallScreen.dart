@@ -3,10 +3,10 @@ import 'package:crush/Screens/VoiceCall.dart';
 import "package:flutter/material.dart";
 
 class callIncomingScreen extends StatefulWidget {
-  final String user_id;
   final String channel_name;
+  final String Screen_id;
   const callIncomingScreen(
-      {Key? key, required this.user_id, required this.channel_name})
+      {Key? key, required this.channel_name, required this.Screen_id})
       : super(key: key);
 
   @override
@@ -36,12 +36,19 @@ class _callIncomingScreenState extends State<callIncomingScreen> {
               MaterialButton(
                 onPressed: () {
                   Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => voiceCallPg(
-                              // user_id: widget.user_id,
-                              channelname: widget.channel_name)));
+                  (widget.Screen_id == '0')
+                      ? Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CallPage(
+                                  // user_id: widget.user_id,
+                                  channelName: widget.channel_name)))
+                      : Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => voiceCallPg(
+                                  // user_id: widget.user_id,
+                                  channelName: widget.channel_name)));
                 },
                 color: Colors.green,
                 child: Text('Accept'),

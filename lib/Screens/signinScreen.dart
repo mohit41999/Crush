@@ -14,13 +14,6 @@ class signInScreen extends StatefulWidget {
 
 class _signInScreenState extends State<signInScreen> {
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(

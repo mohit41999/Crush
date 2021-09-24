@@ -63,7 +63,7 @@ class _enterCodePgState extends State<enterCodePg> {
     // TODO: implement initState
     super.initState();
     _getfcmtoken = FirebaseMessaging.instance;
-    FirebaseNotifications().setupFirebase(context, widget.user_id);
+
     _getfcmtoken.getToken().then((value) {
       Fcm_Services().sendfcm(widget.user_id, value!);
     });
