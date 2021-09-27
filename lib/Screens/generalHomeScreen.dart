@@ -42,7 +42,7 @@ class _generalHomeScreenState extends State<generalHomeScreen> {
         favouritesPg(
           user_id: user_id,
         ),
-        callHostoryPg(
+        callHistoryPg(
           user_id: user_id,
         ),
         myAccountPg(

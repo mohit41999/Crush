@@ -26,7 +26,12 @@ class homePg extends StatefulWidget {
 }
 
 class _homePgState extends State<homePg> {
+  bool loading = false;
+  late Future<Home> home;
+  late Home gethomeDetails;
+  int startIndex = 0;
   late String cn;
+
   Future addFavourites(String fav_id) async {
     var response = await http
         .post(Uri.parse(BASE_URL + AppConstants.ADD_FAVOURITES), body: {
@@ -41,11 +46,6 @@ class _homePgState extends State<homePg> {
       });
     }
   }
-
-  bool loading = false;
-  late Future<Home> home;
-  late Home gethomeDetails;
-  int startIndex = 0;
 
   @override
   void initState() {
@@ -316,10 +316,11 @@ class _homePgState extends State<homePg> {
                                                                             startIndex]
                                                                         .fcm_token,
                                                                     '1');
-                                                                Navigator.pushReplacement(
+                                                                Navigator.push(
                                                                     context,
                                                                     MaterialPageRoute(
-                                                                        builder: (context) => voiceCallPg(
+                                                                        builder: (context) =>
+                                                                            voiceCallPg(
                                                                               //user_id: widget.user_id,
                                                                               channelName: cn,
                                                                             )));
@@ -495,10 +496,11 @@ class _homePgState extends State<homePg> {
                                                                             startIndex]
                                                                         .fcm_token,
                                                                     '0');
-                                                                Navigator.pushReplacement(
+                                                                Navigator.push(
                                                                     context,
                                                                     MaterialPageRoute(
-                                                                        builder: (context) => CallPage(
+                                                                        builder: (context) =>
+                                                                            CallPage(
                                                                               //user_id: widget.user_id,
                                                                               channelName: cn,
                                                                             )));

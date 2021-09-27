@@ -1,16 +1,15 @@
 import 'package:crush/Constants/constants.dart';
 import 'package:flutter/material.dart';
 
-
-class callHostoryPg extends StatefulWidget {
+class callHistoryPg extends StatefulWidget {
   final String user_id;
-  const callHostoryPg({Key? key, required this.user_id}) : super(key: key);
+  const callHistoryPg({Key? key, required this.user_id}) : super(key: key);
 
   @override
-  _callHostoryPgState createState() => _callHostoryPgState();
+  _callHistoryPgState createState() => _callHistoryPgState();
 }
 
-class _callHostoryPgState extends State<callHostoryPg> {
+class _callHistoryPgState extends State<callHistoryPg> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

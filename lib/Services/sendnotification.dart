@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 Future sendnotification(
-    String channelname, String token, String screenId) async {
+    String channelname, String fcm_token, String screenId) async {
   var Response =
       await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
           body: jsonEncode({
             "registration_ids": [
-              token,
+              fcm_token,
             ], //token
             "collapse_key": "type_a",
             "notification": {

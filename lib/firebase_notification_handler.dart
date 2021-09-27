@@ -18,7 +18,6 @@ class FirebaseNotifications {
       if (value != null) {
         String channel_name = value.data['channel_name'];
         print(channel_name + 'inside videocalllllllllllllllllllllll');
-        String screenId = value.data['screenId'];
 
         Navigator.push(
             context,

@@ -8,7 +8,7 @@ Future<void> _messageHandler(RemoteMessage message) async {
   print('background message ${message.notification!.body}');
 }
 
-Future<void> main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
