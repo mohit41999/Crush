@@ -41,6 +41,7 @@ class _callIncomingScreenState extends State<callIncomingScreen> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => CallPage(
+                                  callType: 'i',
                                   // user_id: widget.user_id,
                                   channelName: widget.channel_name)))
                       : Navigator.push(

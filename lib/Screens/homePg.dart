@@ -501,6 +501,7 @@ class _homePgState extends State<homePg> {
                                                                     MaterialPageRoute(
                                                                         builder: (context) =>
                                                                             CallPage(
+                                                                              callType: 'o',
                                                                               //user_id: widget.user_id,
                                                                               channelName: cn,
                                                                             )));

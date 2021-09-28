@@ -38,21 +38,21 @@ class _enterCodePgState extends State<enterCodePg> {
     });
     var response = jsonDecode(Response.body);
     print(response['status']);
-    if (!widget.exists) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (_) => generalHomeScreen(
-                    user_id: widget.user_id,
-                  )));
-    } else {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (_) => buildUrProfilePg(
-                    user_id: widget.user_id,
-                  )));
-    }
+    (response['status'])
+        ? (!widget.exists)
+            ? Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => generalHomeScreen(
+                          user_id: widget.user_id,
+                        )))
+            : Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => buildUrProfilePg(
+                          user_id: widget.user_id,
+                        )))
+        : print('false');
   }
 
   TextEditingController otpController = TextEditingController();

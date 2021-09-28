@@ -2,6 +2,7 @@ import 'package:crush/Constants/constants.dart';
 import 'package:crush/Model/identifyYourSelfModel.dart';
 import 'package:crush/Screens/recoveryEmailPg.dart';
 import 'package:crush/Services/identify_yourself_service.dart';
+import 'package:crush/Services/sendnotification.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:csc_picker/csc_picker.dart';
@@ -386,6 +387,7 @@ class _identifyYourselgPgState extends State<identifyYourselgPg> {
                     onPressed: () {
                       IdentifyYourself response;
                       print(name);
+                      name = name;
 
                       Identity = IdentifyYrSelfServices()
                           .postIdentifyYourself(

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:crush/Constants/constants.dart';
+import 'package:crush/Services/sendnotification.dart';
 import 'package:crush/util/App_constants/appconstants.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -18,24 +19,33 @@ class _verifyNumberPgState extends State<verifyNumberPg> {
   late String mobile_number;
   late bool status;
   Future postmobilenumber() async {
+    phonenumber = mobile_number.toString();
     var response = await http.post(
         Uri.parse(BASE_URL + AppConstants.LOGIN_WITH_MOBILE_URL),
         body: {'token': '123456789', 'mobile_number': mobile_number});
     var APIRESPONSE = jsonDecode(response.body);
     print(APIRESPONSE);
     status = APIRESPONSE['status'];
-    var d = APIRESPONSE['data']['user_id'];
+    var d = APIRESPONSE['data'];
     print('aaaa$status');
     print('aaaa$d');
-
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (_) => enterCodePg(
-                  mobileNumber: mobile_number,
-                  user_id: APIRESPONSE['data']['user_id'],
-                  exists: APIRESPONSE['status'],
-                )));
+    (APIRESPONSE['status'])
+        ? Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (_) => enterCodePg(
+                      mobileNumber: mobile_number,
+                      user_id: APIRESPONSE['data'],
+                      exists: APIRESPONSE['status'],
+                    )))
+        : Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (_) => enterCodePg(
+                      mobileNumber: mobile_number,
+                      user_id: APIRESPONSE['data']['user_id'],
+                      exists: APIRESPONSE['status'],
+                    )));
   }
 
   TextEditingController mobileNumbercontroller = TextEditingController();
@@ -106,7 +116,7 @@ class _verifyNumberPgState extends State<verifyNumberPg> {
                       padding: const EdgeInsets.only(right: 50),
                       child: TextField(
                         controller: mobileNumbercontroller,
-                        keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.text,
                         decoration: InputDecoration(
                           hintText: '0000000000',
                         ),

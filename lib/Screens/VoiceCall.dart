@@ -94,6 +94,7 @@ class _voiceCallPgState extends State<voiceCallPg> {
       leaveChannel: (stats) {
         setState(() {
           _infoStrings.add('onLeaveChannel');
+          print('llllllleeeeeeeeeeeeeffffffffffffttttttttt');
           _users.clear();
         });
       },
@@ -104,7 +105,10 @@ class _voiceCallPgState extends State<voiceCallPg> {
           _users.add(uid);
         });
       },
-      userOffline: (uid, elapsed) {
+      userOffline: (
+        uid,
+        elapsed,
+      ) {
         setState(() {
           final info = 'userOffline: $uid';
           _infoStrings.add(info);

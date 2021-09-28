@@ -26,7 +26,8 @@ class _myPreferencesPgState extends State<myPreferencesPg> {
         'user_id': widget.user_id,
         'city': cityValue.toString(),
         'interested': gender.toString(),
-        'age': currentRangeValues.end.toString()
+        'min_age': currentRangeValues.start.toString(),
+        'max_age': currentRangeValues.end.toString()
       });
       if (Response.statusCode == 200) {
         setState(() {
@@ -283,6 +284,9 @@ class _myPreferencesPgState extends State<myPreferencesPg> {
                         value: bothSwith,
                         onToggle: (value) {
                           setState(() {
+                            (value)
+                                ? gender = 'both'
+                                : gender = widget.interested.toString();
                             menSwith = false;
                             womenSwith = false;
                             bothSwith = value;

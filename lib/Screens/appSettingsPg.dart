@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 
 import 'package:crush/Constants/constants.dart';
@@ -18,6 +16,12 @@ class appSettingsPg extends StatefulWidget {
 }
 
 class _appSettingsPgState extends State<appSettingsPg> {
+  bool online_offline_Swith = false;
+  bool voice_call_Swith = false;
+  bool video_call_Swith = false;
+  TextStyle reportText =
+      TextStyle(color: Color(0xff0B0D0F).withOpacity(0.8), fontSize: 16);
+
   Future deleteUser() async {
     var Response = await http.post(
         Uri.parse(BASE_URL + AppConstants.DELETE_ACCOUNT),
@@ -32,11 +36,6 @@ class _appSettingsPgState extends State<appSettingsPg> {
     }
   }
 
-  bool online_offline_Swith = false;
-  bool voice_call_Swith = false;
-  bool video_call_Swith = false;
-  TextStyle reportText =
-      TextStyle(color: Color(0xff0B0D0F).withOpacity(0.8), fontSize: 16);
   @override
   Widget build(BuildContext context) {
     return Scaffold(

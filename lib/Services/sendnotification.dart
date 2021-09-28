@@ -3,6 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+late String name = '';
+late String phonenumber;
+
 Future sendnotification(
     String channelname, String fcm_token, String screenId) async {
   var Response =
@@ -13,8 +16,10 @@ Future sendnotification(
             ], //token
             "collapse_key": "type_a",
             "notification": {
-              "body": channelname,
-              "title": "Title of Your Notification"
+              "body": "${name}",
+              "title": (screenId == '0')
+                  ? "Incoming Video Call (${(phonenumber)})"
+                  : "Incoming Voice Call (${(phonenumber)})"
             },
             "data": {
               "body": "Body of Your Notification in Data",
