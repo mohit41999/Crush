@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -131,5 +133,41 @@ class _columnWidgetState extends State<columnWidget> {
         )
       ],
     );
+  }
+}
+
+class homeIconBtn extends StatelessWidget {
+  final IconData icon;
+  const homeIconBtn({
+    Key? key,
+    required this.icon,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.white54, width: 1)),
+        child: ClipRRect(
+          clipBehavior: Clip.antiAlias,
+          borderRadius: BorderRadius.circular(10),
+          child: Container(
+            height: 50,
+            width: 50,
+            decoration: BoxDecoration(
+                color: Colors.grey.withOpacity(0.4),
+                borderRadius: BorderRadius.circular(10)),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+              child: Center(
+                  child: Icon(
+                icon,
+                color: Colors.white,
+                size: 40,
+              )),
+            ),
+          ),
+        ));
   }
 }

@@ -4,15 +4,15 @@ import 'package:crush/Screens/reportUserPg.dart';
 import 'package:crush/Services/favourite_profileService.dart';
 import 'package:flutter/material.dart';
 
-class userPg extends StatefulWidget {
+class UserPg extends StatefulWidget {
   final String fav_user_id;
-  const userPg({Key? key, required this.fav_user_id}) : super(key: key);
+  const UserPg({Key? key, required this.fav_user_id}) : super(key: key);
 
   @override
-  _userPgState createState() => _userPgState();
+  _UserPgState createState() => _UserPgState();
 }
 
-class _userPgState extends State<userPg> {
+class _UserPgState extends State<UserPg> {
   bool loading = true;
   late Future<FavouriteProfile> favourite;
   late FavouriteProfile favourite_user_profile;
@@ -199,7 +199,7 @@ class _userPgState extends State<userPg> {
                     onTap: () {
                       setState(() {
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (_) => reportuserPg()));
+                            MaterialPageRoute(builder: (_) => ReportUserPg()));
                       });
                     },
                     child: Center(

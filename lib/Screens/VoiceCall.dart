@@ -8,7 +8,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 const APP_ID = '2af01518a23a4f35a6098c9b50467e85';
 
-class voiceCallPg extends StatefulWidget {
+class VoiceCallPg extends StatefulWidget {
   /// non-modifiable channel name of the page
   final String? channelName;
 
@@ -16,13 +16,13 @@ class voiceCallPg extends StatefulWidget {
   final ClientRole? role;
 
   /// Creates a call page with given channel name.
-  const voiceCallPg({Key? key, this.channelName, this.role}) : super(key: key);
+  const VoiceCallPg({Key? key, this.channelName, this.role}) : super(key: key);
 
   @override
-  _voiceCallPgState createState() => _voiceCallPgState();
+  _VoiceCallPgState createState() => _VoiceCallPgState();
 }
 
-class _voiceCallPgState extends State<voiceCallPg> {
+class _VoiceCallPgState extends State<VoiceCallPg> {
   final _users = <int>[];
   final _infoStrings = <String>[];
   bool muted = false;
@@ -31,9 +31,10 @@ class _voiceCallPgState extends State<voiceCallPg> {
   @override
   void dispose() {
     // clear users
+
     _users.clear();
     // destroy sdk
-    _engine.leaveChannel();
+
     _engine.destroy();
     super.dispose();
   }
@@ -93,6 +94,7 @@ class _voiceCallPgState extends State<voiceCallPg> {
       },
       leaveChannel: (stats) {
         setState(() {
+          print(stats.duration.toString());
           _infoStrings.add('onLeaveChannel');
           print('llllllleeeeeeeeeeeeeffffffffffffttttttttt');
           _users.clear();
@@ -289,6 +291,7 @@ class _voiceCallPgState extends State<voiceCallPg> {
   }
 
   void _onCallEnd(BuildContext context) {
+    _engine.leaveChannel();
     Navigator.pop(context);
   }
 

@@ -12,14 +12,14 @@ import 'package:http/http.dart' as http;
 
 import '../firebase_notification_handler.dart';
 
-class splashScreen extends StatefulWidget {
-  const splashScreen({Key? key}) : super(key: key);
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
 
   @override
-  _splashScreenState createState() => _splashScreenState();
+  _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _splashScreenState extends State<splashScreen> {
+class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     // TODO: implement initState
@@ -69,7 +69,7 @@ class _splashScreenState extends State<splashScreen> {
                     onPressed: () {
                       setState(() {
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (_) => signInScreen()));
+                            MaterialPageRoute(builder: (_) => SignInScreen()));
                       });
                     },
                     textColor: appThemeColor,

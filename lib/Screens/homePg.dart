@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:ui';
 import 'package:crush/Constants/constants.dart';
 import 'package:crush/Model/homeModel.dart';
@@ -10,22 +9,17 @@ import 'package:crush/util/App_constants/appconstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
 import 'VideoCallPg.dart';
 
-const appId = '2a15c26a752c4cd4844461b23da32c55';
-const token =
-    '0062a15c26a752c4cd4844461b23da32c55IAD99EGody/N+2ZQII53w/a+HgcYOO8wVdrCukAV4hRPDHfUBg0AAAAAEAA8nW45qf0pYQEAAQCo/Slh';
-
-class homePg extends StatefulWidget {
+class HomePg extends StatefulWidget {
   final String user_id;
-  const homePg({Key? key, required this.user_id}) : super(key: key);
+  const HomePg({Key? key, required this.user_id}) : super(key: key);
 
   @override
-  _homePgState createState() => _homePgState();
+  _HomePgState createState() => _HomePgState();
 }
 
-class _homePgState extends State<homePg> {
+class _HomePgState extends State<HomePg> {
   bool loading = false;
   late Future<Home> home;
   late Home gethomeDetails;
@@ -69,9 +63,7 @@ class _homePgState extends State<homePg> {
             ),
           )
         : Scaffold(
-            //extendBody: true,
             resizeToAvoidBottomInset: false,
-
             backgroundColor: Colors.white,
             body: Container(
               width: double.infinity,
@@ -174,179 +166,7 @@ class _homePgState extends State<homePg> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  showDialog(
-                                      barrierColor:
-                                          Colors.white.withOpacity(0.4),
-                                      context: context,
-                                      builder: (BuildContext context) =>
-                                          AlertDialog(
-                                            shape: RoundedRectangleBorder(
-                                              side: BorderSide(
-                                                  color: appThemeColor,
-                                                  width: 2),
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(20.0),
-                                              ),
-                                            ),
-                                            content: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                              children: [
-                                                Container(
-                                                  height: 30,
-                                                  width: 30,
-                                                  decoration: BoxDecoration(
-                                                      gradient: RadialGradient(
-                                                          colors: [
-                                                            Colors.orange,
-                                                            Colors.yellow
-                                                          ]),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              50)),
-                                                  child: Icon(
-                                                    Icons.star_rounded,
-                                                    size: 20,
-                                                    color: Colors
-                                                        .yellowAccent.shade100,
-                                                  ),
-                                                ),
-                                                Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.end,
-                                                  children: [
-                                                    Text(
-                                                      '4',
-                                                      style: TextStyle(
-                                                          color: appThemeColor,
-                                                          fontFamily: 'SegoeUI',
-                                                          letterSpacing: 1,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontSize: 30),
-                                                    ),
-                                                    Text(
-                                                      ' / min',
-                                                      style: TextStyle(
-                                                          color: Color(
-                                                                  0xff0B0D0F)
-                                                              .withOpacity(0.8),
-                                                          fontFamily: 'SegoeUI',
-                                                          letterSpacing: 1,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontSize: 14),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Text(
-                                                  'For voice call',
-                                                  style: TextStyle(
-                                                      color: Color(0xff0B0D0F)
-                                                          .withOpacity(0.6),
-                                                      fontFamily: 'SegoeUI',
-                                                      letterSpacing: 1,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontSize: 14),
-                                                )
-                                              ],
-                                            ),
-                                            actions: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: FlatButton(
-                                                        onPressed: () {
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        child: Text(
-                                                          'Cancel',
-                                                          style: TextStyle(
-                                                              fontSize: 18,
-                                                              fontFamily:
-                                                                  'SegoeUI',
-                                                              letterSpacing: 1,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              color:
-                                                                  appThemeColor),
-                                                        )),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: Container(
-                                                      height: 40,
-                                                      width: 102,
-                                                      decoration: BoxDecoration(
-                                                          color: appThemeColor,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(5)),
-                                                      child: FlatButton(
-                                                          onPressed: () {
-                                                            // sendnotification(
-                                                            //     'lll',
-                                                            //     'token',
-                                                            //     '0');
-
-                                                            generatechannel()
-                                                                .GenerateChannel()
-                                                                .then((value) {
-                                                              setState(() {
-                                                                cn = value;
-                                                                print(cn.toString() +
-                                                                    '////////////');
-                                                                sendnotification(
-                                                                    cn,
-                                                                    gethomeDetails
-                                                                        .data[
-                                                                            startIndex]
-                                                                        .fcm_token,
-                                                                    '1');
-                                                                Navigator.push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                        builder: (context) =>
-                                                                            voiceCallPg(
-                                                                              //user_id: widget.user_id,
-                                                                              channelName: cn,
-                                                                            )));
-                                                              });
-                                                            });
-                                                          },
-                                                          child: Text(
-                                                            'Ok',
-                                                            style: TextStyle(
-                                                                fontSize: 18,
-                                                                fontFamily:
-                                                                    'SegoeUI',
-                                                                letterSpacing:
-                                                                    1,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                color: Colors
-                                                                    .white),
-                                                          )),
-                                                    ),
-                                                  )
-                                                ],
-                                              )
-                                            ],
-                                          ));
+                                  alertbox(context, 'Audio');
                                 },
                                 child: homeIconBtn(
                                   icon: Icons.call,
@@ -354,180 +174,7 @@ class _homePgState extends State<homePg> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  showDialog(
-                                      barrierColor:
-                                          Colors.white.withOpacity(0.4),
-                                      context: context,
-                                      builder: (BuildContext context) =>
-                                          AlertDialog(
-                                            shape: RoundedRectangleBorder(
-                                              side: BorderSide(
-                                                  color: appThemeColor,
-                                                  width: 2),
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(20.0),
-                                              ),
-                                            ),
-                                            content: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                              children: [
-                                                Container(
-                                                  height: 30,
-                                                  width: 30,
-                                                  decoration: BoxDecoration(
-                                                      gradient: RadialGradient(
-                                                          colors: [
-                                                            Colors.orange,
-                                                            Colors.yellow
-                                                          ]),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              50)),
-                                                  child: Icon(
-                                                    Icons.star_rounded,
-                                                    size: 20,
-                                                    color: Colors
-                                                        .yellowAccent.shade100,
-                                                  ),
-                                                ),
-                                                Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.end,
-                                                  children: [
-                                                    Text(
-                                                      '6',
-                                                      style: TextStyle(
-                                                          color: appThemeColor,
-                                                          fontFamily: 'SegoeUI',
-                                                          letterSpacing: 1,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontSize: 30),
-                                                    ),
-                                                    Text(
-                                                      '/ min',
-                                                      style: TextStyle(
-                                                          color: Color(
-                                                                  0xff0B0D0F)
-                                                              .withOpacity(0.8),
-                                                          fontFamily: 'SegoeUI',
-                                                          letterSpacing: 1,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontSize: 14),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Text(
-                                                  'For video call',
-                                                  style: TextStyle(
-                                                      color: Color(0xff0B0D0F)
-                                                          .withOpacity(0.6),
-                                                      fontFamily: 'SegoeUI',
-                                                      letterSpacing: 1,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontSize: 14),
-                                                )
-                                              ],
-                                            ),
-                                            actions: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: FlatButton(
-                                                        onPressed: () {
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        child: Text(
-                                                          'Cancel',
-                                                          style: TextStyle(
-                                                              fontSize: 18,
-                                                              fontFamily:
-                                                                  'SegoeUI',
-                                                              letterSpacing: 1,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              color:
-                                                                  appThemeColor),
-                                                        )),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: Container(
-                                                      height: 40,
-                                                      width: 102,
-                                                      decoration: BoxDecoration(
-                                                          color: appThemeColor,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(5)),
-                                                      child: FlatButton(
-                                                          onPressed: () {
-                                                            // sendnotification(
-                                                            //     'lll',
-                                                            //     'token',
-                                                            //     '0');
-
-                                                            generatechannel()
-                                                                .GenerateChannel()
-                                                                .then((value) {
-                                                              setState(() {
-                                                                cn = value;
-                                                                print(cn.toString() +
-                                                                    '////////////');
-                                                                sendnotification(
-                                                                    cn,
-                                                                    gethomeDetails
-                                                                        .data[
-                                                                            startIndex]
-                                                                        .fcm_token,
-                                                                    '0');
-                                                                Navigator.push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                        builder: (context) =>
-                                                                            CallPage(
-                                                                              callType: 'o',
-                                                                              //user_id: widget.user_id,
-                                                                              channelName: cn,
-                                                                            )));
-                                                              });
-                                                            });
-                                                          },
-                                                          child: Text(
-                                                            'Ok',
-                                                            style: TextStyle(
-                                                                fontSize: 18,
-                                                                fontFamily:
-                                                                    'SegoeUI',
-                                                                letterSpacing:
-                                                                    1,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                color: Colors
-                                                                    .white),
-                                                          )),
-                                                    ),
-                                                  )
-                                                ],
-                                              )
-                                            ],
-                                          ));
+                                  alertbox(context, 'Video');
                                 },
                                 child: homeIconBtn(
                                   icon: Icons.videocam,
@@ -553,49 +200,141 @@ class _homePgState extends State<homePg> {
             ),
           );
   }
-}
 
-class homeIconBtn extends StatelessWidget {
-  final IconData icon;
-  const homeIconBtn({
-    Key? key,
-    required this.icon,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: Colors.white54, width: 1)),
-        child: ClipRRect(
-          clipBehavior: Clip.antiAlias,
-          borderRadius: BorderRadius.circular(10),
-          child: Container(
-            height: 50,
-            width: 50,
-            decoration: BoxDecoration(
-                // gradient: LinearGradient(
-                //     colors: [
-                //       Colors.white.withOpacity(0.75),
-                //       Colors.white.withOpacity(0.75),
-                //     ],
-                //     begin: Alignment.topLeft,
-                //     end: Alignment.bottomRight,
-                //     stops: [0.0, 1.0]),
-
-                color: Colors.grey.withOpacity(0.4),
-                borderRadius: BorderRadius.circular(10)),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-              child: Center(
-                  child: Icon(
-                icon,
-                color: Colors.white,
-                size: 40,
-              )),
-            ),
-          ),
-        ));
+  void alertbox(BuildContext context, String CallType) {
+    showDialog(
+        barrierColor: Colors.white.withOpacity(0.4),
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+              shape: RoundedRectangleBorder(
+                side: BorderSide(color: appThemeColor, width: 2),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(20.0),
+                ),
+              ),
+              content: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Container(
+                    height: 30,
+                    width: 30,
+                    decoration: BoxDecoration(
+                        gradient: RadialGradient(
+                            colors: [Colors.orange, Colors.yellow]),
+                        borderRadius: BorderRadius.circular(50)),
+                    child: Icon(
+                      Icons.star_rounded,
+                      size: 20,
+                      color: Colors.yellowAccent.shade100,
+                    ),
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        (CallType == 'Audio') ? '4' : '6',
+                        style: TextStyle(
+                            color: appThemeColor,
+                            fontFamily: 'SegoeUI',
+                            letterSpacing: 1,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 30),
+                      ),
+                      Text(
+                        ' / min',
+                        style: TextStyle(
+                            color: Color(0xff0B0D0F).withOpacity(0.8),
+                            fontFamily: 'SegoeUI',
+                            letterSpacing: 1,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    (CallType == 'Audio') ? 'For voice call' : 'For video call',
+                    style: TextStyle(
+                        color: Color(0xff0B0D0F).withOpacity(0.6),
+                        fontFamily: 'SegoeUI',
+                        letterSpacing: 1,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14),
+                  )
+                ],
+              ),
+              actions: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: FlatButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            'Cancel',
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: 'SegoeUI',
+                                letterSpacing: 1,
+                                fontWeight: FontWeight.w600,
+                                color: appThemeColor),
+                          )),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        height: 40,
+                        width: 102,
+                        decoration: BoxDecoration(
+                            color: appThemeColor,
+                            borderRadius: BorderRadius.circular(5)),
+                        child: FlatButton(
+                            onPressed: () {
+                              generatechannel().GenerateChannel().then((value) {
+                                setState(() {
+                                  cn = value;
+                                  print(cn.toString() + '////////////');
+                                  sendnotification(
+                                      cn,
+                                      gethomeDetails.data[startIndex].fcm_token,
+                                      (CallType == 'Audio') ? '1' : '0');
+                                  (CallType == 'Audio')
+                                      ? Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => VoiceCallPg(
+                                                    //user_id: widget.user_id,
+                                                    channelName: cn,
+                                                  )))
+                                      : Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  VideoCallPage(
+                                                    //user_id: widget.user_id,
+                                                    channelName: cn,
+                                                    callType: 'o',
+                                                  )));
+                                });
+                              });
+                            },
+                            child: Text(
+                              'Ok',
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontFamily: 'SegoeUI',
+                                  letterSpacing: 1,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white),
+                            )),
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ));
   }
 }

@@ -1,24 +1,19 @@
 import 'dart:convert';
-
 import 'package:crush/Constants/constants.dart';
 import 'package:crush/Services/sendnotification.dart';
 import 'package:crush/util/App_constants/appconstants.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
 import 'enterCodePg.dart';
 
-class verifyNumberPg extends StatefulWidget {
-  const verifyNumberPg({Key? key}) : super(key: key);
+class VerifyNumberPg extends StatelessWidget {
+  VerifyNumberPg({Key? key}) : super(key: key);
 
-  @override
-  _verifyNumberPgState createState() => _verifyNumberPgState();
-}
-
-class _verifyNumberPgState extends State<verifyNumberPg> {
   late String mobile_number;
   late bool status;
-  Future postmobilenumber() async {
+  TextEditingController mobileNumbercontroller = TextEditingController();
+
+  Future postmobilenumber(BuildContext context) async {
     phonenumber = mobile_number.toString();
     var response = await http.post(
         Uri.parse(BASE_URL + AppConstants.LOGIN_WITH_MOBILE_URL),
@@ -29,26 +24,16 @@ class _verifyNumberPgState extends State<verifyNumberPg> {
     var d = APIRESPONSE['data'];
     print('aaaa$status');
     print('aaaa$d');
-    (APIRESPONSE['status'])
-        ? Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (_) => enterCodePg(
-                      mobileNumber: mobile_number,
-                      user_id: APIRESPONSE['data'],
-                      exists: APIRESPONSE['status'],
-                    )))
-        : Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (_) => enterCodePg(
-                      mobileNumber: mobile_number,
-                      user_id: APIRESPONSE['data']['user_id'],
-                      exists: APIRESPONSE['status'],
-                    )));
-  }
 
-  TextEditingController mobileNumbercontroller = TextEditingController();
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (_) => EnterCodePg(
+                  mobileNumber: mobile_number,
+                  user_id: APIRESPONSE['data']['user_id'],
+                  exists: APIRESPONSE['status'],
+                )));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,21 +79,6 @@ class _verifyNumberPgState extends State<verifyNumberPg> {
             ),
             Row(
               children: [
-                // Expanded(
-                //   flex: 1,
-                //   child: Container(
-                //     child: Padding(
-                //       padding: const EdgeInsets.all(20.0),
-                //       child: TextField(
-                //         keyboardType: TextInputType.number,
-                //         cursorColor: appThemeColor,
-                //         decoration: InputDecoration(
-                //           hintText: '+00',
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // ),
                 Expanded(
                   flex: 3,
                   child: Container(
@@ -116,21 +86,18 @@ class _verifyNumberPgState extends State<verifyNumberPg> {
                       padding: const EdgeInsets.only(right: 50),
                       child: TextField(
                         controller: mobileNumbercontroller,
-                        keyboardType: TextInputType.text,
+                        keyboardType: TextInputType.phone,
                         decoration: InputDecoration(
                           hintText: '0000000000',
                         ),
                         onChanged: (value) {
-                          setState(() {
-                            value = mobileNumbercontroller.text.toString();
-                            mobile_number = value.toString();
-                          });
+                          value = mobileNumbercontroller.text.toString();
+                          print(value);
+                          mobile_number = value.toString();
                         },
                         onSubmitted: (value) {
-                          setState(() {
-                            value = mobileNumbercontroller.text.toString();
-                            mobile_number = value.toString();
-                          });
+                          value = mobileNumbercontroller.text.toString();
+                          mobile_number = value.toString();
                         },
                       ),
                     ),
@@ -145,7 +112,7 @@ class _verifyNumberPgState extends State<verifyNumberPg> {
               bgcolor: appThemeColor,
               s: 'Continue',
               onPressed: () {
-                postmobilenumber();
+                postmobilenumber(context);
               },
               textColor: Colors.white,
             ),

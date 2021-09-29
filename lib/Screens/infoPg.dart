@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 import 'interestPg.dart';
 
-class infoPg extends StatelessWidget {
+class InfoPg extends StatelessWidget {
   final String user_id;
-  const infoPg({Key? key, required this.user_id}) : super(key: key);
+  const InfoPg({Key? key, required this.user_id}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,7 @@ class infoPg extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => interestPg(
+                        builder: (context) => InterestPg(
                               user_id: user_id,
                             )));
               },

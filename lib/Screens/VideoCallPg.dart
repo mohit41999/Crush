@@ -12,17 +12,18 @@ const APP_ID = '2af01518a23a4f35a6098c9b50467e85';
 const Token =
     '0066b462cbcdf254436ab726620f1edb93bIABuntCwp0/RdFu7vSGX7rKs7WOlQcs+nD6NrZ8Fhm5kUbIhF1sAAAAAEAD+bihbwWpMYQEAAQDCakxh';
 
-class CallPage extends StatefulWidget {
+class VideoCallPage extends StatefulWidget {
   final String callType;
   final String channelName;
-  const CallPage({Key? key, required this.channelName, required this.callType})
+  const VideoCallPage(
+      {Key? key, required this.channelName, required this.callType})
       : super(key: key);
 
   @override
-  _CallPageState createState() => _CallPageState();
+  _VideoCallPageState createState() => _VideoCallPageState();
 }
 
-class _CallPageState extends State<CallPage> {
+class _VideoCallPageState extends State<VideoCallPage> {
   late DateTime start;
   late DateTime end;
   late String duration;
@@ -32,6 +33,8 @@ class _CallPageState extends State<CallPage> {
   late AgoraSettings settings;
   late Permission camera;
   late final displayTime2;
+  bool outgoingcalled = false;
+  bool incomingcalled = false;
 
   final StopWatchTimer _stopWatchTimer = StopWatchTimer(
     mode: StopWatchMode.countUp,
@@ -46,7 +49,10 @@ class _CallPageState extends State<CallPage> {
   @override
   void dispose() async {
     super.dispose();
-    await _stopWatchTimer.dispose(); // Need to call dispose function.
+
+    await _stopWatchTimer.dispose();
+    // client.sessionController.value.engine!.destroy();
+    // Need to call dispose function.
   }
 
   @override
@@ -73,6 +79,11 @@ class _CallPageState extends State<CallPage> {
             start = DateTime.now();
             print('User joined at ${start.toString()}');
           });
+        },
+        leaveChannel: (v) {
+          _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+          end = DateTime.now();
+          print('user lest at $end');
         },
         userOffline: (i, j) {
           _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
@@ -101,10 +112,6 @@ class _CallPageState extends State<CallPage> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Agora UIKit'),
-          centerTitle: true,
-        ),
         body: SafeArea(
           child: Stack(
             children: [
@@ -140,21 +147,6 @@ class _CallPageState extends State<CallPage> {
               ),
               AgoraVideoButtons(
                 client: client,
-
-                // disconnectButtonChild: MaterialButton(
-                //   onPressed: () async {
-                //     await client.sessionController.endCall();
-                //
-                //     //client.sessionController.dispose();
-                //
-                //     Navigator.pop(context);
-                //   },
-                //   child: Icon(Icons.call_end, color: Colors.white, size: 35),
-                //   shape: CircleBorder(),
-                //   elevation: 2.0,
-                //   color: Colors.redAccent,
-                //   padding: const EdgeInsets.all(15.0),
-                // ),
               ),
             ],
           ),

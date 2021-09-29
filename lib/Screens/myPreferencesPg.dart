@@ -6,18 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:http/http.dart' as http;
 
-class myPreferencesPg extends StatefulWidget {
+class MyPreferencesPg extends StatefulWidget {
   final String user_id;
   final String interested;
-  const myPreferencesPg(
+  const MyPreferencesPg(
       {Key? key, required this.user_id, required this.interested})
       : super(key: key);
 
   @override
-  _myPreferencesPgState createState() => _myPreferencesPgState();
+  _MyPreferencesPgState createState() => _MyPreferencesPgState();
 }
 
-class _myPreferencesPgState extends State<myPreferencesPg> {
+class _MyPreferencesPgState extends State<MyPreferencesPg> {
   Future mypreferences() async {
     if (ischangesapplied) {
       var Response = await http

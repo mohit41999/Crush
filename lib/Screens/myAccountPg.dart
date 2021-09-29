@@ -16,18 +16,18 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 
-class myAccountPg extends StatefulWidget {
+class MyAccountPg extends StatefulWidget {
   final String user_id;
-  const myAccountPg({
+  const MyAccountPg({
     Key? key,
     required this.user_id,
   }) : super(key: key);
 
   @override
-  _myAccountPgState createState() => _myAccountPgState();
+  _MyAccountPgState createState() => _MyAccountPgState();
 }
 
-class _myAccountPgState extends State<myAccountPg> {
+class _MyAccountPgState extends State<MyAccountPg> {
   late Future<MyAccount> my_account;
   bool loading = true;
   late MyAccount accountdetails;
@@ -122,7 +122,7 @@ class _myAccountPgState extends State<myAccountPg> {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (_) => coinsPg(
+                                                builder: (_) => CoinsPg(
                                                       userid: widget.user_id,
                                                       coins: accountdetails
                                                           .data[0].total_coins
@@ -178,7 +178,7 @@ class _myAccountPgState extends State<myAccountPg> {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (_) => myWalletPg(
+                                                builder: (_) => MyWalletPg(
                                                       user_id: widget.user_id,
                                                     ))).then((value) {
                                           setState(() {
@@ -286,7 +286,7 @@ class _myAccountPgState extends State<myAccountPg> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (_) => coinsPg(
+                                        builder: (_) => CoinsPg(
                                               userid: widget.user_id,
                                               coins: accountdetails
                                                   .data[0].total_coins
@@ -326,7 +326,7 @@ class _myAccountPgState extends State<myAccountPg> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => myPreferencesPg(
+                                  builder: (context) => MyPreferencesPg(
                                         user_id: widget.user_id,
                                         interested:
                                             accountdetails.data[0].interested,
@@ -345,7 +345,7 @@ class _myAccountPgState extends State<myAccountPg> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (_) => generalHomeScreen(
+                                  builder: (_) => GeneralHomeScreen(
                                         selectedindex: 1,
                                         user_id: widget.user_id,
                                       )));
@@ -363,7 +363,7 @@ class _myAccountPgState extends State<myAccountPg> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (_) => inviteFriendsPg()));
+                                  builder: (_) => InviteFriendsPg()));
                         });
                       },
                       child: accountPgOptions(
@@ -378,7 +378,7 @@ class _myAccountPgState extends State<myAccountPg> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (_) => appSettingsPg(
+                                  builder: (_) => AppSettingsPg(
                                         user_id: widget.user_id,
                                       )));
                         });

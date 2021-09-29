@@ -8,15 +8,15 @@ import 'package:http/http.dart' as http;
 
 import 'infoPg.dart';
 
-class secureAccountPg extends StatefulWidget {
+class SecureAccountPg extends StatefulWidget {
   final String user_id;
-  const secureAccountPg({Key? key, required this.user_id}) : super(key: key);
+  const SecureAccountPg({Key? key, required this.user_id}) : super(key: key);
 
   @override
-  _secureAccountPgState createState() => _secureAccountPgState();
+  _SecureAccountPgState createState() => _SecureAccountPgState();
 }
 
-class _secureAccountPgState extends State<secureAccountPg> {
+class _SecureAccountPgState extends State<SecureAccountPg> {
   late String userName;
   late String password;
   TextEditingController userNameController = TextEditingController();
@@ -36,7 +36,7 @@ class _secureAccountPgState extends State<secureAccountPg> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => infoPg(user_id: widget.user_id)));
+                builder: (context) => InfoPg(user_id: widget.user_id)));
       });
     }
   }
@@ -183,9 +183,7 @@ class _secureAccountPgState extends State<secureAccountPg> {
                               ),
                         onPressed: () {
                           setState(() {
-                            (boolpass )
-                                ? boolpass = false
-                                : boolpass = true;
+                            (boolpass) ? boolpass = false : boolpass = true;
                           });
                         },
                         color: appThemeColor,

@@ -10,42 +10,31 @@ import 'favouritesPg.dart';
 import 'homePg.dart';
 import 'myAccountPg.dart';
 
-class generalHomeScreen extends StatefulWidget {
+class GeneralHomeScreen extends StatefulWidget {
   final String user_id;
   final int selectedindex;
-  const generalHomeScreen({
+  const GeneralHomeScreen({
     Key? key,
     this.selectedindex = 0,
     required this.user_id,
   }) : super(key: key);
   @override
-  _generalHomeScreenState createState() => _generalHomeScreenState();
+  _GeneralHomeScreenState createState() => _GeneralHomeScreenState();
 }
 
-class _generalHomeScreenState extends State<generalHomeScreen> {
-  late Future<Coins> coins;
-
-  late MyAccount myAccount;
-  bool _loading = false;
-
+class _GeneralHomeScreenState extends State<GeneralHomeScreen> {
   late int _selectedIndex = widget.selectedindex;
   late String user_id = widget.user_id;
   Color bottom = Colors.white;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
   List<Widget> _pages() => <Widget>[
-        homePg(user_id: user_id),
-        favouritesPg(
+        HomePg(user_id: user_id),
+        FavouritesPg(
           user_id: user_id,
         ),
-        callHistoryPg(
+        CallHistoryPg(
           user_id: user_id,
         ),
-        myAccountPg(
+        MyAccountPg(
           user_id: user_id,
         ),
       ];
@@ -94,10 +83,6 @@ class _generalHomeScreenState extends State<generalHomeScreen> {
             icon: Icon(Icons.person),
             label: 'Accounts',
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.chat),
-          //   label: 'Chats',
-          // ),
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
@@ -109,7 +94,6 @@ class _generalHomeScreenState extends State<generalHomeScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
-                  // height: MediaQuery.of(context).size.height * 0.9,
                   child: Expanded(child: _pages().elementAt(_selectedIndex))),
               Divider(
                 height: 1,
@@ -117,16 +101,6 @@ class _generalHomeScreenState extends State<generalHomeScreen> {
               ),
             ],
           ),
-          // Align(
-          //   alignment: Alignment.bottomCenter,
-          //   child: Theme(
-          //     data: Theme.of(context).copyWith(
-          //         canvasColor: (_selectedIndex == 0)
-          //             ? Colors.transparent
-          //             : Colors.white),
-          //     child: ,
-          //   ),
-          // ),
         ],
       ),
     );

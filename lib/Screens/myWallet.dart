@@ -4,17 +4,17 @@ import 'package:crush/Constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class myWalletPg extends StatefulWidget {
-  const myWalletPg({
+class MyWalletPg extends StatefulWidget {
+  const MyWalletPg({
     Key? key,
     required this.user_id,
   }) : super(key: key);
   final String user_id;
   @override
-  _myWalletPgState createState() => _myWalletPgState();
+  _MyWalletPgState createState() => _MyWalletPgState();
 }
 
-class _myWalletPgState extends State<myWalletPg> {
+class _MyWalletPgState extends State<MyWalletPg> {
   late Map commonbody = {'token': '123456789', 'user_id': widget.user_id};
   late String Money = '';
   List transactionHistory = [];

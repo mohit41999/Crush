@@ -14,7 +14,7 @@ void main() async {
 
   FirebaseMessaging.onBackgroundMessage(_messageHandler);
   runApp(MaterialApp(
-    home: splashScreen(),
+    home: SplashScreen(),
     debugShowCheckedModeBanner: false,
   ));
 }

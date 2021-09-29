@@ -7,15 +7,15 @@ import 'package:http/http.dart' as http;
 import 'generalHomeScreen.dart';
 import 'infoPg.dart';
 
-class interestPg extends StatefulWidget {
+class InterestPg extends StatefulWidget {
   final String user_id;
-  const interestPg({Key? key, required this.user_id}) : super(key: key);
+  const InterestPg({Key? key, required this.user_id}) : super(key: key);
 
   @override
-  _interestPgState createState() => _interestPgState();
+  _InterestPgState createState() => _InterestPgState();
 }
 
-class _interestPgState extends State<interestPg> {
+class _InterestPgState extends State<InterestPg> {
   late String gender;
   Future Interested() async {
     var Response = await http
@@ -30,7 +30,7 @@ class _interestPgState extends State<interestPg> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => generalHomeScreen(
+                builder: (context) => GeneralHomeScreen(
                       user_id: widget.user_id,
                     )));
       });

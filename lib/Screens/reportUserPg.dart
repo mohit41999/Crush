@@ -1,14 +1,14 @@
 import 'package:crush/Constants/constants.dart';
 import 'package:flutter/material.dart';
 
-class reportuserPg extends StatefulWidget {
-  const reportuserPg({Key? key}) : super(key: key);
+class ReportUserPg extends StatefulWidget {
+  const ReportUserPg({Key? key}) : super(key: key);
 
   @override
-  _reportuserPgState createState() => _reportuserPgState();
+  _ReportUserPgState createState() => _ReportUserPgState();
 }
 
-class _reportuserPgState extends State<reportuserPg> {
+class _ReportUserPgState extends State<ReportUserPg> {
   TextStyle reportText =
       TextStyle(color: Color(0xff0B0D0F).withOpacity(0.8), fontSize: 16);
 

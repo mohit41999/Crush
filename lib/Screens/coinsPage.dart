@@ -6,20 +6,20 @@ import 'package:crush/Services/coinsServices.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class coinsPg extends StatefulWidget {
+class CoinsPg extends StatefulWidget {
   final String userid;
   final String coins;
-  const coinsPg({
+  const CoinsPg({
     Key? key,
     required this.userid,
     required this.coins,
   }) : super(key: key);
 
   @override
-  _coinsPgState createState() => _coinsPgState();
+  _CoinsPgState createState() => _CoinsPgState();
 }
 
-class _coinsPgState extends State<coinsPg> {
+class _CoinsPgState extends State<CoinsPg> {
   List coinsDetails = [];
   late String CoinsBalance;
   late String withdrawamount;

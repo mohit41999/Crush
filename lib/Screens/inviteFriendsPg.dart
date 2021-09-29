@@ -1,8 +1,8 @@
 import 'package:crush/Constants/constants.dart';
 import 'package:flutter/material.dart';
 
-class inviteFriendsPg extends StatelessWidget {
-  const inviteFriendsPg({Key? key}) : super(key: key);
+class InviteFriendsPg extends StatelessWidget {
+  const InviteFriendsPg({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

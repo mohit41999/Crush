@@ -4,15 +4,15 @@ import 'package:crush/Screens/userPg.dart';
 import 'package:crush/Services/getFavourites_usersService.dart';
 import 'package:flutter/material.dart';
 
-class favouritesPg extends StatefulWidget {
+class FavouritesPg extends StatefulWidget {
   final String user_id;
-  const favouritesPg({Key? key, required this.user_id}) : super(key: key);
+  const FavouritesPg({Key? key, required this.user_id}) : super(key: key);
 
   @override
-  _favouritesPgState createState() => _favouritesPgState();
+  _FavouritesPgState createState() => _FavouritesPgState();
 }
 
-class _favouritesPgState extends State<favouritesPg> {
+class _FavouritesPgState extends State<FavouritesPg> {
   late Future<GetFavUsers> favourites;
   bool loading = true;
   late GetFavUsers favourite_users;
@@ -71,7 +71,7 @@ class _favouritesPgState extends State<favouritesPg> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (_) => userPg(
+                                      builder: (_) => UserPg(
                                             fav_user_id: favourite_users
                                                 .data[index].userId,
                                           )));

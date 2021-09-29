@@ -22,7 +22,7 @@ class FirebaseNotifications {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => callIncomingScreen(
+                builder: (context) => IncomingCallScreen(
                       channel_name: value.data['channel_name'],
                       Screen_id: value.data['screenId'],
                     )));
@@ -40,7 +40,7 @@ class FirebaseNotifications {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => callIncomingScreen(
+              builder: (context) => IncomingCallScreen(
                     channel_name: event.data['channel_name'],
                     Screen_id: event.data['screenId'],
                   )));
@@ -54,7 +54,7 @@ class FirebaseNotifications {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => callIncomingScreen(
+              builder: (context) => IncomingCallScreen(
                     channel_name: event.data['channel_name'],
                     Screen_id: event.data['screenId'],
                   )));

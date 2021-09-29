@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:crush/Constants/constants.dart';
 import 'package:crush/Services/fcmServices.dart';
 import 'package:crush/util/App_constants/appconstants.dart';
@@ -8,16 +7,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:http/http.dart' as http;
-
-import '../firebase_notification_handler.dart';
 import 'buildUrProfilePg.dart';
 import 'generalHomeScreen.dart';
 
-class enterCodePg extends StatefulWidget {
+class EnterCodePg extends StatefulWidget {
   final String mobileNumber;
   final bool exists;
   final String user_id;
-  const enterCodePg(
+  const EnterCodePg(
       {Key? key,
       required this.mobileNumber,
       required this.user_id,
@@ -25,10 +22,14 @@ class enterCodePg extends StatefulWidget {
       : super(key: key);
 
   @override
-  _enterCodePgState createState() => _enterCodePgState();
+  _EnterCodePgState createState() => _EnterCodePgState();
 }
 
-class _enterCodePgState extends State<enterCodePg> {
+class _EnterCodePgState extends State<EnterCodePg> {
+  TextEditingController otpController = TextEditingController();
+  late String OTP;
+  late FirebaseMessaging _getfcmtoken;
+
   Future verifyOtp() async {
     var Response = await http
         .post(Uri.parse(BASE_URL + AppConstants.VERIFY_OTP), body: {
@@ -43,21 +44,18 @@ class _enterCodePgState extends State<enterCodePg> {
             ? Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (_) => generalHomeScreen(
+                    builder: (_) => GeneralHomeScreen(
                           user_id: widget.user_id,
                         )))
             : Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (_) => buildUrProfilePg(
+                    builder: (_) => BuildUrProfilePg(
                           user_id: widget.user_id,
                         )))
         : print('false');
   }
 
-  TextEditingController otpController = TextEditingController();
-  late String OTP;
-  late FirebaseMessaging _getfcmtoken;
   @override
   void initState() {
     // TODO: implement initState

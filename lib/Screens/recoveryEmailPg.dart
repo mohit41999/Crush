@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:crush/Constants/constants.dart';
 import 'package:crush/Screens/secureAccountPg.dart';
 import 'package:crush/util/App_constants/appconstants.dart';
@@ -7,33 +6,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class recoveryEmailPg extends StatefulWidget {
+class RecoveryEmailPg extends StatelessWidget {
   final String user_id;
-  const recoveryEmailPg({Key? key, required this.user_id}) : super(key: key);
+  RecoveryEmailPg({Key? key, required this.user_id}) : super(key: key);
 
-  @override
-  _recoveryEmailPgState createState() => _recoveryEmailPgState();
-}
-
-class _recoveryEmailPgState extends State<recoveryEmailPg> {
   late String recoveryEmail;
   TextEditingController recoveryEmailController = TextEditingController();
-  Future addRecoveyEmail() async {
+
+  Future addRecoveyEmail(BuildContext context) async {
     var Response = await http
         .post(Uri.parse(BASE_URL + AppConstants.RECOVEY_EMAIL), body: {
       'token': '123456789',
-      'user_id': widget.user_id,
+      'user_id': user_id,
       'email': recoveryEmail
     });
     var response = jsonDecode(Response.body);
     if (response['status']) {
-      setState(() {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    secureAccountPg(user_id: widget.user_id)));
-      });
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => SecureAccountPg(user_id: user_id)));
     }
   }
 
@@ -105,17 +97,13 @@ class _recoveryEmailPgState extends State<recoveryEmailPg> {
                 TextField(
                   controller: recoveryEmailController,
                   onChanged: (value) {
-                    setState(() {
-                      value = recoveryEmailController.text.toString();
-                      recoveryEmail = value;
-                      print(recoveryEmail);
-                    });
+                    value = recoveryEmailController.text.toString();
+                    recoveryEmail = value;
+                    print(recoveryEmail);
                   },
                   onSubmitted: (value) {
-                    setState(() {
-                      value = recoveryEmailController.text.toString();
-                      recoveryEmail = value;
-                    });
+                    value = recoveryEmailController.text.toString();
+                    recoveryEmail = value;
                   },
                   decoration: InputDecoration(
                     enabled: true,
@@ -143,9 +131,7 @@ class _recoveryEmailPgState extends State<recoveryEmailPg> {
                     s: 'Continue',
                     textColor: Colors.white,
                     onPressed: () {
-                      setState(() {
-                        addRecoveyEmail();
-                      });
+                      addRecoveyEmail(context);
                     },
                   ),
                 ),

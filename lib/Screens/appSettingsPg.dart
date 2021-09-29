@@ -7,15 +7,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:http/http.dart' as http;
 
-class appSettingsPg extends StatefulWidget {
+class AppSettingsPg extends StatefulWidget {
   final String user_id;
-  const appSettingsPg({Key? key, required this.user_id}) : super(key: key);
+  const AppSettingsPg({Key? key, required this.user_id}) : super(key: key);
 
   @override
-  _appSettingsPgState createState() => _appSettingsPgState();
+  _AppSettingsPgState createState() => _AppSettingsPgState();
 }
 
-class _appSettingsPgState extends State<appSettingsPg> {
+class _AppSettingsPgState extends State<AppSettingsPg> {
   bool online_offline_Swith = false;
   bool voice_call_Swith = false;
   bool video_call_Swith = false;
@@ -30,7 +30,7 @@ class _appSettingsPgState extends State<appSettingsPg> {
     if (response['status']) {
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => splashScreen()),
+          MaterialPageRoute(builder: (context) => SplashScreen()),
           (route) => route.isFirst);
       Navigator.pop(context);
     }
@@ -136,7 +136,7 @@ class _appSettingsPgState extends State<appSettingsPg> {
                 //     MaterialPageRoute(builder: (context) => splashScreen()));
                 Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => splashScreen()),
+                    MaterialPageRoute(builder: (context) => SplashScreen()),
                     (route) => route.isFirst);
                 Navigator.pop(context);
               },

@@ -1,4 +1,3 @@
-
 import 'package:crush/Constants/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -6,15 +5,10 @@ import 'identifyYourselfPg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 
-class buildUrProfilePg extends StatefulWidget {
+class BuildUrProfilePg extends StatelessWidget {
   final String user_id;
-  const buildUrProfilePg({Key? key, required this.user_id}) : super(key: key);
+  const BuildUrProfilePg({Key? key, required this.user_id}) : super(key: key);
 
-  @override
-  _buildUrProfilePgState createState() => _buildUrProfilePgState();
-}
-
-class _buildUrProfilePgState extends State<buildUrProfilePg> {
   Future _getpostImage() async {
     var image =
         await ImagePicker.platform.pickImage(source: ImageSource.gallery);
@@ -23,7 +17,7 @@ class _buildUrProfilePgState extends State<buildUrProfilePg> {
           "POST",
           Uri.parse(
               "http://crush.notionprojects.tech/api/build_your_profile.php"));
-      request.fields['user_id'] = widget.user_id;
+      request.fields['user_id'] = user_id;
       request.fields['token'] = '123456789';
       var pic =
           await http.MultipartFile.fromPath("profile_picture", image.path);
@@ -83,122 +77,120 @@ class _buildUrProfilePgState extends State<buildUrProfilePg> {
             bgcolor: appThemeColor,
             s: 'Add Your Photo',
             onPressed: () {
-              setState(() {
-                _getpostImage();
-                showDialog(
-                    barrierColor: Colors.white.withOpacity(0.4),
-                    context: context,
-                    builder: (BuildContext context) => AlertDialog(
-                          actionsPadding: EdgeInsets.all(0),
-                          contentPadding: EdgeInsets.fromLTRB(23, 20, 23, 2),
-                          titlePadding: EdgeInsets.all(0),
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(color: appThemeColor, width: 2),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20.0),
-                            ),
+              _getpostImage();
+              showDialog(
+                  barrierColor: Colors.white.withOpacity(0.4),
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                        actionsPadding: EdgeInsets.all(0),
+                        contentPadding: EdgeInsets.fromLTRB(23, 20, 23, 2),
+                        titlePadding: EdgeInsets.all(0),
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(color: appThemeColor, width: 2),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20.0),
                           ),
-                          title: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(20.0),
-                                child: Text(
-                                  'Crush Photo Guidelines ',
-                                  style: TextStyle(
-                                    fontSize: 21,
-                                    color: appThemeColor,
-                                    fontFamily: 'SegoeUI',
-                                    letterSpacing: 1,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                        ),
+                        title: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Text(
+                                'Crush Photo Guidelines ',
+                                style: TextStyle(
+                                  fontSize: 21,
+                                  color: appThemeColor,
+                                  fontFamily: 'SegoeUI',
+                                  letterSpacing: 1,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Divider(
-                                height: 1,
-                                thickness: 1,
-                                color: appThemeColor,
-                              ),
-                            ],
-                          ),
-                          buttonPadding: EdgeInsets.zero,
-                          content: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              ' - No kids on their own. They must be in the photo with an adult, and fully clothed.\n\n'
-                              ' - No photos in bikinis/swimwear indoors.\n\n'
-                              ' - No pictures in underwear.\n\n'
-                              ' - No Shirtless/underwear Mirror Selfies.\n\n'
-                              ' - Face must be clearly visible in all photos.\n\n'
-                              ' - No watermarks or text overlaid.\n\n'
-                              ' - No pornographic material.\n\n'
-                              ' - No graphic hunting photos.\n\n'
-                              ' - No guns.\n',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontFamily: 'SegoeUI',
-                                fontWeight: FontWeight.w600,
-                              ),
                             ),
-                          ),
-                          actions: [
                             Divider(
                               height: 1,
                               thickness: 1,
                               color: appThemeColor,
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                          ],
+                        ),
+                        buttonPadding: EdgeInsets.zero,
+                        content: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            ' - No kids on their own. They must be in the photo with an adult, and fully clothed.\n\n'
+                            ' - No photos in bikinis/swimwear indoors.\n\n'
+                            ' - No pictures in underwear.\n\n'
+                            ' - No Shirtless/underwear Mirror Selfies.\n\n'
+                            ' - Face must be clearly visible in all photos.\n\n'
+                            ' - No watermarks or text overlaid.\n\n'
+                            ' - No pornographic material.\n\n'
+                            ' - No graphic hunting photos.\n\n'
+                            ' - No guns.\n',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontFamily: 'SegoeUI',
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        actions: [
+                          Divider(
+                            height: 1,
+                            thickness: 1,
+                            color: appThemeColor,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: FlatButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text(
+                                      'Refuse',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: appThemeColor,
+                                        fontFamily: 'SegoeUI',
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    )),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  height: 40,
+                                  width: 102,
+                                  decoration: BoxDecoration(
+                                      color: appThemeColor,
+                                      borderRadius: BorderRadius.circular(5)),
                                   child: FlatButton(
                                       onPressed: () {
-                                        Navigator.pop(context);
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    IdentifyYourselgPg(
+                                                      user_id: user_id,
+                                                    )));
                                       },
                                       child: Text(
-                                        'Refuse',
+                                        'Agree',
                                         style: TextStyle(
                                           fontSize: 18,
-                                          color: appThemeColor,
+                                          color: Colors.white,
                                           fontFamily: 'SegoeUI',
                                           fontWeight: FontWeight.w600,
                                         ),
                                       )),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    height: 40,
-                                    width: 102,
-                                    decoration: BoxDecoration(
-                                        color: appThemeColor,
-                                        borderRadius: BorderRadius.circular(5)),
-                                    child: FlatButton(
-                                        onPressed: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      identifyYourselgPg(
-                                                        user_id: widget.user_id,
-                                                      )));
-                                        },
-                                        child: Text(
-                                          'Agree',
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                            color: Colors.white,
-                                            fontFamily: 'SegoeUI',
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        )),
-                                  ),
-                                )
-                              ],
-                            )
-                          ],
-                        ));
-              });
+                              )
+                            ],
+                          )
+                        ],
+                      ));
             },
             textColor: Colors.white,
           ),

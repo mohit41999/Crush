@@ -1,18 +1,12 @@
 import 'package:crush/Constants/constants.dart';
 import 'package:crush/Screens/verifyNumberPg.dart';
-import 'package:crush/firebase_notification_handler.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class signInScreen extends StatefulWidget {
-  const signInScreen({Key? key}) : super(key: key);
+class SignInScreen extends StatelessWidget {
+  const SignInScreen({Key? key}) : super(key: key);
 
-  @override
-  _signInScreenState createState() => _signInScreenState();
-}
-
-class _signInScreenState extends State<signInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,12 +59,10 @@ class _signInScreenState extends State<signInScreen> {
                       bgcolor: Colors.white,
                       s: 'Use Phone Number',
                       onPressed: () {
-                        setState(() {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => verifyNumberPg()));
-                        });
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => VerifyNumberPg()));
                       },
                       textColor: appThemeColor,
                     ),
