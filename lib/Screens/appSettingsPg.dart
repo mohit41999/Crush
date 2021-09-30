@@ -1,14 +1,17 @@
 import 'dart:convert';
 
 import 'package:crush/Constants/constants.dart';
+import 'package:crush/Screens/signinScreen.dart';
 import 'package:crush/Screens/splashScreen.dart';
+import 'package:crush/Services/sendnotification.dart';
 import 'package:crush/util/App_constants/appconstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppSettingsPg extends StatefulWidget {
-  final String user_id;
+  final String? user_id;
   const AppSettingsPg({Key? key, required this.user_id}) : super(key: key);
 
   @override
@@ -34,6 +37,12 @@ class _AppSettingsPgState extends State<AppSettingsPg> {
           (route) => route.isFirst);
       Navigator.pop(context);
     }
+  }
+
+  logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('phonenumber');
+    prefs.remove('user_id');
   }
 
   @override
@@ -132,6 +141,7 @@ class _AppSettingsPgState extends State<AppSettingsPg> {
             ),
             GestureDetector(
               onTap: () {
+                logout();
                 // Navigator.pushReplacement(context,
                 //     MaterialPageRoute(builder: (context) => splashScreen()));
                 Navigator.pushAndRemoveUntil(

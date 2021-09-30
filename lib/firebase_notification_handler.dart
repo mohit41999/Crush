@@ -25,6 +25,8 @@ class FirebaseNotifications {
                 builder: (context) => IncomingCallScreen(
                       channel_name: value.data['channel_name'],
                       Screen_id: value.data['screenId'],
+                      caller_id: value.data['caller_id'],
+                      user_id: value.data['user_id'],
                     )));
       }
     });
@@ -43,6 +45,8 @@ class FirebaseNotifications {
               builder: (context) => IncomingCallScreen(
                     channel_name: event.data['channel_name'],
                     Screen_id: event.data['screenId'],
+                    caller_id: event.data['caller_id'],
+                    user_id: event.data['user_id'],
                   )));
     });
 
@@ -57,6 +61,8 @@ class FirebaseNotifications {
               builder: (context) => IncomingCallScreen(
                     channel_name: event.data['channel_name'],
                     Screen_id: event.data['screenId'],
+                    caller_id: event.data['caller_id'],
+                    user_id: event.data['user_id'],
                   )));
     });
   }

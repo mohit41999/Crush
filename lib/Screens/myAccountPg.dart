@@ -6,6 +6,7 @@ import 'package:crush/Model/coinsModel.dart';
 import 'package:crush/Model/myAccountModel.dart';
 import 'package:crush/Screens/appSettingsPg.dart';
 import 'package:crush/Screens/coinsPage.dart';
+import 'package:crush/Screens/favouritesPg.dart';
 import 'package:crush/Screens/generalHomeScreen.dart';
 import 'package:crush/Screens/inviteFriendsPg.dart';
 import 'package:crush/Screens/myPreferencesPg.dart';
@@ -17,7 +18,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 
 class MyAccountPg extends StatefulWidget {
-  final String user_id;
+  final String? user_id;
   const MyAccountPg({
     Key? key,
     required this.user_id,
@@ -40,7 +41,7 @@ class _MyAccountPgState extends State<MyAccountPg> {
           "POST",
           Uri.parse(
               "http://crush.notionprojects.tech/api/build_your_profile.php"));
-      request.fields['user_id'] = widget.user_id;
+      request.fields['user_id'] = widget.user_id!;
       request.fields['token'] = '123456789';
       var pic =
           await http.MultipartFile.fromPath("profile_picture", image.path);
@@ -342,11 +343,10 @@ class _MyAccountPgState extends State<MyAccountPg> {
                     GestureDetector(
                       onTap: () {
                         setState(() {
-                          Navigator.pushReplacement(
+                          Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (_) => GeneralHomeScreen(
-                                        selectedindex: 1,
+                                  builder: (context) => FavouritesPg(
                                         user_id: widget.user_id,
                                       )));
                         });

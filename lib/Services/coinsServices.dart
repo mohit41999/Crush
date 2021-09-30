@@ -5,7 +5,7 @@ import 'package:crush/util/App_constants/appconstants.dart';
 import 'package:http/http.dart' as http;
 
 class coinsService {
-  Future<Coins> getCoins(String userid) async {
+  Future<Coins> getCoins(String? userid) async {
     var Response = await http.post(Uri.parse(BASE_URL + AppConstants.COINS),
         body: {'token': '123456789', 'user_id': userid});
     var r = jsonDecode(Response.body);

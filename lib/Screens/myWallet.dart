@@ -9,7 +9,7 @@ class MyWalletPg extends StatefulWidget {
     Key? key,
     required this.user_id,
   }) : super(key: key);
-  final String user_id;
+  final String? user_id;
   @override
   _MyWalletPgState createState() => _MyWalletPgState();
 }

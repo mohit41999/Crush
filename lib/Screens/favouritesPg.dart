@@ -5,7 +5,7 @@ import 'package:crush/Services/getFavourites_usersService.dart';
 import 'package:flutter/material.dart';
 
 class FavouritesPg extends StatefulWidget {
-  final String user_id;
+  final String? user_id;
   const FavouritesPg({Key? key, required this.user_id}) : super(key: key);
 
   @override
@@ -72,6 +72,7 @@ class _FavouritesPgState extends State<FavouritesPg> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (_) => UserPg(
+                                            user_id: widget.user_id,
                                             fav_user_id: favourite_users
                                                 .data[index].userId,
                                           )));

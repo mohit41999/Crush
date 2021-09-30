@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:crush/Constants/constants.dart';
+import 'package:crush/Screens/generalHomeScreen.dart';
+import 'package:crush/Screens/homePg.dart';
 import 'package:crush/Screens/signinScreen.dart';
 import 'package:crush/Services/generatechannelservices.dart';
 import 'package:crush/Services/sendnotification.dart';
@@ -8,6 +10,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import '../firebase_notification_handler.dart';
@@ -20,6 +23,19 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  isloggedin() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    phonenumber = prefs.getString('phonenumber');
+    print(phonenumber);
+    String? user_id = prefs.getString('user_id');
+    print(phonenumber.toString());
+    (phonenumber == null && user_id == null)
+        ? Navigator.push(
+            context, MaterialPageRoute(builder: (_) => SignInScreen()))
+        : Navigator.push(context,
+            MaterialPageRoute(builder: (_) => GeneralHomeScreen(user_id: user_id)));
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -68,8 +84,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     s: 'Let\'s Get Started',
                     onPressed: () {
                       setState(() {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (_) => SignInScreen()));
+                        isloggedin();
                       });
                     },
                     textColor: appThemeColor,

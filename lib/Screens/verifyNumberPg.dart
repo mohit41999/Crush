@@ -4,6 +4,7 @@ import 'package:crush/Services/sendnotification.dart';
 import 'package:crush/util/App_constants/appconstants.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'enterCodePg.dart';
 
 class VerifyNumberPg extends StatelessWidget {
@@ -14,6 +15,8 @@ class VerifyNumberPg extends StatelessWidget {
   TextEditingController mobileNumbercontroller = TextEditingController();
 
   Future postmobilenumber(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('phonenumber', mobile_number.toString());
     phonenumber = mobile_number.toString();
     var response = await http.post(
         Uri.parse(BASE_URL + AppConstants.LOGIN_WITH_MOBILE_URL),
@@ -24,7 +27,7 @@ class VerifyNumberPg extends StatelessWidget {
     var d = APIRESPONSE['data'];
     print('aaaa$status');
     print('aaaa$d');
-
+    prefs.setString('user_id', APIRESPONSE['data']['user_id']);
     Navigator.push(
         context,
         MaterialPageRoute(

@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 late String name = '';
-late String phonenumber;
+late String? phonenumber;
 
 Future sendnotification(
-    String channelname, String fcm_token, String screenId) async {
+    String channelname, String fcm_token, String screenId,String? caller_id,String? user_id) async {
   var Response =
       await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
           body: jsonEncode({
@@ -22,10 +22,10 @@ Future sendnotification(
                   : "Incoming Voice Call (${(phonenumber)})"
             },
             "data": {
-              "body": "Body of Your Notification in Data",
-              "title": "Title of Your Notification in Title",
               "channel_name": channelname,
-              "screenId": screenId
+              "screenId": screenId,
+              "caller_id":caller_id,
+              "user_id":user_id,
             }
           }),
           encoding: Encoding.getByName("utf-8"),

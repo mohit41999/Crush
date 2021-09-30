@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:crush/Constants/constants.dart';
 import 'package:crush/Model/homeModel.dart';
 import 'package:crush/Screens/VoiceCall.dart';
+import 'package:crush/Screens/userPg.dart';
 import 'package:crush/Services/generatechannelservices.dart';
 import 'package:crush/Services/homeServices.dart';
 import 'package:crush/Services/sendnotification.dart';
@@ -12,7 +13,7 @@ import 'package:http/http.dart' as http;
 import 'VideoCallPg.dart';
 
 class HomePg extends StatefulWidget {
-  final String user_id;
+  final String? user_id;
   const HomePg({Key? key, required this.user_id}) : super(key: key);
 
   @override
@@ -114,15 +115,26 @@ class _HomePgState extends State<HomePg> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            '${gethomeDetails.data[startIndex].fullName}, ${gethomeDetails.data[startIndex].age}',
-                            style: TextStyle(
-                              color: Color(0xffF0EEEF),
-                              fontSize: 22,
-                              fontFamily: 'SegoeUI',
-                              fontWeight: FontWeight.bold,
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => UserPg(
+                                      user_id: widget.user_id,
+                                        fav_user_id: gethomeDetails
+                                            .data[startIndex].userId)));
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              '${gethomeDetails.data[startIndex].fullName}, ${gethomeDetails.data[startIndex].age}',
+                              style: TextStyle(
+                                color: Color(0xffF0EEEF),
+                                fontSize: 22,
+                                fontFamily: 'SegoeUI',
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
@@ -300,7 +312,7 @@ class _HomePgState extends State<HomePg> {
                                   sendnotification(
                                       cn,
                                       gethomeDetails.data[startIndex].fcm_token,
-                                      (CallType == 'Audio') ? '1' : '0');
+                                      (CallType == 'Audio') ? '1' : '0',widget.user_id, gethomeDetails.data[startIndex].userId);
                                   (CallType == 'Audio')
                                       ? Navigator.push(
                                           context,
@@ -314,9 +326,12 @@ class _HomePgState extends State<HomePg> {
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   VideoCallPage(
-                                                    //user_id: widget.user_id,
+                                                    caller_id: gethomeDetails
+                                                        .data[startIndex]
+                                                        .userId,
+                                                    user_id: widget.user_id,
                                                     channelName: cn,
-                                                    callType: 'o',
+                                                    callStatus: 'o',
                                                   )));
                                 });
                               });

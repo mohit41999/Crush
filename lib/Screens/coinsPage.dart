@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class CoinsPg extends StatefulWidget {
-  final String userid;
+  final String? userid;
   final String coins;
   const CoinsPg({
     Key? key,
@@ -149,8 +149,25 @@ class _CoinsPgState extends State<CoinsPg> {
                             showDialog(
                                 context: context,
                                 builder: (BuildContext context) => AlertDialog(
-                                      title: Text(
-                                          'Enter Coints Amount to Withdraw'),
+                                      title: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              'Enter Coints Amount to Withdraw',
+                                              style: TextStyle(fontSize: 16),
+                                            ),
+                                          ),
+                                          IconButton(
+                                              padding: EdgeInsets.all(0),
+                                              splashColor: appThemeColor,
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              icon: Icon(Icons.close))
+                                        ],
+                                      ),
                                       content: TextField(
                                         keyboardType: TextInputType.number,
                                         controller: withrawController,

@@ -23,4 +23,6 @@ class AppConstants {
   static const String ADD_COINS = 'add_coins_plan.php';
   static const String WITHDRAWCOINS = 'withdraw_coins.php';
   static const String GENERATECHANNEL = 'random_channel.php';
+  static const String ADD_CALL = 'add_call.php';
+  static const String CALL_HISTORY = 'get_call_history.php';
 }

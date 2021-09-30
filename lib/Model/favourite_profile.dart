@@ -43,6 +43,7 @@ class Datum {
     required this.age,
     required this.city,
     required this.interested,
+    required this.fcm_token,
   });
 
   String fullName;
@@ -50,6 +51,7 @@ class Datum {
   String age;
   String city;
   String interested;
+  String fcm_token;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         fullName: json["full_name"],
@@ -57,6 +59,7 @@ class Datum {
         age: json["age"],
         city: json["city"],
         interested: json["interested"],
+        fcm_token: json["fcm_token"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -65,5 +68,6 @@ class Datum {
         "age": age,
         "city": city,
         "interested": interested,
+        "fcm_token": fcm_token,
       };
 }

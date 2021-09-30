@@ -7,7 +7,7 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:http/http.dart' as http;
 
 class MyPreferencesPg extends StatefulWidget {
-  final String user_id;
+  final String? user_id;
   final String interested;
   const MyPreferencesPg(
       {Key? key, required this.user_id, required this.interested})
@@ -35,14 +35,14 @@ class _MyPreferencesPgState extends State<MyPreferencesPg> {
         });
       }
     } else {
-      setState(() {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: Colors.red,
-          content: Text('no changes made'),
-          duration: Duration(seconds: 1),
-        ));
-        Navigator.pop(context);
-      });
+      // setState(() {
+      //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //     backgroundColor: Colors.red,
+      //     content: Text('no changes made'),
+      //     duration: Duration(seconds: 1),
+      //   ));
+      //   Navigator.pop(context);
+      // });
     }
   }
 
@@ -75,8 +75,6 @@ class _MyPreferencesPgState extends State<MyPreferencesPg> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ListView(
-            //mainAxisAlignment: MainAxisAlignment.start,
-            //crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 20),

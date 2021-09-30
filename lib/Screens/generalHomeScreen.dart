@@ -11,7 +11,7 @@ import 'homePg.dart';
 import 'myAccountPg.dart';
 
 class GeneralHomeScreen extends StatefulWidget {
-  final String user_id;
+  final String? user_id;
   final int selectedindex;
   const GeneralHomeScreen({
     Key? key,
@@ -24,7 +24,7 @@ class GeneralHomeScreen extends StatefulWidget {
 
 class _GeneralHomeScreenState extends State<GeneralHomeScreen> {
   late int _selectedIndex = widget.selectedindex;
-  late String user_id = widget.user_id;
+  late String? user_id = widget.user_id;
   Color bottom = Colors.white;
   List<Widget> _pages() => <Widget>[
         HomePg(user_id: user_id),

@@ -194,15 +194,6 @@ class BuildUrProfilePg extends StatelessWidget {
             },
             textColor: Colors.white,
           ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.05,
-          ),
-          commonBtn(
-            bgcolor: Colors.white,
-            s: 'Use From Facebook',
-            textColor: appThemeColor,
-            onPressed: () {},
-          ),
         ],
       ),
     );

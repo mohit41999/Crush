@@ -5,8 +5,10 @@ import "package:flutter/material.dart";
 class IncomingCallScreen extends StatefulWidget {
   final String channel_name;
   final String Screen_id;
+  final String caller_id;
+  final String user_id;
   const IncomingCallScreen(
-      {Key? key, required this.channel_name, required this.Screen_id})
+      {Key? key, required this.channel_name, required this.Screen_id, required this.caller_id, required this.user_id})
       : super(key: key);
 
   @override
@@ -41,8 +43,9 @@ class _IncomingCallScreenState extends State<IncomingCallScreen> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => VideoCallPage(
-                                  callType: 'i',
-                                  // user_id: widget.user_id,
+                                  caller_id: widget.caller_id,
+                                  callStatus: 'i',
+                                   user_id: widget.user_id,
                                   channelName: widget.channel_name)))
                       : Navigator.push(
                           context,

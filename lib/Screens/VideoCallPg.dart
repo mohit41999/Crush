@@ -3,20 +3,28 @@ import 'dart:async';
 import 'package:agora_uikit/agora_uikit.dart';
 import 'package:agora_uikit/models/agora_settings.dart';
 import 'package:agora_uikit/models/agora_user.dart';
+import 'package:crush/Services/newcallServices.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 const APP_ID = '2af01518a23a4f35a6098c9b50467e85';
+String time = '';
 
 const Token =
     '0066b462cbcdf254436ab726620f1edb93bIABuntCwp0/RdFu7vSGX7rKs7WOlQcs+nD6NrZ8Fhm5kUbIhF1sAAAAAEAD+bihbwWpMYQEAAQDCakxh';
 
 class VideoCallPage extends StatefulWidget {
-  final String callType;
+  final String callStatus;
   final String channelName;
+  final String? caller_id;
+  final String? user_id;
   const VideoCallPage(
-      {Key? key, required this.channelName, required this.callType})
+      {Key? key,
+      required this.channelName,
+      required this.callStatus,
+      required this.caller_id,
+      required this.user_id})
       : super(key: key);
 
   @override
@@ -24,27 +32,21 @@ class VideoCallPage extends StatefulWidget {
 }
 
 class _VideoCallPageState extends State<VideoCallPage> {
-  late DateTime start;
-  late DateTime end;
-  late String duration;
   late String channelname;
   late AgoraClient client;
-  late AgoraUser clients;
-  late AgoraSettings settings;
-  late Permission camera;
-  late final displayTime2;
   bool outgoingcalled = false;
   bool incomingcalled = false;
+  late String aftercall;
 
   final StopWatchTimer _stopWatchTimer = StopWatchTimer(
-    mode: StopWatchMode.countUp,
-    onChange: (value) {
-      final displayTime = StopWatchTimer.getDisplayTime(value);
-
-      print('displayTime $displayTime');
-      print('onChange $value');
-    },
-  );
+      mode: StopWatchMode.countUp,
+      onChange: (value) {
+        final displayTime = StopWatchTimer.getDisplayTime(value);
+        print('displayTime $displayTime');
+        time = displayTime;
+        print('onChange $value');
+      },
+      onEnded: () {});
 
   @override
   void dispose() async {
@@ -76,23 +78,19 @@ class _VideoCallPageState extends State<VideoCallPage> {
             _stopWatchTimer.onChange;
             print(
                 'iiiiiiiiiiiiiiiiiiiiiooooooooooooooooooooooooooooooooooooooooooooo');
-            start = DateTime.now();
-            print('User joined at ${start.toString()}');
           });
         },
         leaveChannel: (v) {
           _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
-          end = DateTime.now();
-          print('user lest at $end');
         },
         userOffline: (i, j) {
           _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
-          end = DateTime.now();
-          print('user lest at $end');
-          duration = "${end.hour - start.hour}" +
-              ":${end.minute - start.minute}" +
-              ":${end.second - start.second}";
-          print(duration.toString() + '777777777777777777777777777777777777');
+          print(StopWatchExecute.stop.toString());
+          print(_stopWatchTimer.secondTime.toString() +
+              'ccccccccccccaaaaaalllllllll');
+          (widget.callStatus == 'o')
+              ? OutgoingUserOffline()
+              : IncomingUserOffline();
         },
       ),
       agoraConnectionData: AgoraConnectionData(
@@ -153,5 +151,35 @@ class _VideoCallPageState extends State<VideoCallPage> {
         ),
       ),
     );
+  }
+
+  IncomingUserOffline() {
+    NewCallServices().add_call(
+        user_id: widget.user_id,
+        call_duration: time,
+        call_status: 'i',
+        call_type: 'video',
+        caller_id: widget.caller_id);
+    NewCallServices().add_call(
+        user_id: widget.caller_id,
+        call_duration: time,
+        call_status: 'o',
+        call_type: 'video',
+        caller_id: widget.user_id);
+  }
+
+  OutgoingUserOffline() {
+    NewCallServices().add_call(
+        user_id: widget.user_id,
+        call_duration: time,
+        call_status: 'o',
+        call_type: 'video',
+        caller_id: widget.caller_id);
+    NewCallServices().add_call(
+        user_id: widget.caller_id,
+        call_duration: time,
+        call_status: 'i',
+        call_type: 'video',
+        caller_id: widget.user_id);
   }
 }
