@@ -318,8 +318,12 @@ class _HomePgState extends State<HomePg> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) => VoiceCallPg(
-                                                    //user_id: widget.user_id,
-                                                    channelName: cn,
+                                                caller_id: gethomeDetails
+                                                    .data[startIndex]
+                                                    .userId,
+                                                user_id: widget.user_id,
+                                                channelName: cn,
+                                                callStatus: 'o',
                                                   )))
                                       : Navigator.push(
                                           context,

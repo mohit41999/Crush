@@ -51,7 +51,9 @@ class _IncomingCallScreenState extends State<IncomingCallScreen> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => VoiceCallPg(
-                                  // user_id: widget.user_id,
+                                  caller_id: widget.caller_id,
+                                  callStatus: 'i',
+                                  user_id: widget.user_id,
                                   channelName: widget.channel_name)));
                 },
                 color: Colors.green,

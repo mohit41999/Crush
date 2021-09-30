@@ -34,7 +34,10 @@ class _CallHistoryPgState extends State<CallHistoryPg> {
   @override
   Widget build(BuildContext context) {
     return (loading)
-        ? Container(height: 100, width: 100, child: CircularProgressIndicator())
+        ? Scaffold(
+            body: Center(
+            child: CircularProgressIndicator(),
+          ))
         : Scaffold(
             body: Padding(
               padding: const EdgeInsets.all(15.0),

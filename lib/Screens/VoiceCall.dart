@@ -3,20 +3,35 @@ import 'dart:async';
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
+import 'package:crush/Services/newcallServices.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
+
+import 'VideoCallPg.dart';
 
 const APP_ID = '2af01518a23a4f35a6098c9b50467e85';
 
 class VoiceCallPg extends StatefulWidget {
+  final String callStatus;
+  final String channelName;
+  final String? caller_id;
+  final String? user_id;
+
   /// non-modifiable channel name of the page
-  final String? channelName;
 
   /// non-modifiable client role of the page
   final ClientRole? role;
 
   /// Creates a call page with given channel name.
-  const VoiceCallPg({Key? key, this.channelName, this.role}) : super(key: key);
+  const VoiceCallPg(
+      {Key? key,
+      required this.channelName,
+      this.role,
+      required this.callStatus,
+      required this.caller_id,
+      required this.user_id})
+      : super(key: key);
 
   @override
   _VoiceCallPgState createState() => _VoiceCallPgState();
@@ -28,6 +43,15 @@ class _VoiceCallPgState extends State<VoiceCallPg> {
   bool muted = false;
   late RtcEngine _engine;
 
+  final StopWatchTimer _stopWatchTimer = StopWatchTimer(
+      mode: StopWatchMode.countUp,
+      onChange: (value) {
+        final displayTime = StopWatchTimer.getDisplayTime(value);
+        print('displayTime $displayTime');
+        time = displayTime;
+        print('onChange $value');
+      },
+      onEnded: () {});
   @override
   void dispose() {
     // clear users
@@ -65,7 +89,7 @@ class _VoiceCallPgState extends State<VoiceCallPg> {
     configuration.dimensions = VideoDimensions(height: 1920, width: 1080);
     await _engine.setVideoEncoderConfiguration(configuration);
     await _engine.setDefaultAudioRoutetoSpeakerphone(false);
-    await _engine.joinChannel(null, widget.channelName!, null, 0);
+    await _engine.joinChannel(null, widget.channelName, null, 0);
   }
 
   /// Create agora sdk instance and initialize
@@ -94,6 +118,7 @@ class _VoiceCallPgState extends State<VoiceCallPg> {
       },
       leaveChannel: (stats) {
         setState(() {
+          _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
           print(stats.duration.toString());
           _infoStrings.add('onLeaveChannel');
           print('llllllleeeeeeeeeeeeeffffffffffffttttttttt');
@@ -105,6 +130,10 @@ class _VoiceCallPgState extends State<VoiceCallPg> {
           final info = 'userJoined: $uid';
           _infoStrings.add(info);
           _users.add(uid);
+          _stopWatchTimer.onExecute.add(StopWatchExecute.start);
+          _stopWatchTimer.onChange;
+          print(
+              'iiiiiiiiiiiiiiiiiiiiiooooooooooooooooooooooooooooooooooooooooooooo');
         });
       },
       userOffline: (
@@ -112,6 +141,13 @@ class _VoiceCallPgState extends State<VoiceCallPg> {
         elapsed,
       ) {
         setState(() {
+          _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+          print(StopWatchExecute.stop.toString());
+          print(_stopWatchTimer.secondTime.toString() +
+              'ccccccccccccaaaaaalllllllll');
+          (widget.callStatus == 'o')
+              ? OutgoingUserOffline()
+              : IncomingUserOffline();
           final info = 'userOffline: $uid';
           _infoStrings.add(info);
           _users.remove(uid);
@@ -319,9 +355,65 @@ class _VoiceCallPgState extends State<VoiceCallPg> {
             _viewRows(),
             _panel(),
             _toolbar(),
+            Align(
+              alignment: Alignment.topRight,
+              child: StreamBuilder<int>(
+                stream: _stopWatchTimer.rawTime,
+                initialData: 0,
+                builder: (context, snap) {
+                  final value = snap.data;
+                  final displayTime = StopWatchTimer.getDisplayTime(value!);
+                  return Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Text(
+                          displayTime.substring(0, 8),
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontFamily: 'Helvetica',
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  IncomingUserOffline() {
+    NewCallServices().add_call(
+        user_id: widget.user_id,
+        call_duration: time,
+        call_status: 'i',
+        call_type: 'video',
+        caller_id: widget.caller_id);
+    NewCallServices().add_call(
+        user_id: widget.caller_id,
+        call_duration: time,
+        call_status: 'o',
+        call_type: 'video',
+        caller_id: widget.user_id);
+  }
+
+  OutgoingUserOffline() {
+    NewCallServices().add_call(
+        user_id: widget.user_id,
+        call_duration: time,
+        call_status: 'o',
+        call_type: 'audio',
+        caller_id: widget.caller_id);
+    NewCallServices().add_call(
+        user_id: widget.caller_id,
+        call_duration: time,
+        call_status: 'i',
+        call_type: 'audio',
+        caller_id: widget.user_id);
   }
 }
