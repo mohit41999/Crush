@@ -121,8 +121,9 @@ class _HomePgState extends State<HomePg> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => UserPg(
-                                      user_id: widget.user_id,
-                                        fav_user_id: gethomeDetails
+                                        homeuser: true,
+                                        user_id: widget.user_id,
+                                        selected_user_id: gethomeDetails
                                             .data[startIndex].userId)));
                           },
                           child: Padding(
@@ -305,25 +306,35 @@ class _HomePgState extends State<HomePg> {
                             borderRadius: BorderRadius.circular(5)),
                         child: FlatButton(
                             onPressed: () {
-                              generatechannel().GenerateChannel().then((value) {
+                              generatechannel()
+                                  .GenerateChannel(widget.user_id)
+                                  .then((value) {
                                 setState(() {
-                                  cn = value;
+                                  cn = value['data']['Channel Name'];
+                                  var profileImg =
+                                      value['data']['Profile_image'];
                                   print(cn.toString() + '////////////');
                                   sendnotification(
                                       cn,
                                       gethomeDetails.data[startIndex].fcm_token,
-                                      (CallType == 'Audio') ? '1' : '0',widget.user_id, gethomeDetails.data[startIndex].userId);
+                                      (CallType == 'Audio') ? '1' : '0',
+                                      widget.user_id,
+                                      gethomeDetails.data[startIndex].userId,
+                                      profileImg);
                                   (CallType == 'Audio')
                                       ? Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) => VoiceCallPg(
-                                                caller_id: gethomeDetails
-                                                    .data[startIndex]
-                                                    .userId,
-                                                user_id: widget.user_id,
-                                                channelName: cn,
-                                                callStatus: 'o',
+                                                    caller_id: gethomeDetails
+                                                        .data[startIndex]
+                                                        .userId,
+                                                    user_id: widget.user_id,
+                                                    channelName: cn,
+                                                    callStatus: 'o',
+                                                    CallerImage: gethomeDetails
+                                                        .data[startIndex]
+                                                        .profileImage,
                                                   )))
                                       : Navigator.push(
                                           context,

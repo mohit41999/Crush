@@ -7,8 +7,14 @@ class IncomingCallScreen extends StatefulWidget {
   final String Screen_id;
   final String caller_id;
   final String user_id;
+  final String user_Image;
   const IncomingCallScreen(
-      {Key? key, required this.channel_name, required this.Screen_id, required this.caller_id, required this.user_id})
+      {Key? key,
+      required this.channel_name,
+      required this.Screen_id,
+      required this.caller_id,
+      required this.user_id,
+      required this.user_Image})
       : super(key: key);
 
   @override
@@ -45,16 +51,18 @@ class _IncomingCallScreenState extends State<IncomingCallScreen> {
                               builder: (context) => VideoCallPage(
                                   caller_id: widget.caller_id,
                                   callStatus: 'i',
-                                   user_id: widget.user_id,
+                                  user_id: widget.user_id,
                                   channelName: widget.channel_name)))
                       : Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => VoiceCallPg(
-                                  caller_id: widget.caller_id,
-                                  callStatus: 'i',
-                                  user_id: widget.user_id,
-                                  channelName: widget.channel_name)));
+                                    caller_id: widget.caller_id,
+                                    callStatus: 'i',
+                                    user_id: widget.user_id,
+                                    channelName: widget.channel_name,
+                                    CallerImage: widget.user_Image,
+                                  )));
                 },
                 color: Colors.green,
                 child: Text('Accept'),

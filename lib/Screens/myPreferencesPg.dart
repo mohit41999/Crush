@@ -46,7 +46,7 @@ class _MyPreferencesPgState extends State<MyPreferencesPg> {
     }
   }
 
-  late String gender = widget.interested.toString();
+  String gender = '';
   late bool womenSwith;
   late bool menSwith;
   late bool bothSwith;
@@ -56,15 +56,16 @@ class _MyPreferencesPgState extends State<MyPreferencesPg> {
   String? cityValue = '';
   bool ischangesapplied = false;
   RangeValues currentRangeValues = const RangeValues(18, 40);
-  RangeValues ageBetween = const RangeValues(0, 33);
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    womenSwith = (widget.interested.toString() == 'women') ? true : false;
-    menSwith = (widget.interested.toString() == 'men') ? true : false;
-    bothSwith = (widget.interested.toString() == 'both') ? true : false;
+
+    gender = widget.interested.toString();
+    womenSwith = (gender == 'women') ? true : false;
+    menSwith = (gender == 'men') ? true : false;
+    bothSwith = (gender == 'both') ? true : false;
   }
 
   @override
@@ -311,7 +312,7 @@ class _MyPreferencesPgState extends State<MyPreferencesPg> {
               RangeSlider(
                 activeColor: appThemeColor,
                 values: currentRangeValues,
-                min: 18,
+                min: 0,
                 max: 100,
                 //divisions: 5,
                 labels: RangeLabels(

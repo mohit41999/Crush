@@ -161,6 +161,7 @@ class _AppSettingsPgState extends State<AppSettingsPg> {
               child: GestureDetector(
                 onTap: () {
                   setState(() {
+                    logout();
                     deleteUser();
                   });
                 },

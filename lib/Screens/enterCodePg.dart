@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:crush/Constants/constants.dart';
 import 'package:crush/Services/fcmServices.dart';
 import 'package:crush/util/App_constants/appconstants.dart';
+import 'package:crush/widgets/backgroundcontainer.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -71,107 +72,115 @@ class _EnterCodePgState extends State<EnterCodePg> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height * 0.5,
+      body: Stack(
+        children: [
+          backgroundContainer(),
+          Container(
+            color: Colors.white.withOpacity(0.6),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    child: Text(
-                      'Enter Your Code ',
-                      style: TextStyle(
-                        color: appThemeColor,
-                        fontSize: 40,
-                        fontFamily: 'SegoeUI',
-                        letterSpacing: 1,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Enter 4-digit code',
-                      style: TextStyle(
-                        color: Color(0xff0B0D0F),
-                        fontSize: 16,
-                        fontFamily: 'SegoeUI',
-                        letterSpacing: 1,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      child: PinCodeTextField(
-                        onChanged: (value) {
-                          setState(() {
-                            value = otpController.text.toString();
-                            OTP = value;
-                            print(value);
-                          });
-                        },
-                        controller: otpController,
-                        keyboardType: TextInputType.number,
-                        cursorColor: Colors.white,
-                        textStyle: TextStyle(
-                          color: Colors.white,
-                          fontSize: 40,
-                          fontFamily: 'SegoeUI',
-                          letterSpacing: 1,
-                          fontWeight: FontWeight.w600,
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.5,
+                          child: Text(
+                            'Enter Your Code ',
+                            style: TextStyle(
+                              color: appThemeColor,
+                              fontSize: 40,
+                              fontFamily: 'SegoeUI',
+                              letterSpacing: 1,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
-                        autoDismissKeyboard: false,
-                        pinTheme: PinTheme(
-                            inactiveColor: appThemeColor,
-                            activeColor: Colors.white,
-                            fieldHeight: 70,
-                            fieldWidth: 60,
-                            activeFillColor: appThemeColor,
-                            inactiveFillColor: Colors.white,
-                            selectedFillColor: appThemeColor,
-                            borderWidth: 1,
-                            borderRadius: BorderRadius.circular(5),
-                            shape: PinCodeFieldShape.box,
-                            selectedColor: Colors.white),
-                        onSubmitted: (value) {
-                          setState(() {
-                            value = otpController.text.toString();
-                            OTP = value;
-                            print(value);
-                          });
-                        },
-                        appContext: context,
-                        length: 4,
-                        enableActiveFill: true,
-                      ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Enter 4-digit code',
+                            style: TextStyle(
+                              color: Color(0xff0B0D0F),
+                              fontSize: 16,
+                              fontFamily: 'SegoeUI',
+                              letterSpacing: 1,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            child: PinCodeTextField(
+                              onChanged: (value) {
+                                setState(() {
+                                  value = otpController.text.toString();
+                                  OTP = value;
+                                  print(value);
+                                });
+                              },
+                              controller: otpController,
+                              keyboardType: TextInputType.number,
+                              cursorColor: Colors.white,
+                              textStyle: TextStyle(
+                                color: Colors.white,
+                                fontSize: 40,
+                                fontFamily: 'SegoeUI',
+                                letterSpacing: 1,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              autoDismissKeyboard: false,
+                              pinTheme: PinTheme(
+                                  inactiveColor: appThemeColor,
+                                  activeColor: Colors.white,
+                                  fieldHeight: 70,
+                                  fieldWidth: 60,
+                                  activeFillColor: appThemeColor,
+                                  inactiveFillColor: Colors.white,
+                                  selectedFillColor: appThemeColor,
+                                  borderWidth: 1,
+                                  borderRadius: BorderRadius.circular(5),
+                                  shape: PinCodeFieldShape.box,
+                                  selectedColor: Colors.white),
+                              onSubmitted: (value) {
+                                setState(() {
+                                  value = otpController.text.toString();
+                                  OTP = value;
+                                  print(value);
+                                });
+                              },
+                              appContext: context,
+                              length: 4,
+                              enableActiveFill: true,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
+                  Center(
+                    child: commonBtn(
+                        s: 'Continue  ',
+                        bgcolor: appThemeColor,
+                        textColor: Colors.white,
+                        onPressed: () {
+                          setState(() {
+                            verifyOtp();
+                          });
+                        }),
+                  )
                 ],
               ),
             ),
-            Center(
-              child: commonBtn(
-                  s: 'Continue  ',
-                  bgcolor: appThemeColor,
-                  textColor: Colors.white,
-                  onPressed: () {
-                    setState(() {
-                      verifyOtp();
-                    });
-                  }),
-            )
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

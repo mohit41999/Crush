@@ -1,8 +1,10 @@
 import 'package:crush/Constants/constants.dart';
 import 'package:crush/Model/favourite_profile.dart';
+import 'package:crush/Model/home_usr_profile.dart';
 import 'package:crush/Screens/reportUserPg.dart';
 import 'package:crush/Services/favourite_profileService.dart';
 import 'package:crush/Services/generatechannelservices.dart';
+import 'package:crush/Services/home_user_profile.dart';
 import 'package:crush/Services/sendnotification.dart';
 import 'package:flutter/material.dart';
 
@@ -10,9 +12,15 @@ import 'VideoCallPg.dart';
 import 'VoiceCall.dart';
 
 class UserPg extends StatefulWidget {
-  final String fav_user_id;
+  final String selected_user_id;
   final String? user_id;
-  const UserPg({Key? key, required this.fav_user_id, required this.user_id}) : super(key: key);
+  final bool homeuser;
+  const UserPg(
+      {Key? key,
+      required this.selected_user_id,
+      required this.user_id,
+      required this.homeuser})
+      : super(key: key);
 
   @override
   _UserPgState createState() => _UserPgState();
@@ -20,23 +28,41 @@ class UserPg extends StatefulWidget {
 
 class _UserPgState extends State<UserPg> {
   bool loading = true;
+  late Future<HomeUserProfile> homeuserprofile;
   late Future<FavouriteProfile> favourite;
-  late FavouriteProfile favourite_user_profile;
+  var user_profile;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    initialize();
+  }
 
-    favourite = favouriteProfileService()
-        .getfavouriteProfile(widget.fav_user_id)
-        .then((value) {
-      setState(() {
-        favourite_user_profile = value;
-        loading = false;
-      });
-      return favourite_user_profile;
-    });
+  void initialize() {
+    (widget.homeuser)
+        ? homeuserprofile = HomeUserProfileService()
+            .gethomeProfile(
+                user_id: widget.selected_user_id, login_userID: widget.user_id)
+            .then((value) {
+            setState(() {
+              user_profile = value;
+              loading = false;
+            });
+            return user_profile;
+          })
+        : favourite = favouriteProfileService()
+            .getfavouriteProfile(
+            fav_id: widget.selected_user_id,
+            login_userID: widget.user_id,
+          )
+            .then((value) {
+            setState(() {
+              user_profile = value;
+              loading = false;
+            });
+            return user_profile;
+          });
   }
 
   @override
@@ -57,7 +83,7 @@ class _UserPgState extends State<UserPg> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    favourite_user_profile.data[0].fullName,
+                    user_profile.data.fullName,
                     style: TextStyle(
                         color: appThemeColor,
                         fontSize: 20,
@@ -66,8 +92,8 @@ class _UserPgState extends State<UserPg> {
                   ),
                   Center(
                       child: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        favourite_user_profile.data[0].profileImage),
+                    backgroundImage:
+                        NetworkImage(user_profile.data.profileImage),
                     radius: 85,
                   )),
                   Column(
@@ -85,7 +111,7 @@ class _UserPgState extends State<UserPg> {
                                   color: Color(0xff0B0D0F).withOpacity(0.6)),
                             )),
                             Expanded(
-                                child: Text(favourite_user_profile.data[0].age,
+                                child: Text(user_profile.data.age,
                                     style: TextStyle(
                                         fontSize: 18,
                                         fontFamily: 'SegoeUI',
@@ -109,7 +135,7 @@ class _UserPgState extends State<UserPg> {
                               ),
                             ),
                             Expanded(
-                                child: Text(favourite_user_profile.data[0].city,
+                                child: Text(user_profile.data.city,
                                     style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
@@ -138,8 +164,7 @@ class _UserPgState extends State<UserPg> {
                                       style: TextStyle(
                                           fontSize: 18,
                                           fontFamily: 'SegoeUI',
-                                          color: (favourite_user_profile
-                                                      .data[0].interested
+                                          color: (user_profile.data.interested
                                                       .toString() ==
                                                   'men')
                                               ? appThemeColor
@@ -149,22 +174,22 @@ class _UserPgState extends State<UserPg> {
                                       style: TextStyle(
                                           fontSize: 18,
                                           fontFamily: 'SegoeUI',
-                                          color: (favourite_user_profile
-                                                      .data[0].interested ==
-                                                  'women')
-                                              ? appThemeColor
-                                              : Color(0xff0B0D0F)
-                                                  .withOpacity(0.6))),
+                                          color:
+                                              (user_profile.data.interested ==
+                                                      'women')
+                                                  ? appThemeColor
+                                                  : Color(0xff0B0D0F)
+                                                      .withOpacity(0.6))),
                                   Text("Both",
                                       style: TextStyle(
                                           fontSize: 18,
                                           fontFamily: 'SegoeUI',
-                                          color: (favourite_user_profile
-                                                      .data[0].interested ==
-                                                  'both')
-                                              ? appThemeColor
-                                              : Color(0xff0B0D0F)
-                                                  .withOpacity(0.6))),
+                                          color:
+                                              (user_profile.data.interested ==
+                                                      'both')
+                                                  ? appThemeColor
+                                                  : Color(0xff0B0D0F)
+                                                      .withOpacity(0.6))),
                                 ],
                               ),
                             ),
@@ -215,13 +240,22 @@ class _UserPgState extends State<UserPg> {
                   GestureDetector(
                     onTap: () {
                       setState(() {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (_) => ReportUserPg()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => ReportUserPg(
+                                      user_id: widget.user_id,
+                                      selected_user_id: widget.selected_user_id,
+                                    ))).then((value) {
+                          setState(() {
+                            initialize();
+                          });
+                        });
                       });
                     },
                     child: Center(
                       child: Text(
-                        'Report!!!',
+                        '${user_profile.data.reportStatus}',
                         style: TextStyle(
                             decoration: TextDecoration.underline,
                             color: appThemeColor,
@@ -328,31 +362,41 @@ class _UserPgState extends State<UserPg> {
                             borderRadius: BorderRadius.circular(5)),
                         child: FlatButton(
                             onPressed: () {
-                              generatechannel().GenerateChannel().then((value) {
+                              generatechannel()
+                                  .GenerateChannel(widget.user_id)
+                                  .then((value) {
                                 setState(() {
-                                  var cn = value;
+                                  var cn = value['data']['Channel Name'];
+                                  var profileImg =
+                                      value['data']['Profile_image'];
                                   print(cn.toString() + '////////////');
                                   sendnotification(
-
                                       cn,
-                                      favourite_user_profile.data[0].fcm_token,
-                                      (CallType == 'Audio') ? '1' : '0',widget.user_id,widget.fav_user_id);
+                                      user_profile.data.fcm_token,
+                                      (CallType == 'Audio') ? '1' : '0',
+                                      widget.user_id,
+                                      widget.selected_user_id,
+                                      profileImg);
                                   (CallType == 'Audio')
                                       ? Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) => VoiceCallPg(
-                                                caller_id: widget.fav_user_id,
-                                                user_id: widget.user_id,
-                                                channelName: cn,
-                                                callStatus: 'o',
+                                                    caller_id:
+                                                        widget.selected_user_id,
+                                                    user_id: widget.user_id,
+                                                    channelName: cn,
+                                                    callStatus: 'o',
+                                                    CallerImage: user_profile
+                                                        .data.profileImage,
                                                   )))
                                       : Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   VideoCallPage(
-                                                    caller_id: widget.fav_user_id,
+                                                    caller_id:
+                                                        widget.selected_user_id,
                                                     user_id: widget.user_id,
                                                     channelName: cn,
                                                     callStatus: 'o',

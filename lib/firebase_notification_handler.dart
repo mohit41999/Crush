@@ -27,6 +27,7 @@ class FirebaseNotifications {
                       Screen_id: value.data['screenId'],
                       caller_id: value.data['caller_id'],
                       user_id: value.data['user_id'],
+                  user_Image: value.data['user_Image'],
                     )));
       }
     });
@@ -47,6 +48,7 @@ class FirebaseNotifications {
                     Screen_id: event.data['screenId'],
                     caller_id: event.data['caller_id'],
                     user_id: event.data['user_id'],
+                user_Image: event.data['user_Image'],
                   )));
     });
 
@@ -63,6 +65,7 @@ class FirebaseNotifications {
                     Screen_id: event.data['screenId'],
                     caller_id: event.data['caller_id'],
                     user_id: event.data['user_id'],
+                user_Image: event.data['user_Image'],
                   )));
     });
   }

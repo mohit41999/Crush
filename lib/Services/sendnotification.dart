@@ -6,8 +6,8 @@ import 'package:http/http.dart' as http;
 late String name = '';
 late String? phonenumber;
 
-Future sendnotification(
-    String channelname, String fcm_token, String screenId,String? caller_id,String? user_id) async {
+Future sendnotification(String channelname, String fcm_token, String screenId,
+    String? caller_id, String? user_id, String user_Image) async {
   var Response =
       await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
           body: jsonEncode({
@@ -24,8 +24,9 @@ Future sendnotification(
             "data": {
               "channel_name": channelname,
               "screenId": screenId,
-              "caller_id":caller_id,
-              "user_id":user_id,
+              "caller_id": caller_id,
+              "user_id": user_id,
+              "user_Image": user_Image,
             }
           }),
           encoding: Encoding.getByName("utf-8"),

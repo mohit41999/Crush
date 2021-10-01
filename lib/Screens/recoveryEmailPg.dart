@@ -140,7 +140,13 @@ class RecoveryEmailPg extends StatelessWidget {
                 ),
                 Center(
                   child: FlatButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  SecureAccountPg(user_id: user_id)));
+                    },
                     child: Text(
                       'Skip',
                       style: TextStyle(

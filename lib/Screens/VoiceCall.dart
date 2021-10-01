@@ -17,6 +17,7 @@ class VoiceCallPg extends StatefulWidget {
   final String channelName;
   final String? caller_id;
   final String? user_id;
+  final String CallerImage;
 
   /// non-modifiable channel name of the page
 
@@ -30,7 +31,8 @@ class VoiceCallPg extends StatefulWidget {
       this.role,
       required this.callStatus,
       required this.caller_id,
-      required this.user_id})
+      required this.user_id,
+      required this.CallerImage})
       : super(key: key);
 
   @override
@@ -346,14 +348,21 @@ class _VoiceCallPgState extends State<VoiceCallPg> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Agora Flutter QuickStart'),
+        backgroundColor: Colors.black,
       ),
       backgroundColor: Colors.black,
       body: Center(
         child: Stack(
           children: <Widget>[
             _viewRows(),
-            _panel(),
+            //_panel(),
+            Align(
+              alignment: Alignment.center,
+              child: CircleAvatar(
+                backgroundImage: NetworkImage(widget.CallerImage),
+                radius: 150,
+              ),
+            ),
             _toolbar(),
             Align(
               alignment: Alignment.topRight,

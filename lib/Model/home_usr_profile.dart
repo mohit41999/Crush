@@ -1,18 +1,18 @@
 // To parse this JSON data, do
 //
-//     final favouriteProfile = favouriteProfileFromJson(jsonString);
+//     final homeUserProfile = homeUserProfileFromJson(jsonString);
 
 import 'package:meta/meta.dart';
 import 'dart:convert';
 
-FavouriteProfile favouriteProfileFromJson(String str) =>
-    FavouriteProfile.fromJson(json.decode(str));
+HomeUserProfile homeUserProfileFromJson(String str) =>
+    HomeUserProfile.fromJson(json.decode(str));
 
-String favouriteProfileToJson(FavouriteProfile data) =>
+String homeUserProfileToJson(HomeUserProfile data) =>
     json.encode(data.toJson());
 
-class FavouriteProfile {
-  FavouriteProfile({
+class HomeUserProfile {
+  HomeUserProfile({
     required this.status,
     required this.message,
     required this.data,
@@ -22,8 +22,8 @@ class FavouriteProfile {
   String message;
   Data data;
 
-  factory FavouriteProfile.fromJson(Map<String, dynamic> json) =>
-      FavouriteProfile(
+  factory HomeUserProfile.fromJson(Map<String, dynamic> json) =>
+      HomeUserProfile(
         status: json["status"],
         message: json["message"],
         data: Data.fromJson(json["data"]),

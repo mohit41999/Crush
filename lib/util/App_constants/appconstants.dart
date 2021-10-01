@@ -25,4 +25,6 @@ class AppConstants {
   static const String GENERATECHANNEL = 'random_channel.php';
   static const String ADD_CALL = 'add_call.php';
   static const String CALL_HISTORY = 'get_call_history.php';
+  static const String HOME_USER_PROFILE = 'get_home_user_profile.php';
+  static const String REPORT_USER = 'add_reported_user.php';
 }
