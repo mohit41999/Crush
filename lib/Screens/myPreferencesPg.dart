@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:crush/Constants/constants.dart';
 import 'package:crush/util/App_constants/appconstants.dart';
 import 'package:csc_picker/csc_picker.dart';
@@ -29,8 +31,11 @@ class _MyPreferencesPgState extends State<MyPreferencesPg> {
         'min_age': currentRangeValues.start.toString(),
         'max_age': currentRangeValues.end.toString()
       });
+      var response = jsonDecode(Response.body);
+      print(response);
       if (Response.statusCode == 200) {
         setState(() {
+          print(response);
           Navigator.pop(context);
         });
       }
@@ -41,7 +46,8 @@ class _MyPreferencesPgState extends State<MyPreferencesPg> {
       //     content: Text('no changes made'),
       //     duration: Duration(seconds: 1),
       //   ));
-      //   Navigator.pop(context);
+
+      Navigator.pop(context);
       // });
     }
   }
@@ -51,7 +57,7 @@ class _MyPreferencesPgState extends State<MyPreferencesPg> {
   late bool menSwith;
   late bool bothSwith;
 
-  String countryValue = '';
+  String countryValue = DefaultCountry.India.toString();
   String? stateValue = '';
   String? cityValue = '';
   bool ischangesapplied = false;
@@ -93,6 +99,7 @@ class _MyPreferencesPgState extends State<MyPreferencesPg> {
                 padding: const EdgeInsets.all(8.0),
                 child: CSCPicker(
                   showCities: true,
+                  defaultCountry: DefaultCountry.India,
 
                   flagState: CountryFlag.DISABLE,
 

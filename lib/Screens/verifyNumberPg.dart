@@ -21,22 +21,33 @@ class VerifyNumberPg extends StatelessWidget {
     phonenumber = mobile_number.toString();
     var response = await http.post(
         Uri.parse(BASE_URL + AppConstants.LOGIN_WITH_MOBILE_URL),
-        body: {'token': '123456789', 'mobile_number': mobile_number});
+        body: {'token': '123456789', 'mobile_number': '+91${mobile_number}'});
     var APIRESPONSE = jsonDecode(response.body);
     print(APIRESPONSE);
     status = APIRESPONSE['status'];
     var d = APIRESPONSE['data'];
     print('aaaa$status');
     print('aaaa$d');
-    prefs.setString('user_id', APIRESPONSE['data']['user_id']);
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (_) => EnterCodePg(
-                  mobileNumber: mobile_number,
-                  user_id: APIRESPONSE['data']['user_id'],
-                  exists: APIRESPONSE['status'],
-                )));
+    (status)
+        ? prefs.setString('user_id', APIRESPONSE['data'])
+        : prefs.setString('user_id', APIRESPONSE['data']['user_id']);
+    (status)
+        ? Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (_) => EnterCodePg(
+                      mobileNumber: mobile_number,
+                      user_id: APIRESPONSE['data'],
+                      exists: APIRESPONSE['status'],
+                    )))
+        : Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (_) => EnterCodePg(
+                      mobileNumber: mobile_number,
+                      user_id: APIRESPONSE['data']['user_id'],
+                      exists: APIRESPONSE['status'],
+                    )));
   }
 
   @override

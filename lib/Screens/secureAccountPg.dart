@@ -132,12 +132,12 @@ class _SecureAccountPgState extends State<SecureAccountPg> {
                         borderSide: new BorderSide(color: appThemeColor)),
                     hintTextDirection: TextDirection.ltr,
                     hintStyle: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
+                      color: Colors.grey,
+                      fontSize: 16,
                       fontFamily: 'SegoeUI',
                       fontWeight: FontWeight.bold,
                     ),
-                    hintText: '    Lorem ipsum',
+                    hintText: '   username',
                   ),
                 ),
                 SizedBox(
@@ -197,12 +197,12 @@ class _SecureAccountPgState extends State<SecureAccountPg> {
                         borderSide: new BorderSide(color: appThemeColor)),
                     hintTextDirection: TextDirection.ltr,
                     hintStyle: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
+                      color: Colors.grey,
+                      fontSize: 16,
                       fontFamily: 'SegoeUI',
                       fontWeight: FontWeight.bold,
                     ),
-                    hintText: '    ********',
+                    hintText: '    password',
                   ),
                 ),
                 SizedBox(

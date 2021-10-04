@@ -21,7 +21,7 @@ class _IdentifyYourselgPgState extends State<IdentifyYourselgPg> {
   String Day = "DD";
   String Month = "MM";
   String Year = "YYYY";
-  String countryValue = '';
+  String countryValue = DefaultCountry.India.toString();
   String? stateValue = '';
   String? cityValue = '';
   bool ismaleSelected = false;
@@ -297,6 +297,7 @@ class _IdentifyYourselgPgState extends State<IdentifyYourselgPg> {
                   height: 26,
                 ),
                 CSCPicker(
+                  defaultCountry: DefaultCountry.India,
                   showCities: true,
                   flagState: CountryFlag.DISABLE,
                   dropdownDecoration: BoxDecoration(
