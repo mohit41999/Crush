@@ -12,6 +12,7 @@ class VerifyNumberPg extends StatelessWidget {
   VerifyNumberPg({Key? key}) : super(key: key);
 
   late String mobile_number;
+  late String countryCode = '';
   late bool status;
   TextEditingController mobileNumbercontroller = TextEditingController();
 
@@ -19,9 +20,11 @@ class VerifyNumberPg extends StatelessWidget {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('phonenumber', mobile_number.toString());
     phonenumber = mobile_number.toString();
-    var response = await http.post(
-        Uri.parse(BASE_URL + AppConstants.LOGIN_WITH_MOBILE_URL),
-        body: {'token': '123456789', 'mobile_number': '+91${mobile_number}'});
+    var response = await http
+        .post(Uri.parse(BASE_URL + AppConstants.LOGIN_WITH_MOBILE_URL), body: {
+      'token': '123456789',
+      'mobile_number': '${countryCode}${mobile_number}'
+    });
     var APIRESPONSE = jsonDecode(response.body);
     print(APIRESPONSE);
     status = APIRESPONSE['status'];

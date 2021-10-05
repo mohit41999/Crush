@@ -29,13 +29,14 @@ class EnterCodePg extends StatefulWidget {
 class _EnterCodePgState extends State<EnterCodePg> {
   TextEditingController otpController = TextEditingController();
   late String OTP;
+  late String countryCode = '';
   late FirebaseMessaging _getfcmtoken;
 
   Future verifyOtp() async {
-    var Response = await http
-        .post(Uri.parse(BASE_URL + AppConstants.VERIFY_OTP), body: {
+    var Response =
+        await http.post(Uri.parse(BASE_URL + AppConstants.VERIFY_OTP), body: {
       'token': '123456789',
-      'mobile_number': '+91${widget.mobileNumber}',
+      'mobile_number': '${countryCode}${widget.mobileNumber}',
       'otp': OTP
     });
     var response = jsonDecode(Response.body);

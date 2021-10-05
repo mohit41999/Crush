@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:crush/Constants/constants.dart';
+import 'package:crush/Screens/razorpay.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -101,7 +102,12 @@ class _MyWalletPgState extends State<MyWalletPg> {
                             width: 118,
                             height: 36,
                             child: TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => RazorPay()));
+                                },
                                 child: Text(
                                   'Deposit',
                                   style: TextStyle(
