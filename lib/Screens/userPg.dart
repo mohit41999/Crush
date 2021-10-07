@@ -370,6 +370,7 @@ class _UserPgState extends State<UserPg> {
                                   var profileImg =
                                       value['data']['Profile_image'];
                                   print(cn.toString() + '////////////');
+                                  print(user_profile.data.fcm_token);
                                   sendnotification(
                                       cn,
                                       user_profile.data.fcm_token,

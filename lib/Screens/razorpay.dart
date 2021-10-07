@@ -1,9 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:crush/Constants/constants.dart';
+import 'package:crush/widgets/backgroundcontainer.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RazorPay extends StatefulWidget {
   const RazorPay({Key? key}) : super(key: key);
@@ -14,15 +19,8 @@ class RazorPay extends StatefulWidget {
 
 class _RazorPayState extends State<RazorPay> {
   late Razorpay _razorpay;
-  var options = {
-    'key': 'rzp_test_bY875AaEn5ufHo',
-    'amount': 50000, //in the smallest currency sub-unit.
-    'name': 'Acme Corp.',
-    'order_id': 'order_EMBFqjDHEEn80l', // Generate order_id using Orders API
-    'description': 'Fine T-Shirt',
-    'timeout': 60, // in seconds
-    'prefill': {'contact': '9123456789', 'email': 'gaurav.kumar@example.com'}
-  };
+
+  var user_id;
 
   @override
   void dispose() {
@@ -31,9 +29,24 @@ class _RazorPayState extends State<RazorPay> {
     super.dispose();
   }
 
+  Future<void> depositsuccess() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    user_id = prefs.getString('user_id');
+
+    var Response = await http.post(
+        Uri.parse('http://crush.notionprojects.tech/api/INR_deposit.php'),
+        body: {
+          'token': '123456789',
+          'user_id': user_id,
+          'amount': payamount.text.toString(),
+        });
+    var response = jsonDecode(Response.body);
+    print(response);
+  }
+
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     // Do something when payment succeeds
-
+    depositsuccess();
     print('order' + response.orderId.toString());
     print('paymentId' + response.paymentId.toString());
     print('signature' + response.signature.toString());
@@ -105,18 +118,78 @@ class _RazorPayState extends State<RazorPay> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          TextField(
-            controller: payamount,
-          ),
-          MaterialButton(
-            onPressed: () {
-              payment(payamount.text.toString());
-            },
-            child: Text('PAY'),
-          ),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20.0, 10, 20, 10),
+              child: Text(
+                'Amount',
+                style: TextStyle(
+                    fontFamily: 'SegoeUI',
+                    fontSize: 35,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20.0, 10, 20, 10),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxHeight: 50),
+                child: TextField(
+                  keyboardType: TextInputType.number,
+                  controller: payamount,
+                  onChanged: (value) {
+                    value = payamount.text.toString();
+                  },
+                  onSubmitted: (value) {
+                    value = payamount.text.toString();
+                  },
+                  decoration: InputDecoration(
+                    hintStyle: TextStyle(
+                        fontFamily: 'SegoeUI',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14),
+                    enabled: true,
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: new BorderSide(color: appThemeColor)),
+                    border: new OutlineInputBorder(
+                        borderSide: new BorderSide(color: appThemeColor)),
+                    hintText: 'Enter Amount',
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20.0, 10, 20, 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  commonBtn(
+                      width: 100,
+                      s: 'Cancel',
+                      bgcolor: Colors.white,
+                      textColor: appThemeColor,
+                      onPressed: () {
+                        Navigator.pop(context);
+                      }),
+                  commonBtn(
+                      width: 200,
+                      s: '\u{20B9} Pay',
+                      bgcolor: appThemeColor,
+                      textColor: Colors.white,
+                      onPressed: () {
+                        payment(payamount.text.toString() + "00");
+                      }),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

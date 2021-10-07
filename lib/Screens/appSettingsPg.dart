@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AppSettingsPg extends StatefulWidget {
   final String? user_id;
@@ -172,14 +173,24 @@ class _AppSettingsPgState extends State<AppSettingsPg> {
                 ),
               ),
             ),
-            Text(
-              'Terms and Conditions of Use',
-              style: TextStyle(
-                  color: Color(0xff0B0D0F).withOpacity(0.6), fontSize: 16),
-            ),
-            Text('Privacy Policy',
+            InkWell(
+              onTap: () {
+                launch('http://crush.net.in/terms-of-use/');
+              },
+              child: Text(
+                'Terms and Conditions of Use',
                 style: TextStyle(
-                    color: Color(0xff0B0D0F).withOpacity(0.6), fontSize: 16)),
+                    color: Color(0xff0B0D0F).withOpacity(0.6), fontSize: 16),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                launch('http://crush.net.in/terms-of-use/');
+              },
+              child: Text('Privacy Policy',
+                  style: TextStyle(
+                      color: Color(0xff0B0D0F).withOpacity(0.6), fontSize: 16)),
+            ),
             Text('Help Centre',
                 style: TextStyle(
                     color: Color(0xff0B0D0F).withOpacity(0.6), fontSize: 16)),

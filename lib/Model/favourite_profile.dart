@@ -43,7 +43,7 @@ class Data {
     required this.age,
     required this.city,
     required this.interested,
-    required this.fcmToken,
+    required this.fcm_token,
     required this.reportStatus,
   });
 
@@ -52,7 +52,7 @@ class Data {
   String age;
   String city;
   String interested;
-  String fcmToken;
+  String fcm_token;
   String reportStatus;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
@@ -61,7 +61,7 @@ class Data {
         age: json["age"],
         city: json["city"],
         interested: json["interested"],
-        fcmToken: json["fcm_token"],
+        fcm_token: json["fcm_token"],
         reportStatus: json["report_status"],
       );
 
@@ -71,7 +71,7 @@ class Data {
         "age": age,
         "city": city,
         "interested": interested,
-        "fcm_token": fcmToken,
+        "fcm_token": fcm_token,
         "report_status": reportStatus,
       };
 }

@@ -12,7 +12,7 @@ class VerifyNumberPg extends StatelessWidget {
   VerifyNumberPg({Key? key}) : super(key: key);
 
   late String mobile_number;
-  late String countryCode = '';
+  late String countryCode = '+91';
   late bool status;
   TextEditingController mobileNumbercontroller = TextEditingController();
 
@@ -31,26 +31,16 @@ class VerifyNumberPg extends StatelessWidget {
     var d = APIRESPONSE['data'];
     print('aaaa$status');
     print('aaaa$d');
-    (status)
-        ? prefs.setString('user_id', APIRESPONSE['data'])
-        : prefs.setString('user_id', APIRESPONSE['data']['user_id']);
-    (status)
-        ? Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (_) => EnterCodePg(
-                      mobileNumber: mobile_number,
-                      user_id: APIRESPONSE['data'],
-                      exists: APIRESPONSE['status'],
-                    )))
-        : Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (_) => EnterCodePg(
-                      mobileNumber: mobile_number,
-                      user_id: APIRESPONSE['data']['user_id'],
-                      exists: APIRESPONSE['status'],
-                    )));
+
+    prefs.setString('user_id', APIRESPONSE['data']['user_id']);
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (_) => EnterCodePg(
+                  mobileNumber: mobile_number,
+                  user_id: APIRESPONSE['data']['user_id'],
+                  exists: APIRESPONSE['status'],
+                )));
   }
 
   @override

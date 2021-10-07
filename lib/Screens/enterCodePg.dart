@@ -29,7 +29,7 @@ class EnterCodePg extends StatefulWidget {
 class _EnterCodePgState extends State<EnterCodePg> {
   TextEditingController otpController = TextEditingController();
   late String OTP;
-  late String countryCode = '';
+  late String countryCode = '+91';
   late FirebaseMessaging _getfcmtoken;
 
   Future verifyOtp() async {

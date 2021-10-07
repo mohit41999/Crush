@@ -104,9 +104,14 @@ class _MyWalletPgState extends State<MyWalletPg> {
                             child: TextButton(
                                 onPressed: () {
                                   Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => RazorPay()));
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => RazorPay()))
+                                      .then((value) {
+                                    setState(() {
+                                      myWallet();
+                                    });
+                                  });
                                 },
                                 child: Text(
                                   'Deposit',
