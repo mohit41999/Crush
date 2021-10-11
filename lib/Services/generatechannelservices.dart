@@ -15,3 +15,18 @@ class generatechannel {
     return Response;
   }
 }
+
+class CheckBlockUser {
+  Future CheckBlock(String? blockid, String user_id) async {
+    var response = await http.post(
+        Uri.parse(
+            'http://crush.notionprojects.tech/api/check_blocked_users.php'),
+        body: {
+          'token': '123456789',
+          'user_id': user_id,
+          'block_user_id': blockid
+        });
+    var Response = jsonDecode(response.body);
+    return Response;
+  }
+}

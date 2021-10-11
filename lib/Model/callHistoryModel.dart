@@ -44,6 +44,8 @@ class Datum {
     required this.callType,
     required this.callDuration,
     required this.callStatus,
+    required this.blockStatus,
+    required this.callDateTime,
   });
 
   String userId;
@@ -52,6 +54,8 @@ class Datum {
   String callType;
   String callDuration;
   String callStatus;
+  String blockStatus;
+  dynamic callDateTime;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         userId: json["user_id"],
@@ -60,6 +64,8 @@ class Datum {
         callType: json["call_type"],
         callDuration: json["call_duration"],
         callStatus: json["call_status"],
+        blockStatus: json["block_status"],
+        callDateTime: json["call_date_time"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -69,5 +75,7 @@ class Datum {
         "call_type": callType,
         "call_duration": callDuration,
         "call_status": callStatus,
+        "block_status": blockStatus,
+        "call_date_time": callDateTime,
       };
 }

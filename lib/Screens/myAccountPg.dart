@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:crush/Constants/constants.dart';
 import 'package:crush/Model/coinsModel.dart';
 import 'package:crush/Model/myAccountModel.dart';
+import 'package:crush/Screens/BlockList.dart';
 import 'package:crush/Screens/appSettingsPg.dart';
 import 'package:crush/Screens/coinsPage.dart';
 import 'package:crush/Screens/favouritesPg.dart';
@@ -371,6 +372,18 @@ class _MyAccountPgState extends State<MyAccountPg> {
                         title: 'Invite Friends',
                         subtitle: 'Invite Your Friends and Earn Coins !',
                       ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BlockList()));
+                      },
+                      child: accountPgOptions(
+                          icon: Icons.block,
+                          title: 'Block List',
+                          subtitle: "Manage Your block list"),
                     ),
                     GestureDetector(
                       onTap: () {

@@ -362,47 +362,60 @@ class _UserPgState extends State<UserPg> {
                             borderRadius: BorderRadius.circular(5)),
                         child: FlatButton(
                             onPressed: () {
-                              generatechannel()
-                                  .GenerateChannel(widget.user_id)
+                              CheckBlockUser()
+                                  .CheckBlock(
+                                      widget.user_id, widget.selected_user_id)
                                   .then((value) {
-                                setState(() {
-                                  var cn = value['data']['Channel Name'];
-                                  var profileImg =
-                                      value['data']['Profile_image'];
-                                  print(cn.toString() + '////////////');
-                                  print(user_profile.data.fcm_token);
-                                  sendnotification(
-                                      cn,
-                                      user_profile.data.fcm_token,
-                                      (CallType == 'Audio') ? '1' : '0',
-                                      widget.user_id,
-                                      widget.selected_user_id,
-                                      profileImg);
-                                  (CallType == 'Audio')
-                                      ? Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => VoiceCallPg(
-                                                    caller_id:
-                                                        widget.selected_user_id,
-                                                    user_id: widget.user_id,
-                                                    channelName: cn,
-                                                    callStatus: 'o',
-                                                    CallerImage: user_profile
-                                                        .data.profileImage,
-                                                  )))
-                                      : Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  VideoCallPage(
-                                                    caller_id:
-                                                        widget.selected_user_id,
-                                                    user_id: widget.user_id,
-                                                    channelName: cn,
-                                                    callStatus: 'o',
-                                                  )));
-                                });
+                                (value['status'])
+                                    ? print('noooooooooooooooooooo')
+                                    : generatechannel()
+                                        .GenerateChannel(widget.user_id)
+                                        .then((value) {
+                                        setState(() {
+                                          var cn =
+                                              value['data']['Channel Name'];
+                                          var profileImg =
+                                              value['data']['Profile_image'];
+                                          print(cn.toString() + '////////////');
+                                          print(user_profile.data.fcm_token);
+                                          sendnotification(
+                                              cn,
+                                              user_profile.data.fcm_token,
+                                              (CallType == 'Audio') ? '1' : '0',
+                                              widget.user_id,
+                                              widget.selected_user_id,
+                                              profileImg);
+                                          (CallType == 'Audio')
+                                              ? Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          VoiceCallPg(
+                                                            caller_id: widget
+                                                                .selected_user_id,
+                                                            user_id:
+                                                                widget.user_id,
+                                                            channelName: cn,
+                                                            callStatus: 'o',
+                                                            CallerImage:
+                                                                user_profile
+                                                                    .data
+                                                                    .profileImage,
+                                                          )))
+                                              : Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          VideoCallPage(
+                                                            caller_id: widget
+                                                                .selected_user_id,
+                                                            user_id:
+                                                                widget.user_id,
+                                                            channelName: cn,
+                                                            callStatus: 'o',
+                                                          )));
+                                        });
+                                      });
                               });
                             },
                             child: Text(

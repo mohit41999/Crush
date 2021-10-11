@@ -1,7 +1,9 @@
 import 'package:crush/Constants/constants.dart';
 import 'package:crush/Model/callHistoryModel.dart';
+import 'package:crush/Services/blockServices/blockservices.dart';
 import 'package:crush/Services/callhistoryServices.dart';
 import 'package:crush/widgets/backgroundcontainer.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CallHistoryPg extends StatefulWidget {
@@ -30,6 +32,37 @@ class _CallHistoryPgState extends State<CallHistoryPg> {
       return callhistory;
     });
     super.initState();
+  }
+
+  String month({required String month}) {
+    switch (month) {
+      case '01':
+        return 'Jan';
+      case '02':
+        return 'Feb';
+      case '03':
+        return 'Mar';
+      case '04':
+        return 'Apr';
+      case '05':
+        return 'May';
+      case '06':
+        return 'Jun';
+      case '07':
+        return 'Jul';
+      case '08':
+        return 'Aug';
+      case '09':
+        return 'Sep';
+      case '10':
+        return 'Oct';
+      case '11':
+        return 'Nov';
+      case '12':
+        return 'Dec';
+      default:
+        return " ";
+    }
   }
 
   @override
@@ -108,7 +141,22 @@ class _CallHistoryPgState extends State<CallHistoryPg> {
                                               padding:
                                                   const EdgeInsets.fromLTRB(
                                                       0, 8.0, 0, 8),
-                                              child: Text('10 Jan, 20:21'),
+                                              child: Text(callhistory
+                                                      .data[index].callDateTime
+                                                      .toString()
+                                                      .substring(8, 10) +
+                                                  " " +
+                                                  month(
+                                                      month: callhistory
+                                                          .data[index]
+                                                          .callDateTime
+                                                          .toString()
+                                                          .substring(5, 7)) +
+                                                  " " +
+                                                  callhistory
+                                                      .data[index].callDateTime
+                                                      .toString()
+                                                      .substring(2, 4)),
                                             ),
                                           ],
                                         ),
@@ -116,14 +164,51 @@ class _CallHistoryPgState extends State<CallHistoryPg> {
                                           spacing:
                                               18, // space between two icons
                                           children: <Widget>[
+                                            InkWell(
+                                              onTap: () {
+                                                blockdialogunblock(
+                                                    blockname: callhistory
+                                                        .data[index].fullName,
+                                                    blockid: callhistory
+                                                        .data[index].callerId,
+                                                    blocked: (callhistory
+                                                                .data[index]
+                                                                .blockStatus ==
+                                                            'Yes')
+                                                        ? 'Yes'
+                                                        : 'No');
+                                              },
+                                              child: Text(
+                                                (callhistory.data[index]
+                                                            .blockStatus ==
+                                                        'Yes')
+                                                    ? 'UnBlock'
+                                                    : 'Block',
+                                                style: TextStyle(
+                                                    color: Color(0xff0B0D0F)
+                                                        .withOpacity(0.6),
+                                                    fontSize: 12,
+                                                    fontFamily: 'SegoeUI',
+                                                    fontWeight: FontWeight.w500,
+                                                    fontStyle:
+                                                        FontStyle.italic),
+                                              ),
+                                            ),
+                                            Icon(
+                                              Icons.block,
+                                              color:
+                                                  Colors.red.withOpacity(0.7),
+                                              size: 15,
+                                            ),
+
                                             Text(
-                                              '${callhistory.data[index].callDuration}',
-                                              // (index == 5 ||
-                                              //         index == 10 ||
-                                              //         index == 3 ||
-                                              //         index == 7)
-                                              //     ? 'unblock'
-                                              //     : 'Block',
+                                              (callhistory.data[index]
+                                                          .callDuration
+                                                          .substring(0, 3)
+                                                          .toString() ==
+                                                      '00:')
+                                                  ? '${callhistory.data[index].callDuration.substring(3, 8)}'
+                                                  : '${callhistory.data[index].callDuration}',
                                               style: TextStyle(
                                                   color: Color(0xff0B0D0F)
                                                       .withOpacity(0.6),
@@ -159,5 +244,84 @@ class _CallHistoryPgState extends State<CallHistoryPg> {
               ],
             ),
           );
+  }
+
+  Future blockdialogunblock(
+      {required String blockname,
+      required String blockid,
+      required String blocked}) async {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text((blocked == 'Yes')
+                  ? 'Are you Sure You Want To Unblock ?'
+                  : 'Are you Sure You Want To BLock ?'),
+              content: Text(
+                blockname.toUpperCase(),
+                style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
+              actions: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: commonBtn(
+                        s: 'NO',
+                        bgcolor: Colors.white,
+                        textColor: appThemeColor,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        width: 70,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: commonBtn(
+                        s: (blocked == 'Yes') ? 'Unblock' : 'Block',
+                        bgcolor: appThemeColor,
+                        textColor: Colors.white,
+                        onPressed: () {
+                          (blocked == 'Yes')
+                              ? BlockServices()
+                                  .unblockUser(blockid)
+                                  .then((value) {
+                                  CallHistoryServices()
+                                      .get_call_history(user_id: widget.user_id)
+                                      .then((value) {
+                                    setState(() {
+                                      callhistory = value;
+                                      // loading = false;
+                                    });
+                                    return callhistory;
+                                  });
+                                })
+                              : BlockServices()
+                                  .blockUser(blockid)
+                                  .then((value) {
+                                  CallHistoryServices()
+                                      .get_call_history(user_id: widget.user_id)
+                                      .then((value) {
+                                    setState(() {
+                                      callhistory = value;
+                                      // loading = false;
+                                    });
+                                    return callhistory;
+                                  });
+                                });
+                          Navigator.pop(context);
+                        },
+                        width: 100,
+                        height: 40,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ));
   }
 }

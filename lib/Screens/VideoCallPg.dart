@@ -34,6 +34,7 @@ class VideoCallPage extends StatefulWidget {
 class _VideoCallPageState extends State<VideoCallPage> {
   late String channelname;
   late AgoraClient client;
+  late DateTime date = DateTime.now();
 
   final StopWatchTimer _stopWatchTimer = StopWatchTimer(
       mode: StopWatchMode.countUp,

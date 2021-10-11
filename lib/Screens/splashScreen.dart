@@ -31,9 +31,11 @@ class _SplashScreenState extends State<SplashScreen> {
     print(phonenumber.toString());
     (phonenumber == null && user_id == null)
         ? Navigator.push(
-            context, MaterialPageRoute(builder: (_) => SignInScreen()))
-        : Navigator.push(context,
-            MaterialPageRoute(builder: (_) => GeneralHomeScreen(user_id: user_id)));
+            context, CupertinoPageRoute(builder: (_) => SignInScreen()))
+        : Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (_) => GeneralHomeScreen(user_id: user_id)));
   }
 
   @override
