@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 late String name = '';
-late String? phonenumber;
 
 Future sendnotification(String channelname, String fcm_token, String screenId,
     String? caller_id, String? user_id, String user_Image) async {
@@ -18,8 +17,8 @@ Future sendnotification(String channelname, String fcm_token, String screenId,
             "notification": {
               "body": "${name}",
               "title": (screenId == '0')
-                  ? "Incoming Video Call (${(phonenumber)})"
-                  : "Incoming Voice Call (${(phonenumber)})"
+                  ? "Incoming Video Call "
+                  : "Incoming Voice Call "
             },
             "data": {
               "channel_name": channelname,

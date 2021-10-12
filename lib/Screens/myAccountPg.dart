@@ -182,18 +182,9 @@ class _MyAccountPgState extends State<MyAccountPg> {
                                             MaterialPageRoute(
                                                 builder: (_) => MyWalletPg(
                                                       user_id: widget.user_id,
-                                                    ))).then((value) {
-                                          setState(() {
-                                            my_account = myAccountService()
-                                                .get_myAccount(widget.user_id)
-                                                .then((value) {
-                                              setState(() {
-                                                accountdetails = value;
-                                              });
-                                              return accountdetails;
-                                            });
-                                          });
-                                        });
+                                                      coins: accountdetails
+                                                          .data[0].total_coins,
+                                                    )));
                                       });
                                     },
                                     child: Padding(
@@ -329,10 +320,7 @@ class _MyAccountPgState extends State<MyAccountPg> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => MyPreferencesPg(
-                                        user_id: widget.user_id,
-                                        interested:
-                                            accountdetails.data[0].interested,
-                                      )));
+                                      user_id: widget.user_id)));
                         });
                       },
                       child: accountPgOptions(

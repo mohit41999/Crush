@@ -2,6 +2,7 @@ import 'package:crush/Constants/constants.dart';
 import 'package:crush/Model/favourite_profile.dart';
 import 'package:crush/Model/home_usr_profile.dart';
 import 'package:crush/Screens/reportUserPg.dart';
+import 'package:crush/Services/blockServices/blockservices.dart';
 import 'package:crush/Services/favourite_profileService.dart';
 import 'package:crush/Services/generatechannelservices.dart';
 import 'package:crush/Services/home_user_profile.dart';
@@ -31,12 +32,22 @@ class _UserPgState extends State<UserPg> {
   late Future<HomeUserProfile> homeuserprofile;
   late Future<FavouriteProfile> favourite;
   var user_profile;
+  late String blockedd;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    initialize();
+    BlockServices()
+        .checkblockeduser(selected_user_id: widget.selected_user_id)
+        .then((value) {
+      initialize();
+
+      setState(() {
+        (value['status']) ? blockedd = 'Yes' : blockedd = 'No';
+        print(value.toString() + '00000000000000000000000');
+      });
+    });
   }
 
   void initialize() {
@@ -237,32 +248,52 @@ class _UserPgState extends State<UserPg> {
                       ),
                     ],
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => ReportUserPg(
-                                      user_id: widget.user_id,
-                                      selected_user_id: widget.selected_user_id,
-                                    ))).then((value) {
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
                           setState(() {
-                            initialize();
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => ReportUserPg(
+                                          user_id: widget.user_id,
+                                          selected_user_id:
+                                              widget.selected_user_id,
+                                        ))).then((value) {
+                              setState(() {
+                                initialize();
+                              });
+                            });
                           });
-                        });
-                      });
-                    },
-                    child: Center(
-                      child: Text(
-                        '${user_profile.data.reportStatus}',
-                        style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: appThemeColor,
-                            fontSize: 18,
-                            fontFamily: 'SegoeUI'),
+                        },
+                        child: Text(
+                          '${user_profile.data.reportStatus}',
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: appThemeColor,
+                              fontSize: 18,
+                              fontFamily: 'SegoeUI'),
+                        ),
                       ),
-                    ),
+                      GestureDetector(
+                        onTap: () {
+                          blockdialogunblock(
+                              blockname: user_profile.data.fullName,
+                              blockid: widget.selected_user_id,
+                              blocked: blockedd);
+                        },
+                        child: Text(
+                          (blockedd == 'Yes') ? 'Unblock' : 'Block',
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: appThemeColor,
+                              fontSize: 18,
+                              fontFamily: 'SegoeUI'),
+                        ),
+                      )
+                    ],
                   )
                 ],
               ),
@@ -413,6 +444,10 @@ class _UserPgState extends State<UserPg> {
                                                                 widget.user_id,
                                                             channelName: cn,
                                                             callStatus: 'o',
+                                                            CallerImage:
+                                                                user_profile
+                                                                    .data
+                                                                    .profileImage,
                                                           )));
                                         });
                                       });
@@ -431,6 +466,93 @@ class _UserPgState extends State<UserPg> {
                     )
                   ],
                 )
+              ],
+            ));
+  }
+
+  Future blockdialogunblock(
+      {required String blockname,
+      required String blockid,
+      required String blocked}) async {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text((blocked == 'Yes')
+                  ? 'Are you Sure You Want To Unblock ?'
+                  : 'Are you Sure You Want To BLock ?'),
+              content: Text(
+                blockname.toUpperCase(),
+                style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
+              actions: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: commonBtn(
+                        s: 'NO',
+                        bgcolor: Colors.white,
+                        textColor: appThemeColor,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        width: 70,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: commonBtn(
+                        s: (blocked == 'Yes') ? 'Unblock' : 'Block',
+                        bgcolor: appThemeColor,
+                        textColor: Colors.white,
+                        onPressed: () {
+                          (blocked == 'Yes')
+                              ? BlockServices()
+                                  .unblockUser(blockid)
+                                  .then((value) {
+                                  BlockServices()
+                                      .checkblockeduser(
+                                          selected_user_id:
+                                              widget.selected_user_id)
+                                      .then((value) {
+                                    setState(() {
+                                      print(value.toString() +
+                                          'ppppppppppppppppppppppp');
+                                      (value['status'])
+                                          ? blockedd = 'Yes'
+                                          : blockedd = 'No';
+                                    });
+                                  });
+                                })
+                              : BlockServices()
+                                  .blockUser(blockid)
+                                  .then((value) {
+                                  BlockServices()
+                                      .checkblockeduser(
+                                          selected_user_id:
+                                              widget.selected_user_id)
+                                      .then((value) {
+                                    setState(() {
+                                      print(value.toString() +
+                                          'ppppppppppppppppppppppp');
+                                      (value['status'])
+                                          ? blockedd = 'Yes'
+                                          : blockedd = 'No';
+                                    });
+                                  });
+                                });
+                          Navigator.pop(context);
+                        },
+                        width: 100,
+                        height: 40,
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ));
   }

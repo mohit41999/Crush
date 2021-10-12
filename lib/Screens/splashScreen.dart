@@ -25,9 +25,10 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   isloggedin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    phonenumber = prefs.getString('phonenumber');
+    var phonenumber = prefs.getString('phonenumber');
     print(phonenumber);
     String? user_id = prefs.getString('user_id');
+    print(user_id);
     print(phonenumber.toString());
     (phonenumber == null && user_id == null)
         ? Navigator.push(

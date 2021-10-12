@@ -72,7 +72,7 @@ class _AppSettingsPgState extends State<AppSettingsPg> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Online & Offline',
+                  'Online',
                   style: reportText,
                 ),
                 FlutterSwitch(
@@ -92,54 +92,54 @@ class _AppSettingsPgState extends State<AppSettingsPg> {
                     })
               ],
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Voice Call Notification',
-                  style: reportText,
-                ),
-                FlutterSwitch(
-                    activeIcon: Icon(
-                      Icons.circle,
-                      color: appThemeColor,
-                    ),
-                    toggleSize: 12,
-                    height: 20,
-                    width: 30,
-                    activeColor: appThemeColor,
-                    value: voice_call_Swith,
-                    onToggle: (value) {
-                      setState(() {
-                        voice_call_Swith = value;
-                      });
-                    })
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Video Call Notification',
-                  style: reportText,
-                ),
-                FlutterSwitch(
-                    activeIcon: Icon(
-                      Icons.circle,
-                      color: appThemeColor,
-                    ),
-                    toggleSize: 12,
-                    height: 20,
-                    width: 30,
-                    activeColor: appThemeColor,
-                    value: video_call_Swith,
-                    onToggle: (value) {
-                      setState(() {
-                        video_call_Swith = value;
-                      });
-                    })
-              ],
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Text(
+            //       'Voice Call Notification',
+            //       style: reportText,
+            //     ),
+            //     FlutterSwitch(
+            //         activeIcon: Icon(
+            //           Icons.circle,
+            //           color: appThemeColor,
+            //         ),
+            //         toggleSize: 12,
+            //         height: 20,
+            //         width: 30,
+            //         activeColor: appThemeColor,
+            //         value: voice_call_Swith,
+            //         onToggle: (value) {
+            //           setState(() {
+            //             voice_call_Swith = value;
+            //           });
+            //         })
+            //   ],
+            // ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Text(
+            //       'Video Call Notification',
+            //       style: reportText,
+            //     ),
+            //     FlutterSwitch(
+            //         activeIcon: Icon(
+            //           Icons.circle,
+            //           color: appThemeColor,
+            //         ),
+            //         toggleSize: 12,
+            //         height: 20,
+            //         width: 30,
+            //         activeColor: appThemeColor,
+            //         value: video_call_Swith,
+            //         onToggle: (value) {
+            //           setState(() {
+            //             video_call_Swith = value;
+            //           });
+            //         })
+            //   ],
+            // ),
             GestureDetector(
               onTap: () {
                 logout();

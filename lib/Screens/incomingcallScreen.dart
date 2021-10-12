@@ -49,6 +49,7 @@ class _IncomingCallScreenState extends State<IncomingCallScreen> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => VideoCallPage(
+                                  CallerImage: widget.user_Image,
                                   caller_id: widget.caller_id,
                                   callStatus: 'i',
                                   user_id: widget.user_id,

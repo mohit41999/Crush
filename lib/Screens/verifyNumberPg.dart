@@ -19,7 +19,7 @@ class VerifyNumberPg extends StatelessWidget {
   Future postmobilenumber(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('phonenumber', mobile_number.toString());
-    phonenumber = mobile_number.toString();
+
     var response = await http
         .post(Uri.parse(BASE_URL + AppConstants.LOGIN_WITH_MOBILE_URL), body: {
       'token': '123456789',
@@ -37,7 +37,7 @@ class VerifyNumberPg extends StatelessWidget {
         context,
         MaterialPageRoute(
             builder: (_) => EnterCodePg(
-                  mobileNumber: mobile_number,
+                  mobileNumber: '${countryCode}${mobile_number}',
                   user_id: APIRESPONSE['data']['user_id'],
                   exists: APIRESPONSE['status'],
                 )));

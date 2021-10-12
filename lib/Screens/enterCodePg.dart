@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'buildUrProfilePg.dart';
 import 'generalHomeScreen.dart';
 
@@ -29,32 +30,44 @@ class EnterCodePg extends StatefulWidget {
 class _EnterCodePgState extends State<EnterCodePg> {
   TextEditingController otpController = TextEditingController();
   late String OTP;
-  late String countryCode = '+91';
+
   late FirebaseMessaging _getfcmtoken;
 
+  Future setprefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('phonenumber', widget.mobileNumber.toString());
+    prefs.setString('user_id', widget.user_id.toString());
+  }
+
   Future verifyOtp() async {
-    var Response =
-        await http.post(Uri.parse(BASE_URL + AppConstants.VERIFY_OTP), body: {
+    var Response = await http
+        .post(Uri.parse(BASE_URL + AppConstants.VERIFY_OTP), body: {
       'token': '123456789',
-      'mobile_number': '${countryCode}${widget.mobileNumber}',
+      'mobile_number': '${widget.mobileNumber}',
       'otp': OTP
     });
     var response = jsonDecode(Response.body);
+    print(response);
+    print(widget.mobileNumber);
     print(response['status']);
     (response['status'])
         ? (!widget.exists)
-            ? Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => GeneralHomeScreen(
-                          user_id: widget.user_id,
-                        )))
-            : Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => BuildUrProfilePg(
-                          user_id: widget.user_id,
-                        )))
+            ? setprefs().then((value) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => GeneralHomeScreen(
+                              user_id: widget.user_id,
+                            )));
+              })
+            : setprefs().then((value) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => BuildUrProfilePg(
+                              user_id: widget.user_id,
+                            )));
+              })
         : print('false');
   }
 

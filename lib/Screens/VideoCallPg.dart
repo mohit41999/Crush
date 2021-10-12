@@ -19,12 +19,14 @@ class VideoCallPage extends StatefulWidget {
   final String channelName;
   final String? caller_id;
   final String? user_id;
+  final String CallerImage;
   const VideoCallPage(
       {Key? key,
       required this.channelName,
       required this.callStatus,
       required this.caller_id,
-      required this.user_id})
+      required this.user_id,
+      required this.CallerImage})
       : super(key: key);
 
   @override
@@ -112,6 +114,11 @@ class _VideoCallPageState extends State<VideoCallPage> {
           child: Stack(
             children: [
               AgoraVideoViewer(
+                disabledVideoWidget: Center(
+                    child: CircleAvatar(
+                  radius: 150,
+                  backgroundImage: NetworkImage(widget.CallerImage),
+                )),
                 layoutType: Layout.floating,
                 client: client,
                 showAVState: true,

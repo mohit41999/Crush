@@ -353,18 +353,21 @@ class _HomePgState extends State<HomePg> {
                                               : Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          VideoCallPage(
-                                                            caller_id:
-                                                                gethomeDetails
-                                                                    .data[
-                                                                        startIndex]
-                                                                    .userId,
-                                                            user_id:
-                                                                widget.user_id,
-                                                            channelName: cn,
-                                                            callStatus: 'o',
-                                                          )));
+                                                      builder: (context) => VideoCallPage(
+                                                          caller_id:
+                                                              gethomeDetails
+                                                                  .data[
+                                                                      startIndex]
+                                                                  .userId,
+                                                          user_id:
+                                                              widget.user_id,
+                                                          channelName: cn,
+                                                          callStatus: 'o',
+                                                          CallerImage:
+                                                              gethomeDetails
+                                                                  .data[
+                                                                      startIndex]
+                                                                  .profileImage)));
                                         });
                                       });
                               });

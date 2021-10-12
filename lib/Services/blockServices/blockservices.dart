@@ -42,4 +42,18 @@ class BlockServices {
     return Response;
     print(Response);
   }
+
+  Future checkblockeduser({required String selected_user_id}) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var response = await http.post(
+        Uri.parse(
+            'http://crush.notionprojects.tech/api/check_blocked_users.php'),
+        body: {
+          'token': '123456789',
+          'user_id': prefs.getString('user_id'),
+          'block_user_id': selected_user_id,
+        });
+    var Response = jsonDecode(response.body);
+    return Response;
+  }
 }

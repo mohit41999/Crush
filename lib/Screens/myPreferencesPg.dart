@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:crush/Constants/constants.dart';
+import 'package:crush/Model/myAccountModel.dart';
+import 'package:crush/Services/myAccountService.dart';
 import 'package:crush/util/App_constants/appconstants.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,10 +12,8 @@ import 'package:http/http.dart' as http;
 
 class MyPreferencesPg extends StatefulWidget {
   final String? user_id;
-  final String interested;
-  const MyPreferencesPg(
-      {Key? key, required this.user_id, required this.interested})
-      : super(key: key);
+
+  const MyPreferencesPg({Key? key, required this.user_id}) : super(key: key);
 
   @override
   _MyPreferencesPgState createState() => _MyPreferencesPgState();
@@ -53,25 +53,32 @@ class _MyPreferencesPgState extends State<MyPreferencesPg> {
   }
 
   String gender = '';
-  late bool womenSwith;
-  late bool menSwith;
-  late bool bothSwith;
+  late bool womenSwith = false;
+  late bool menSwith = false;
+  late bool bothSwith = false;
 
   String countryValue = DefaultCountry.India.toString();
   String? stateValue = '';
   String? cityValue = '';
   bool ischangesapplied = false;
   RangeValues currentRangeValues = const RangeValues(18, 40);
-
+  late MyAccount accountdetails;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    gender = widget.interested.toString();
-    womenSwith = (gender == 'women') ? true : false;
-    menSwith = (gender == 'men') ? true : false;
-    bothSwith = (gender == 'both') ? true : false;
+    myAccountService().get_myAccount(widget.user_id).then((value) {
+      setState(() {
+        accountdetails = value;
+        gender = accountdetails.data[0].interested.toString();
+        print(gender);
+        womenSwith = (gender == 'women') ? true : false;
+        menSwith = (gender == 'men') ? true : false;
+        bothSwith = (gender == 'both') ? true : false;
+        print(accountdetails.data[0].total_coins.toString());
+      });
+      return accountdetails;
+    });
   }
 
   @override
@@ -224,7 +231,8 @@ class _MyPreferencesPgState extends State<MyPreferencesPg> {
                           setState(() {
                             (value)
                                 ? gender = 'women'
-                                : gender = widget.interested.toString();
+                                : gender = accountdetails.data[0].interested
+                                    .toString();
                             womenSwith = value;
                             menSwith = false;
                             bothSwith = false;
@@ -258,7 +266,8 @@ class _MyPreferencesPgState extends State<MyPreferencesPg> {
                           setState(() {
                             (value)
                                 ? gender = 'men'
-                                : gender = widget.interested.toString();
+                                : gender = accountdetails.data[0].interested
+                                    .toString();
                             womenSwith = false;
                             bothSwith = false;
                             menSwith = value;
@@ -292,7 +301,8 @@ class _MyPreferencesPgState extends State<MyPreferencesPg> {
                           setState(() {
                             (value)
                                 ? gender = 'both'
-                                : gender = widget.interested.toString();
+                                : gender = accountdetails.data[0].interested
+                                    .toString();
                             menSwith = false;
                             womenSwith = false;
                             bothSwith = value;
