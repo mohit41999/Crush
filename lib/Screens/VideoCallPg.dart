@@ -65,13 +65,13 @@ class _VideoCallPageState extends State<VideoCallPage> {
     setState(() {
       channelname = widget.channelName;
 
-      initialize(channelname);
+      initialize(channelname, context);
     });
   }
 
-  void initialize(String channelname) {
+  Future initialize(String channelname, BuildContext context) async {
     client = AgoraClient(
-      agoraEventHandlers: AgoraEventHandlers.empty().copyWith(
+      agoraEventHandlers: AgoraEventHandlers(
         userJoined: (i, j) {
           setState(() {
             _stopWatchTimer.onExecute.add(StopWatchExecute.start);
@@ -103,6 +103,7 @@ class _VideoCallPageState extends State<VideoCallPage> {
         Permission.camera,
       ],
     );
+    await client.initialize();
   }
 
   @override

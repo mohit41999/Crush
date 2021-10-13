@@ -3,6 +3,7 @@ import 'package:crush/Constants/constants.dart';
 import 'package:crush/Model/homeModel.dart';
 import 'package:crush/Screens/VoiceCall.dart';
 import 'package:crush/Screens/userPg.dart';
+import 'package:crush/Services/callRateServices.dart';
 import 'package:crush/Services/generatechannelservices.dart';
 import 'package:crush/Services/homeServices.dart';
 import 'package:crush/Services/sendnotification.dart';
@@ -214,178 +215,327 @@ class _HomePgState extends State<HomePg> {
           );
   }
 
-  void alertbox(BuildContext context, String CallType) {
-    showDialog(
-        barrierColor: Colors.white.withOpacity(0.4),
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-              shape: RoundedRectangleBorder(
-                side: BorderSide(color: appThemeColor, width: 2),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20.0),
-                ),
-              ),
-              content: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Container(
-                    height: 30,
-                    width: 30,
-                    decoration: BoxDecoration(
-                        gradient: RadialGradient(
-                            colors: [Colors.orange, Colors.yellow]),
-                        borderRadius: BorderRadius.circular(50)),
-                    child: Icon(
-                      Icons.star_rounded,
-                      size: 20,
-                      color: Colors.yellowAccent.shade100,
-                    ),
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        (CallType == 'Audio') ? '4' : '6',
-                        style: TextStyle(
-                            color: appThemeColor,
-                            fontFamily: 'SegoeUI',
-                            letterSpacing: 1,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 30),
+  Future alertbox(BuildContext context, String CallType) async {
+    (CallType == 'Audio')
+        ? CallRateServices().getAudiorate().then((value) {
+            showDialog(
+                barrierColor: Colors.white.withOpacity(0.4),
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(color: appThemeColor, width: 2),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20.0),
+                        ),
                       ),
-                      Text(
-                        ' / min',
-                        style: TextStyle(
-                            color: Color(0xff0B0D0F).withOpacity(0.8),
-                            fontFamily: 'SegoeUI',
-                            letterSpacing: 1,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    (CallType == 'Audio') ? 'For voice call' : 'For video call',
-                    style: TextStyle(
-                        color: Color(0xff0B0D0F).withOpacity(0.6),
-                        fontFamily: 'SegoeUI',
-                        letterSpacing: 1,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14),
-                  )
-                ],
-              ),
-              actions: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: FlatButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Text(
-                            'Cancel',
+                      content: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Container(
+                            height: 30,
+                            width: 30,
+                            decoration: BoxDecoration(
+                                gradient: RadialGradient(
+                                    colors: [Colors.orange, Colors.yellow]),
+                                borderRadius: BorderRadius.circular(50)),
+                            child: Icon(
+                              Icons.star_rounded,
+                              size: 20,
+                              color: Colors.yellowAccent.shade100,
+                            ),
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                value['data']['audio_call_rate'],
+                                style: TextStyle(
+                                    color: appThemeColor,
+                                    fontFamily: 'SegoeUI',
+                                    letterSpacing: 1,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 30),
+                              ),
+                              Text(
+                                ' / min',
+                                style: TextStyle(
+                                    color: Color(0xff0B0D0F).withOpacity(0.8),
+                                    fontFamily: 'SegoeUI',
+                                    letterSpacing: 1,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14),
+                              ),
+                            ],
+                          ),
+                          Text(
+                            'For voice call',
                             style: TextStyle(
-                                fontSize: 18,
+                                color: Color(0xff0B0D0F).withOpacity(0.6),
                                 fontFamily: 'SegoeUI',
                                 letterSpacing: 1,
                                 fontWeight: FontWeight.w600,
-                                color: appThemeColor),
-                          )),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        height: 40,
-                        width: 102,
-                        decoration: BoxDecoration(
-                            color: appThemeColor,
-                            borderRadius: BorderRadius.circular(5)),
-                        child: FlatButton(
-                            onPressed: () {
-                              CheckBlockUser()
-                                  .CheckBlock(widget.user_id,
-                                      gethomeDetails.data[startIndex].userId)
-                                  .then((value) {
-                                (value['status'])
-                                    ? print('nooooo')
-                                    : generatechannel()
-                                        .GenerateChannel(widget.user_id)
-                                        .then((value) {
-                                        setState(() {
-                                          cn = value['data']['Channel Name'];
-                                          var profileImg =
-                                              value['data']['Profile_image'];
-                                          print(cn.toString() + '////////////');
-                                          sendnotification(
-                                              cn,
-                                              gethomeDetails
-                                                  .data[startIndex].fcm_token,
-                                              (CallType == 'Audio') ? '1' : '0',
+                                fontSize: 14),
+                          )
+                        ],
+                      ),
+                      actions: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: FlatButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text(
+                                    'Cancel',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontFamily: 'SegoeUI',
+                                        letterSpacing: 1,
+                                        fontWeight: FontWeight.w600,
+                                        color: appThemeColor),
+                                  )),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                height: 40,
+                                width: 102,
+                                decoration: BoxDecoration(
+                                    color: appThemeColor,
+                                    borderRadius: BorderRadius.circular(5)),
+                                child: FlatButton(
+                                    onPressed: () {
+                                      CheckBlockUser()
+                                          .CheckBlock(
                                               widget.user_id,
                                               gethomeDetails
-                                                  .data[startIndex].userId,
-                                              profileImg);
-                                          (CallType == 'Audio')
-                                              ? Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          VoiceCallPg(
-                                                            caller_id:
-                                                                gethomeDetails
-                                                                    .data[
-                                                                        startIndex]
-                                                                    .userId,
-                                                            user_id:
-                                                                widget.user_id,
-                                                            channelName: cn,
-                                                            callStatus: 'o',
-                                                            CallerImage:
-                                                                gethomeDetails
-                                                                    .data[
-                                                                        startIndex]
-                                                                    .profileImage,
-                                                          )))
-                                              : Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) => VideoCallPage(
-                                                          caller_id:
-                                                              gethomeDetails
-                                                                  .data[
-                                                                      startIndex]
-                                                                  .userId,
-                                                          user_id:
-                                                              widget.user_id,
-                                                          channelName: cn,
-                                                          callStatus: 'o',
-                                                          CallerImage:
-                                                              gethomeDetails
-                                                                  .data[
-                                                                      startIndex]
-                                                                  .profileImage)));
-                                        });
+                                                  .data[startIndex].userId)
+                                          .then((value) {
+                                        (value['status'])
+                                            ? print('nooooo')
+                                            : generatechannel()
+                                                .GenerateChannel(widget.user_id)
+                                                .then((value) {
+                                                setState(() {
+                                                  cn = value['data']
+                                                      ['Channel Name'];
+                                                  var profileImg = value['data']
+                                                      ['Profile_image'];
+                                                  print(cn.toString() +
+                                                      '////////////');
+                                                  sendnotification(
+                                                      cn,
+                                                      gethomeDetails
+                                                          .data[startIndex]
+                                                          .fcm_token,
+                                                      '1',
+                                                      widget.user_id,
+                                                      gethomeDetails
+                                                          .data[startIndex]
+                                                          .userId,
+                                                      profileImg);
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              VoiceCallPg(
+                                                                caller_id:
+                                                                    gethomeDetails
+                                                                        .data[
+                                                                            startIndex]
+                                                                        .userId,
+                                                                user_id: widget
+                                                                    .user_id,
+                                                                channelName: cn,
+                                                                callStatus: 'o',
+                                                                CallerImage:
+                                                                    gethomeDetails
+                                                                        .data[
+                                                                            startIndex]
+                                                                        .profileImage,
+                                                              )));
+                                                });
+                                              });
                                       });
-                              });
-                            },
-                            child: Text(
-                              'Ok',
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontFamily: 'SegoeUI',
-                                  letterSpacing: 1,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white),
-                            )),
+                                    },
+                                    child: Text(
+                                      'Ok',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: 'SegoeUI',
+                                          letterSpacing: 1,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white),
+                                    )),
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ));
+          })
+        : CallRateServices().getVideorate().then((value) {
+            showDialog(
+                barrierColor: Colors.white.withOpacity(0.4),
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(color: appThemeColor, width: 2),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20.0),
+                        ),
                       ),
-                    )
-                  ],
-                )
-              ],
-            ));
+                      content: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Container(
+                            height: 30,
+                            width: 30,
+                            decoration: BoxDecoration(
+                                gradient: RadialGradient(
+                                    colors: [Colors.orange, Colors.yellow]),
+                                borderRadius: BorderRadius.circular(50)),
+                            child: Icon(
+                              Icons.star_rounded,
+                              size: 20,
+                              color: Colors.yellowAccent.shade100,
+                            ),
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                value['data']['video_call_rate'],
+                                style: TextStyle(
+                                    color: appThemeColor,
+                                    fontFamily: 'SegoeUI',
+                                    letterSpacing: 1,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 30),
+                              ),
+                              Text(
+                                ' / min',
+                                style: TextStyle(
+                                    color: Color(0xff0B0D0F).withOpacity(0.8),
+                                    fontFamily: 'SegoeUI',
+                                    letterSpacing: 1,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14),
+                              ),
+                            ],
+                          ),
+                          Text(
+                            'For video call',
+                            style: TextStyle(
+                                color: Color(0xff0B0D0F).withOpacity(0.6),
+                                fontFamily: 'SegoeUI',
+                                letterSpacing: 1,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14),
+                          )
+                        ],
+                      ),
+                      actions: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: FlatButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text(
+                                    'Cancel',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontFamily: 'SegoeUI',
+                                        letterSpacing: 1,
+                                        fontWeight: FontWeight.w600,
+                                        color: appThemeColor),
+                                  )),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                height: 40,
+                                width: 102,
+                                decoration: BoxDecoration(
+                                    color: appThemeColor,
+                                    borderRadius: BorderRadius.circular(5)),
+                                child: FlatButton(
+                                    onPressed: () {
+                                      CheckBlockUser()
+                                          .CheckBlock(
+                                              widget.user_id,
+                                              gethomeDetails
+                                                  .data[startIndex].userId)
+                                          .then((value) {
+                                        (value['status'])
+                                            ? print('nooooo')
+                                            : generatechannel()
+                                                .GenerateChannel(widget.user_id)
+                                                .then((value) {
+                                                setState(() {
+                                                  cn = value['data']
+                                                      ['Channel Name'];
+                                                  var profileImg = value['data']
+                                                      ['Profile_image'];
+                                                  print(cn.toString() +
+                                                      '////////////');
+                                                  sendnotification(
+                                                      cn,
+                                                      gethomeDetails
+                                                          .data[startIndex]
+                                                          .fcm_token,
+                                                      '0',
+                                                      widget.user_id,
+                                                      gethomeDetails
+                                                          .data[startIndex]
+                                                          .userId,
+                                                      profileImg);
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) => VideoCallPage(
+                                                              caller_id:
+                                                                  gethomeDetails
+                                                                      .data[
+                                                                          startIndex]
+                                                                      .userId,
+                                                              user_id: widget
+                                                                  .user_id,
+                                                              channelName: cn,
+                                                              callStatus: 'o',
+                                                              CallerImage:
+                                                                  gethomeDetails
+                                                                      .data[
+                                                                          startIndex]
+                                                                      .profileImage)));
+                                                });
+                                              });
+                                      });
+                                    },
+                                    child: Text(
+                                      'Ok',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: 'SegoeUI',
+                                          letterSpacing: 1,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white),
+                                    )),
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ));
+          });
   }
 }

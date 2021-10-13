@@ -70,8 +70,8 @@ class _RazorPayState extends State<RazorPay> {
     super.initState();
   }
 
-  String username = 'rzp_test_bY875AaEn5ufHo';
-  String password = 'We61mrArb2VYTdYXy3dVpOdv';
+  String username = 'rzp_test_XZiANpd7i5zBJo';
+  String password = 'nf5Mxscuk78JAsKLFVVY9dY2';
 
   TextEditingController payamount = TextEditingController();
   void payment(String amount) async {
