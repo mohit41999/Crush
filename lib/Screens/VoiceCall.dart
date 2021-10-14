@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
+import 'package:crush/Services/checkbalanceServices/checkbalanceServices.dart';
 import 'package:crush/Services/newcallServices.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -44,6 +45,7 @@ class _VoiceCallPgState extends State<VoiceCallPg> {
   final _infoStrings = <String>[];
   bool muted = false;
   late RtcEngine _engine;
+  late Timer _timer;
 
   final StopWatchTimer _stopWatchTimer = StopWatchTimer(
       mode: StopWatchMode.countUp,
@@ -60,7 +62,7 @@ class _VoiceCallPgState extends State<VoiceCallPg> {
 
     _users.clear();
     // destroy sdk
-
+    _timer.cancel();
     _engine.destroy();
     super.dispose();
   }
@@ -125,6 +127,7 @@ class _VoiceCallPgState extends State<VoiceCallPg> {
           _infoStrings.add('onLeaveChannel');
           print('llllllleeeeeeeeeeeeeffffffffffffttttttttt');
           _users.clear();
+          _timer.cancel();
         });
       },
       userJoined: (uid, elapsed) {
@@ -132,8 +135,23 @@ class _VoiceCallPgState extends State<VoiceCallPg> {
           final info = 'userJoined: $uid';
           _infoStrings.add(info);
           _users.add(uid);
+          CheckBalanceServices().checkaudiobalance();
           _stopWatchTimer.onExecute.add(StopWatchExecute.start);
           _stopWatchTimer.onChange;
+          _timer = Timer.periodic(Duration(seconds: 59), (timer) {
+            setState(() {
+              print(
+                  'hello after 5 secsssssssssssssssssssssssssssssssssss audio');
+              CheckBalanceServices().checkaudiobalance().then((value) {
+                print(value['data']['status'].toString());
+                if (value['data']['status'].toString() == 'n') {
+                  timer.cancel();
+                  _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+                  _onCallEnd(context);
+                } else {}
+              });
+            });
+          });
           print(
               'iiiiiiiiiiiiiiiiiiiiiooooooooooooooooooooooooooooooooooooooooooooo');
         });
@@ -144,6 +162,7 @@ class _VoiceCallPgState extends State<VoiceCallPg> {
       ) {
         setState(() {
           _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+          _timer.cancel();
           print(StopWatchExecute.stop.toString());
           print(_stopWatchTimer.secondTime.toString() +
               'ccccccccccccaaaaaalllllllll');
@@ -329,6 +348,8 @@ class _VoiceCallPgState extends State<VoiceCallPg> {
   }
 
   void _onCallEnd(BuildContext context) {
+    _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+    _timer.cancel();
     _engine.leaveChannel();
     Navigator.pop(context);
   }

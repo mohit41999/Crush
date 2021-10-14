@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:agora_uikit/agora_uikit.dart';
 import 'package:agora_uikit/models/agora_settings.dart';
 import 'package:agora_uikit/models/agora_user.dart';
+import 'package:crush/Services/checkbalanceServices/checkbalanceServices.dart';
 import 'package:crush/Services/newcallServices.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -37,11 +39,13 @@ class _VideoCallPageState extends State<VideoCallPage> {
   late String channelname;
   late AgoraClient client;
   late DateTime date = DateTime.now();
+  late Timer _timer;
 
   final StopWatchTimer _stopWatchTimer = StopWatchTimer(
       mode: StopWatchMode.countUp,
       onChange: (value) {
         final displayTime = StopWatchTimer.getDisplayTime(value);
+
         print('displayTime $displayTime');
         time = displayTime;
         print('onChange $value');
@@ -50,9 +54,12 @@ class _VideoCallPageState extends State<VideoCallPage> {
 
   @override
   void dispose() async {
+    _timer.cancel();
+    await _stopWatchTimer.dispose();
+
+    print('dispose called');
     super.dispose();
 
-    await _stopWatchTimer.dispose();
     // client.sessionController.value.engine!.destroy();
     // Need to call dispose function.
   }
@@ -72,19 +79,44 @@ class _VideoCallPageState extends State<VideoCallPage> {
   Future initialize(String channelname, BuildContext context) async {
     client = AgoraClient(
       agoraEventHandlers: AgoraEventHandlers(
+        joinChannelSuccess: (v, i, j) {
+          setState(() {
+            ;
+          });
+        },
         userJoined: (i, j) {
           setState(() {
+            CheckBalanceServices().checkvideobalance();
             _stopWatchTimer.onExecute.add(StopWatchExecute.start);
             _stopWatchTimer.onChange;
+            _timer = Timer.periodic(Duration(seconds: 59), (timer) {
+              setState(() {
+                print(
+                    'hello after 5 secsssssssssssssssssssssssssssssssssss video');
+                CheckBalanceServices().checkvideobalance().then((value) {
+                  print(value['data']['status'].toString());
+                  if (value['data']['status'].toString() == 'n') {
+                    timer.cancel();
+                    _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+                    client.sessionController.endCall();
+                    client.sessionController.dispose();
+                    Navigator.pop(context);
+                  } else {}
+                });
+              });
+            });
+
             print(
                 'iiiiiiiiiiiiiiiiiiiiiooooooooooooooooooooooooooooooooooooooooooooo');
           });
         },
         leaveChannel: (v) {
           _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+          _timer.cancel();
         },
         userOffline: (i, j) {
           _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+          _timer.cancel();
           print(StopWatchExecute.stop.toString());
           print(_stopWatchTimer.secondTime.toString() +
               'ccccccccccccaaaaaalllllllll');
@@ -151,6 +183,23 @@ class _VideoCallPageState extends State<VideoCallPage> {
               ),
               AgoraVideoButtons(
                 client: client,
+                disconnectButtonChild: MaterialButton(
+                  onPressed: () {
+                    setState(() {
+                      _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+                      _timer.cancel();
+                      client.sessionController.endCall();
+                      client.sessionController.dispose();
+
+                      Navigator.pop(context);
+                    });
+                  },
+                  child: Icon(Icons.call_end, color: Colors.white, size: 35),
+                  shape: CircleBorder(),
+                  elevation: 2.0,
+                  color: Colors.redAccent,
+                  padding: const EdgeInsets.all(15.0),
+                ),
               ),
             ],
           ),

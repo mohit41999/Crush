@@ -43,7 +43,7 @@ class Datum {
 
   String userId;
   String fullName;
-  String profilePicture;
+  dynamic profilePicture;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         userId: json["user_id"],
