@@ -98,9 +98,9 @@ class _CallHistoryPgState extends State<CallHistoryPg> {
                           ),
                         ),
                         Expanded(
-                          child: Align(
-                            alignment: Alignment.topCenter,
+                          child: SingleChildScrollView(
                             child: ListView.builder(
+                                physics: NeverScrollableScrollPhysics(),
                                 reverse: true,
                                 shrinkWrap: true,
                                 itemCount: callhistory.data.length,
