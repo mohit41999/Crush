@@ -13,10 +13,12 @@ import 'package:crush/Screens/inviteFriendsPg.dart';
 import 'package:crush/Screens/myPreferencesPg.dart';
 import 'package:crush/Screens/myWallet.dart';
 import 'package:crush/Services/myAccountService.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:share/share.dart';
 
 class MyAccountPg extends StatefulWidget {
   final String? user_id;
@@ -33,6 +35,37 @@ class _MyAccountPgState extends State<MyAccountPg> {
   late Future<MyAccount> my_account;
   bool loading = true;
   late MyAccount accountdetails;
+
+  Future<Uri> createDynamicLink({required String? user_id}) async {
+    final DynamicLinkParameters parameters = DynamicLinkParameters(
+      // This should match firebase but without the username query param
+      // This can be whatever you want for the uri, https://yourapp.com/groupinvite?username=$userName
+      link: Uri.parse('https://ranaca.page.link/crush?userid=$user_id'),
+      androidParameters: AndroidParameters(
+        packageName: 'com.ranaca.crush',
+        minimumVersion: 1,
+      ),
+      iosParameters: IosParameters(
+        bundleId: 'com.ranaca.crush',
+        minimumVersion: '1',
+        appStoreId: '',
+      ),
+      uriPrefix: 'https://ranaca.page.link',
+    );
+    final link = await parameters.buildUrl();
+    final ShortDynamicLink shortenedLink =
+        await DynamicLinkParameters.shortenUrl(
+      link,
+      DynamicLinkParametersOptions(
+          shortDynamicLinkPathLength: ShortDynamicLinkPathLength.unguessable),
+    );
+    return shortenedLink.shortUrl;
+  }
+
+  onShareWithEmptyOrigin(BuildContext context) async {
+    var dlink = await createDynamicLink(user_id: widget.user_id);
+    await Share.share("Add me on  ${dlink}");
+  }
 
   Future _getpostImage() async {
     var image =
@@ -70,11 +103,6 @@ class _MyAccountPgState extends State<MyAccountPg> {
       });
       return accountdetails;
     });
-  }
-
-  FutureOr onGoBack(dynamic value) {
-    initState();
-    setState(() {});
   }
 
   @override
@@ -255,6 +283,57 @@ class _MyAccountPgState extends State<MyAccountPg> {
                             fontFamily: 'SegoeUI',
                             fontWeight: FontWeight.bold,
                             fontSize: 18),
+                      ),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.02,
+                    ),
+                    SizedBox(
+                      width: 100,
+                      child: MaterialButton(
+                        onPressed: () {
+                          onShareWithEmptyOrigin(context);
+                        },
+                        child: Column(
+                          children: [
+                            Icon(Icons.share),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Icon(
+                                  Icons.facebook,
+                                  size: 15,
+                                  color: Color(0xff3b5998),
+                                ),
+                                Icon(FontAwesomeIcons.twitter,
+                                    size: 15, color: Color(0xff1DA1F2)),
+                                Container(
+                                  height: 15,
+                                  width: 15,
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                        colors: [
+                                          Color(0xff8a3ab9),
+                                          Color(0xffcd486b),
+                                          Color(0xffe95950),
+                                          Color(0xfffbad50),
+                                        ],
+                                        begin: Alignment.topRight,
+                                        end: Alignment.bottomLeft),
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  child: Center(
+                                    child: Icon(
+                                      FontAwesomeIcons.instagram,
+                                      size: 10,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     SizedBox(

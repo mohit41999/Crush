@@ -135,21 +135,26 @@ class _VoiceCallPgState extends State<VoiceCallPg> {
           final info = 'userJoined: $uid';
           _infoStrings.add(info);
           _users.add(uid);
-          CheckBalanceServices().checkaudiobalance();
+          (widget.callStatus == 'o')
+              ? CheckBalanceServices().checkaudiobalance()
+              : null;
+
           _stopWatchTimer.onExecute.add(StopWatchExecute.start);
           _stopWatchTimer.onChange;
           _timer = Timer.periodic(Duration(seconds: 59), (timer) {
             setState(() {
               print(
                   'hello after 5 secsssssssssssssssssssssssssssssssssss audio');
-              CheckBalanceServices().checkaudiobalance().then((value) {
-                print(value['data']['status'].toString());
-                if (value['data']['status'].toString() == 'n') {
-                  timer.cancel();
-                  _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
-                  _onCallEnd(context);
-                } else {}
-              });
+              (widget.callStatus == 'o')
+                  ? CheckBalanceServices().checkaudiobalance().then((value) {
+                      print(value['data']['status'].toString());
+                      if (value['data']['status'].toString() == 'n') {
+                        timer.cancel();
+                        _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+                        _onCallEnd(context);
+                      } else {}
+                    })
+                  : null;
             });
           });
           print(
@@ -296,60 +301,8 @@ class _VoiceCallPgState extends State<VoiceCallPg> {
     );
   }
 
-  /// Info panel to show logs
-  Widget _panel() {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 48),
-      alignment: Alignment.bottomCenter,
-      child: FractionallySizedBox(
-        heightFactor: 0.5,
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 48),
-          child: ListView.builder(
-            reverse: true,
-            itemCount: _infoStrings.length,
-            itemBuilder: (BuildContext context, int index) {
-              if (_infoStrings.isEmpty) {
-                return Text(
-                    "null"); // return type can't be null, a widget was required
-              }
-              return Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 3,
-                  horizontal: 10,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Flexible(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 2,
-                          horizontal: 5,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.yellowAccent,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Text(
-                          _infoStrings[index],
-                          style: TextStyle(color: Colors.blueGrey),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              );
-            },
-          ),
-        ),
-      ),
-    );
-  }
-
   void _onCallEnd(BuildContext context) {
     _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
-    _timer.cancel();
     _engine.leaveChannel();
     Navigator.pop(context);
   }

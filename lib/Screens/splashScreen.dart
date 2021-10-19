@@ -2,14 +2,11 @@ import 'dart:convert';
 
 import 'package:crush/Constants/constants.dart';
 import 'package:crush/Screens/generalHomeScreen.dart';
-import 'package:crush/Screens/homePg.dart';
 import 'package:crush/Screens/signinScreen.dart';
-import 'package:crush/Services/generatechannelservices.dart';
-import 'package:crush/Services/sendnotification.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:crush/Screens/userPg.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -39,10 +36,44 @@ class _SplashScreenState extends State<SplashScreen> {
                 builder: (_) => GeneralHomeScreen(user_id: user_id)));
   }
 
+  Future<void> initDynamicLinks() async {
+    FirebaseDynamicLinks.instance.onLink(
+        onSuccess: (PendingDynamicLinkData? dynamicLink) async {
+      final Uri? deeplink = dynamicLink?.link;
+      if (deeplink != null) {
+        print(deeplink.queryParameters.toString());
+        var id = deeplink.queryParameters['userid'];
+        print(id);
+        print(deeplink.toString() + 'sssssssssssssssssss');
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        var phonenumber = prefs.getString('phonenumber');
+        print(phonenumber);
+        String? user_id = prefs.getString('user_id');
+        print(user_id);
+        print(phonenumber.toString());
+        (phonenumber == null && user_id == null)
+            ? Navigator.push(
+                context, CupertinoPageRoute(builder: (_) => SplashScreen()))
+            : Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => UserPg(
+                          user_id: user_id,
+                          selected_user_id: id.toString(),
+                          homeuser: true,
+                        )));
+        print(deeplink.toString());
+      }
+    }, onError: (OnLinkErrorException e) async {
+      print(e);
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     FirebaseNotifications().setupFirebase(context);
+    initDynamicLinks();
     super.initState();
   }
 
@@ -101,45 +132,3 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 }
-
-//   List Data = [];
-// Future get() async {
-//   var response = await http.post(
-//     Uri.parse(
-//         'https://g.tenor.com/v1/search?q=funny%20cat&key=780X74Y20AF8&limit=100'),
-//   );
-//   var Response = jsonDecode(response.body);
-//   setState(() {
-//     Data = Response['results'];
-//   });
-//
-//   print(Data.length);
-//   print(Data);
-// }
-//
-//   @override
-//   void initState() {
-//     // TODO: implement initState
-//     super.initState();
-//     get();
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: GridView.builder(
-//         gridDelegate:
-//             SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-//         itemBuilder: (context, index) {
-//           return Container(
-//             decoration: BoxDecoration(
-//                 image: DecorationImage(
-//                     image: NetworkImage(
-//                         Data[index]['media'][0]['nanogif']['url']))),
-//           );
-//         },
-//         itemCount: Data.length,
-//       ),
-//     );
-//   }
-// }

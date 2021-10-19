@@ -80,29 +80,32 @@ class _VideoCallPageState extends State<VideoCallPage> {
     client = AgoraClient(
       agoraEventHandlers: AgoraEventHandlers(
         joinChannelSuccess: (v, i, j) {
-          setState(() {
-            ;
-          });
+          setState(() {});
         },
         userJoined: (i, j) {
           setState(() {
-            CheckBalanceServices().checkvideobalance();
+            (widget.callStatus == 'o')
+                ? CheckBalanceServices().checkvideobalance()
+                : null;
+
             _stopWatchTimer.onExecute.add(StopWatchExecute.start);
             _stopWatchTimer.onChange;
             _timer = Timer.periodic(Duration(seconds: 59), (timer) {
               setState(() {
                 print(
                     'hello after 5 secsssssssssssssssssssssssssssssssssss video');
-                CheckBalanceServices().checkvideobalance().then((value) {
-                  print(value['data']['status'].toString());
-                  if (value['data']['status'].toString() == 'n') {
-                    timer.cancel();
-                    _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
-                    client.sessionController.endCall();
-                    client.sessionController.dispose();
-                    Navigator.pop(context);
-                  } else {}
-                });
+                (widget.callStatus == 'o')
+                    ? CheckBalanceServices().checkvideobalance().then((value) {
+                        print(value['data']['status'].toString());
+                        if (value['data']['status'].toString() == 'n') {
+                          timer.cancel();
+                          _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+                          client.sessionController.endCall();
+                          client.sessionController.dispose();
+                          Navigator.pop(context);
+                        } else {}
+                      })
+                    : null;
               });
             });
 
@@ -115,14 +118,17 @@ class _VideoCallPageState extends State<VideoCallPage> {
           _timer.cancel();
         },
         userOffline: (i, j) {
-          _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
-          _timer.cancel();
-          print(StopWatchExecute.stop.toString());
-          print(_stopWatchTimer.secondTime.toString() +
-              'ccccccccccccaaaaaalllllllll');
-          (widget.callStatus == 'o')
-              ? OutgoingUserOffline()
-              : IncomingUserOffline();
+          setState(() {
+            _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+            _timer.cancel();
+            print(StopWatchExecute.stop.toString());
+            print(_stopWatchTimer.secondTime.toString() +
+                'ccccccccccccaaaaaalllllllll');
+
+            (widget.callStatus == 'o')
+                ? OutgoingUserOffline()
+                : IncomingUserOffline();
+          });
         },
       ),
       agoraConnectionData: AgoraConnectionData(
@@ -187,7 +193,6 @@ class _VideoCallPageState extends State<VideoCallPage> {
                   onPressed: () {
                     setState(() {
                       _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
-                      _timer.cancel();
                       client.sessionController.endCall();
                       client.sessionController.dispose();
 
