@@ -27,7 +27,7 @@ class FirebaseNotifications {
                       Screen_id: value.data['screenId'],
                       caller_id: value.data['caller_id'],
                       user_id: value.data['user_id'],
-                  user_Image: value.data['user_Image'],
+                      user_Image: value.data['user_Image'],
                     )));
       }
     });
@@ -36,20 +36,25 @@ class FirebaseNotifications {
 
   void notificationhandler(BuildContext context) {
     FirebaseMessaging.onMessage.listen((event) {
-      String channel_name = event.data['channel_name'];
-      print(channel_name + 'inside videocalllllllllllllllllllllll');
-      String screenId = event.data['screenId'];
+      if (event.data['title'].toString() == "Rejected Call".toString()) {
+        print('Rejected has been called');
+        Navigator.pop(context);
+      } else {
+        String channel_name = event.data['channel_name'];
+        print(channel_name + 'inside videocalllllllllllllllllllllll');
+        String screenId = event.data['screenId'];
 
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => IncomingCallScreen(
-                    channel_name: event.data['channel_name'],
-                    Screen_id: event.data['screenId'],
-                    caller_id: event.data['caller_id'],
-                    user_id: event.data['user_id'],
-                user_Image: event.data['user_Image'],
-                  )));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => IncomingCallScreen(
+                      channel_name: event.data['channel_name'],
+                      Screen_id: event.data['screenId'],
+                      caller_id: event.data['caller_id'],
+                      user_id: event.data['user_id'],
+                      user_Image: event.data['user_Image'],
+                    )));
+      }
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((event) {
@@ -65,7 +70,7 @@ class FirebaseNotifications {
                     Screen_id: event.data['screenId'],
                     caller_id: event.data['caller_id'],
                     user_id: event.data['user_id'],
-                user_Image: event.data['user_Image'],
+                    user_Image: event.data['user_Image'],
                   )));
     });
   }

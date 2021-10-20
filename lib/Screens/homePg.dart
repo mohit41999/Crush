@@ -344,7 +344,7 @@ class _HomePgState extends State<HomePg> {
                         (value['status']);
                         if (value['status']) {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            duration: Duration(milliseconds: 500),
+                            duration: Duration(seconds: 1, milliseconds: 30),
                             backgroundColor: Colors.red,
                             content: Text(gethomeDetails
                                     .data[startIndex].fullName
@@ -398,7 +398,8 @@ class _HomePgState extends State<HomePg> {
                                   : {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(SnackBar(
-                                        duration: Duration(milliseconds: 500),
+                                        duration: Duration(
+                                            seconds: 1, milliseconds: 30),
                                         backgroundColor: Colors.red,
                                         content: Text(
                                             'Not enough Coins for Audio call'),
@@ -449,7 +450,8 @@ class _HomePgState extends State<HomePg> {
                                   : {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(SnackBar(
-                                        duration: Duration(milliseconds: 500),
+                                        duration: Duration(
+                                            seconds: 1, milliseconds: 30),
                                         backgroundColor: Colors.red,
                                         content: Text(
                                             'Not enough Coins for Video call'),

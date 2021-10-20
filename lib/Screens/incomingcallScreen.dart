@@ -1,5 +1,10 @@
+import 'package:crush/Model/favourite_profile.dart';
+import 'package:crush/Model/home_usr_profile.dart';
 import 'package:crush/Screens/VideoCallPg.dart';
 import 'package:crush/Screens/VoiceCall.dart';
+import 'package:crush/Services/favourite_profileService.dart';
+import 'package:crush/Services/home_user_profile.dart';
+import 'package:crush/Services/sendnotification.dart';
 import "package:flutter/material.dart";
 
 class IncomingCallScreen extends StatefulWidget {
@@ -22,6 +27,26 @@ class IncomingCallScreen extends StatefulWidget {
 }
 
 class _IncomingCallScreenState extends State<IncomingCallScreen> {
+  late Future<HomeUserProfile> user;
+  late String fcm_token = '';
+  @override
+  void initState() {
+    // TODO: implement initState
+    print(widget.caller_id + 'llllllllllllll');
+
+    user = HomeUserProfileService()
+        .gethomeProfile(
+            user_id: widget.caller_id, login_userID: widget.caller_id)
+        .then((value) {
+      setState(() {
+        fcm_token = value.data.fcm_token;
+        print(fcm_token + 'yyyyyyyyyyyyyyyyyy');
+      });
+      return value;
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +61,9 @@ class _IncomingCallScreenState extends State<IncomingCallScreen> {
             children: [
               MaterialButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  rejectCall(fcm_token).then((value) {
+                    Navigator.pop(context);
+                  });
                 },
                 child: Text('Reject'),
                 color: Colors.red,
