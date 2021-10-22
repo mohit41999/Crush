@@ -14,6 +14,7 @@ import 'package:crush/util/App_constants/appconstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import '../firebase_notification_handler.dart';
 import 'VideoCallPg.dart';
 
 class HomePg extends StatefulWidget {
@@ -33,6 +34,7 @@ class _HomePgState extends State<HomePg> {
   late MyAccount myAccount;
   int startIndex = 0;
   late String cn;
+
 
   Future addFavourites(String fav_id) async {
     var response = await http
@@ -391,7 +393,10 @@ class _HomePgState extends State<HomePg> {
                                                                 .data[
                                                                     startIndex]
                                                                 .profileImage,
-                                                      )));
+                                                      ))).then(
+                                                  (value) {
+                                                Rejcted = false;
+                                              });
                                         });
                                       })
                                     }
@@ -428,22 +433,19 @@ class _HomePgState extends State<HomePg> {
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      VideoCallPage(
-                                                          caller_id:
-                                                              gethomeDetails
-                                                                  .data[
-                                                                      startIndex]
-                                                                  .userId,
-                                                          user_id:
-                                                              widget.user_id,
-                                                          channelName: cn,
-                                                          callStatus: 'o',
-                                                          CallerImage:
-                                                              gethomeDetails
-                                                                  .data[
-                                                                      startIndex]
-                                                                  .profileImage)));
+                                                  builder: (context) => VideoCallPage(
+                                                      caller_id: gethomeDetails
+                                                          .data[startIndex]
+                                                          .userId,
+                                                      user_id: widget.user_id,
+                                                      channelName: cn,
+                                                      callStatus: 'o',
+                                                      CallerImage: gethomeDetails
+                                                          .data[startIndex]
+                                                          .profileImage))).then(
+                                              (value) {
+                                            Rejcted = false;
+                                          });
                                         });
                                       })
                                     }

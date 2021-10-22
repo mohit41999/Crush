@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
+import '../firebase_notification_handler.dart';
 import 'VideoCallPg.dart';
 
 const APP_ID = '2af01518a23a4f35a6098c9b50467e85';
@@ -46,6 +47,7 @@ class _VoiceCallPgState extends State<VoiceCallPg> {
   bool muted = false;
   late RtcEngine _engine;
   late Timer _timer;
+  late Timer _timer2;
 
   final StopWatchTimer _stopWatchTimer = StopWatchTimer(
       mode: StopWatchMode.countUp,
@@ -63,6 +65,7 @@ class _VoiceCallPgState extends State<VoiceCallPg> {
     _users.clear();
     // destroy sdk
     _timer.cancel();
+    _timer2.cancel();
     _engine.destroy();
     super.dispose();
   }
@@ -115,9 +118,14 @@ class _VoiceCallPgState extends State<VoiceCallPg> {
         });
       },
       joinChannelSuccess: (channel, uid, elapsed) {
-        setState(() {
-          final info = 'onJoinChannel: $channel, uid: $uid';
-          _infoStrings.add(info);
+        _timer2 = Timer.periodic(Duration(seconds: 3), (timer) {
+          setState(() {
+            if (Rejcted) {
+              _timer2.cancel();
+              _onCallEnd(context);
+              Navigator.pop(context);
+            } else {}
+          });
         });
       },
       leaveChannel: (stats) {

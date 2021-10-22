@@ -18,12 +18,12 @@ class MyAccount {
 
   bool status;
   String message;
-  List<Datum> data;
+  List<Datumm> data;
 
   factory MyAccount.fromJson(Map<String, dynamic> json) => MyAccount(
         status: json["status"],
         message: json["message"],
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+        data: List<Datumm>.from(json["data"].map((x) => Datumm.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -33,8 +33,8 @@ class MyAccount {
       };
 }
 
-class Datum {
-  Datum({
+class Datumm {
+  Datumm({
     required this.id,
     required this.fullName,
     required this.profilePicture,
@@ -48,7 +48,7 @@ class Datum {
   dynamic total_coins;
   String interested;
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory Datumm.fromJson(Map<String, dynamic> json) => Datumm(
         id: json["id"],
         fullName: json["full_name"],
         profilePicture: json["profile_picture"],

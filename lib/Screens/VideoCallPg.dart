@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
+import '../firebase_notification_handler.dart';
+
 const APP_ID = '2af01518a23a4f35a6098c9b50467e85';
 String time = '';
 
@@ -22,6 +24,7 @@ class VideoCallPage extends StatefulWidget {
   final String? caller_id;
   final String? user_id;
   final String CallerImage;
+
   const VideoCallPage(
       {Key? key,
       required this.channelName,
@@ -80,7 +83,18 @@ class _VideoCallPageState extends State<VideoCallPage> {
     client = AgoraClient(
       agoraEventHandlers: AgoraEventHandlers(
         joinChannelSuccess: (v, i, j) {
-          setState(() {});
+          setState(() {
+            _timer = Timer.periodic(Duration(seconds: 3), (timer) {
+              setState(() {
+                if (Rejcted) {
+                  _timer.cancel();
+                  client.sessionController.endCall();
+                  client.sessionController.dispose();
+                  Navigator.pop(context);
+                } else {}
+              });
+            });
+          });
         },
         userJoined: (i, j) {
           setState(() {

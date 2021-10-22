@@ -68,30 +68,30 @@ class _AppSettingsPgState extends State<AppSettingsPg> {
               style: TextStyle(
                   color: Color(0xff0B0D0F).withOpacity(0.6), fontSize: 14),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Online',
-                  style: reportText,
-                ),
-                FlutterSwitch(
-                    activeIcon: Icon(
-                      Icons.circle,
-                      color: appThemeColor,
-                    ),
-                    toggleSize: 12,
-                    height: 20,
-                    width: 30,
-                    activeColor: appThemeColor,
-                    value: online_offline_Swith,
-                    onToggle: (value) {
-                      setState(() {
-                        online_offline_Swith = value;
-                      });
-                    })
-              ],
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Text(
+            //       'Online',
+            //       style: reportText,
+            //     ),
+            //     FlutterSwitch(
+            //         activeIcon: Icon(
+            //           Icons.circle,
+            //           color: appThemeColor,
+            //         ),
+            //         toggleSize: 12,
+            //         height: 20,
+            //         width: 30,
+            //         activeColor: appThemeColor,
+            //         value: online_offline_Swith,
+            //         onToggle: (value) {
+            //           setState(() {
+            //             online_offline_Swith = value;
+            //           });
+            //         })
+            //   ],
+            // ),
             // Row(
             //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
             //   children: [

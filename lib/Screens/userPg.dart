@@ -13,6 +13,7 @@ import 'package:crush/Services/myAccountService.dart';
 import 'package:crush/Services/sendnotification.dart';
 import 'package:flutter/material.dart';
 
+import '../firebase_notification_handler.dart';
 import 'VideoCallPg.dart';
 import 'VoiceCall.dart';
 
@@ -470,7 +471,9 @@ class _UserPgState extends State<UserPg> {
                                                         CallerImage:
                                                             user_profile.data
                                                                 .profileImage,
-                                                      )));
+                                                      ))).then((value) {
+                                            Rejcted = false;
+                                          });
                                         });
                                       })
                                     }
@@ -507,17 +510,18 @@ class _UserPgState extends State<UserPg> {
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                  builder:
-                                                      (context) => VideoCallPage(
-                                                          caller_id: widget
-                                                              .selected_user_id,
-                                                          user_id:
-                                                              widget.user_id,
-                                                          channelName: cn,
-                                                          callStatus: 'o',
-                                                          CallerImage: user_profile
-                                                              .data
-                                                              .profileImage)));
+                                                  builder: (context) => VideoCallPage(
+                                                      caller_id: widget
+                                                          .selected_user_id,
+                                                      user_id: widget.user_id,
+                                                      channelName: cn,
+                                                      callStatus: 'o',
+                                                      CallerImage: user_profile
+                                                          .data
+                                                          .profileImage))).then(
+                                              (value) {
+                                            Rejcted = false;
+                                          });
                                         });
                                       })
                                     }
