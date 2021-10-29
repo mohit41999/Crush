@@ -23,6 +23,7 @@ class _CoinsPgState extends State<CoinsPg> {
   List coinsDetails = [];
   late String CoinsBalance;
   late String withdrawamount;
+  bool balncevalidate = false;
   TextEditingController withrawController = TextEditingController();
   Future addCoins(String coinsplan) async {
     var response = await http.post(
@@ -33,15 +34,13 @@ class _CoinsPgState extends State<CoinsPg> {
           'coins_amount': coinsplan,
         });
     var Response = jsonDecode(response.body);
-    if (Response['status']) {
-      print('coins added successssssss');
-
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        duration: Duration(milliseconds: 500),
-        backgroundColor: Colors.green,
-        content: Text(Response['message']),
-      ));
-      Navigator.pop(context);
+    print(Response['data'].toString() + 'ppppppppp');
+    if (Response['data'].toString() == [].toString()) {
+      setState(() {
+        balncevalidate = true;
+      });
+    } else {
+      balncevalidate = false;
     }
   }
 
@@ -419,6 +418,8 @@ class _CoinsPgState extends State<CoinsPg> {
                                                                           .user_total_coins;
 
                                                                   print(value);
+                                                                  Navigator.pop(
+                                                                      context);
                                                                 });
                                                               });
                                                             });
@@ -428,7 +429,33 @@ class _CoinsPgState extends State<CoinsPg> {
                                                     ],
                                                   )
                                                 ],
-                                              ));
+                                              )).then((value) {
+                                        if (balncevalidate) {
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) => AlertDialog(
+                                                    content: Text(
+                                                      'You dont have enough balance to buy coins!!',
+                                                      style: TextStyle(
+                                                          color: Colors.red),
+                                                    ),
+                                                    actions: [
+                                                      commonBtn(
+                                                          s: 'Ok ',
+                                                          bgcolor:
+                                                              appThemeColor,
+                                                          textColor:
+                                                              Colors.white,
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                            balncevalidate =
+                                                                false;
+                                                          })
+                                                    ],
+                                                  ));
+                                        }
+                                      });
                                     });
                                   },
                                   child: Text(

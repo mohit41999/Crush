@@ -33,10 +33,10 @@ class _IncomingCallScreenState extends State<IncomingCallScreen> {
   void initState() {
     // TODO: implement initState
     print(widget.caller_id + 'llllllllllllll');
+    print(widget.caller_id);
 
     user = HomeUserProfileService()
-        .gethomeProfile(
-            user_id: widget.caller_id, login_userID: widget.caller_id)
+        .gethomeProfile(user_id: widget.caller_id, login_userID: widget.user_id)
         .then((value) {
       setState(() {
         fcm_token = value.data.fcm_token;

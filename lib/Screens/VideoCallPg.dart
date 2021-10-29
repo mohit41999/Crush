@@ -74,6 +74,8 @@ class _VideoCallPageState extends State<VideoCallPage> {
 
     setState(() {
       channelname = widget.channelName;
+      print(widget.caller_id.toString() + 'caller');
+      print(widget.user_id.toString() + 'user');
 
       initialize(channelname, context);
     });

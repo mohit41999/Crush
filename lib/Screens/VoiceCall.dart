@@ -383,13 +383,13 @@ class _VoiceCallPgState extends State<VoiceCallPg> {
         user_id: widget.user_id,
         call_duration: time,
         call_status: 'i',
-        call_type: 'video',
+        call_type: 'audio',
         caller_id: widget.caller_id);
     NewCallServices().add_call(
         user_id: widget.caller_id,
         call_duration: time,
         call_status: 'o',
-        call_type: 'video',
+        call_type: 'audio',
         caller_id: widget.user_id);
   }
 
