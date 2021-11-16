@@ -78,6 +78,7 @@ class _EnterCodePgState extends State<EnterCodePg> {
               })
         : nullprefs().then((value) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              backgroundColor: Colors.red,
               content: Text(response['message']),
               duration: Duration(seconds: 2, milliseconds: 30),
             ));

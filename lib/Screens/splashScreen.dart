@@ -21,11 +21,13 @@ class _SplashScreenState extends State<SplashScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var phonenumber = prefs.getString('phonenumber');
     var otpverify = prefs.getString('otpverify');
+    print(otpverify.toString() + 'otpverify');
     print(phonenumber);
     String? user_id = prefs.getString('user_id');
     print(user_id);
     print(phonenumber.toString());
-    (otpverify == null || otpverify == 'false')
+    (otpverify.toString() == 'null' ||
+            otpverify.toString() == 'false'.toString())
         ? Navigator.push(
             context, CupertinoPageRoute(builder: (_) => SignInScreen()))
         : Navigator.push(
