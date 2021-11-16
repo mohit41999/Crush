@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 Color appThemeColor = Color(0xff0E72EC);
+String Token='123456789';
 
 class commonBtn extends StatelessWidget {
   final String s;

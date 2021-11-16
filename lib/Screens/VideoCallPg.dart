@@ -12,11 +12,11 @@ import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 import '../firebase_notification_handler.dart';
 
-const APP_ID = '2af01518a23a4f35a6098c9b50467e85';
+const AGORA_APP_ID = '2af01518a23a4f35a6098c9b50467e85';
 String time = '';
-
-const Token =
-    '0066b462cbcdf254436ab726620f1edb93bIABuntCwp0/RdFu7vSGX7rKs7WOlQcs+nD6NrZ8Fhm5kUbIhF1sAAAAAEAD+bihbwWpMYQEAAQDCakxh';
+//
+// const Token =
+//     '0066b462cbcdf254436ab726620f1edb93bIABuntCwp0/RdFu7vSGX7rKs7WOlQcs+nD6NrZ8Fhm5kUbIhF1sAAAAAEAD+bihbwWpMYQEAAQDCakxh';
 
 class VideoCallPage extends StatefulWidget {
   final String callStatus;
@@ -148,7 +148,7 @@ class _VideoCallPageState extends State<VideoCallPage> {
         },
       ),
       agoraConnectionData: AgoraConnectionData(
-        appId: APP_ID,
+        appId: AGORA_APP_ID,
         channelName: channelname,
       ),
       enabledPermission: [

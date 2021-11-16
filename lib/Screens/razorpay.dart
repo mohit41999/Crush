@@ -11,7 +11,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RazorPay extends StatefulWidget {
-  const RazorPay({Key? key}) : super(key: key);
+  const RazorPay({Key? key, required this.amount}) : super(key: key);
+  final String amount;
 
   @override
   _RazorPayState createState() => _RazorPayState();
@@ -19,7 +20,10 @@ class RazorPay extends StatefulWidget {
 
 class _RazorPayState extends State<RazorPay> {
   late Razorpay _razorpay;
-
+  String username = 'rzp_test_XZiANpd7i5zBJo';
+  String password = 'nf5Mxscuk78JAsKLFVVY9dY2';
+  TextEditingController payamount = TextEditingController();
+  var amount;
   var user_id;
 
   @override
@@ -36,7 +40,7 @@ class _RazorPayState extends State<RazorPay> {
     var Response = await http.post(
         Uri.parse('http://crush.notionprojects.tech/api/INR_deposit.php'),
         body: {
-          'token': '123456789',
+          'token': Token,
           'user_id': user_id,
           'amount': payamount.text.toString(),
         });
@@ -62,6 +66,8 @@ class _RazorPayState extends State<RazorPay> {
 
   @override
   void initState() {
+    amount = double.parse(widget.amount).toInt().toString();
+    payamount.text = amount;
     _razorpay = Razorpay();
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
@@ -70,10 +76,6 @@ class _RazorPayState extends State<RazorPay> {
     super.initState();
   }
 
-  String username = 'rzp_test_XZiANpd7i5zBJo';
-  String password = 'nf5Mxscuk78JAsKLFVVY9dY2';
-
-  TextEditingController payamount = TextEditingController();
   void payment(String amount) async {
     final client = HttpClient();
 

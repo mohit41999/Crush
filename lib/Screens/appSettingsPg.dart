@@ -29,7 +29,7 @@ class _AppSettingsPgState extends State<AppSettingsPg> {
   Future deleteUser() async {
     var Response = await http.post(
         Uri.parse(BASE_URL + AppConstants.DELETE_ACCOUNT),
-        body: {'token': '123456789', 'user_id': widget.user_id});
+        body: {'token': Token, 'user_id': widget.user_id});
     var response = jsonDecode(Response.body);
     if (response['status']) {
       Navigator.pushAndRemoveUntil(
@@ -68,83 +68,9 @@ class _AppSettingsPgState extends State<AppSettingsPg> {
               style: TextStyle(
                   color: Color(0xff0B0D0F).withOpacity(0.6), fontSize: 14),
             ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     Text(
-            //       'Online',
-            //       style: reportText,
-            //     ),
-            //     FlutterSwitch(
-            //         activeIcon: Icon(
-            //           Icons.circle,
-            //           color: appThemeColor,
-            //         ),
-            //         toggleSize: 12,
-            //         height: 20,
-            //         width: 30,
-            //         activeColor: appThemeColor,
-            //         value: online_offline_Swith,
-            //         onToggle: (value) {
-            //           setState(() {
-            //             online_offline_Swith = value;
-            //           });
-            //         })
-            //   ],
-            // ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     Text(
-            //       'Voice Call Notification',
-            //       style: reportText,
-            //     ),
-            //     FlutterSwitch(
-            //         activeIcon: Icon(
-            //           Icons.circle,
-            //           color: appThemeColor,
-            //         ),
-            //         toggleSize: 12,
-            //         height: 20,
-            //         width: 30,
-            //         activeColor: appThemeColor,
-            //         value: voice_call_Swith,
-            //         onToggle: (value) {
-            //           setState(() {
-            //             voice_call_Swith = value;
-            //           });
-            //         })
-            //   ],
-            // ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     Text(
-            //       'Video Call Notification',
-            //       style: reportText,
-            //     ),
-            //     FlutterSwitch(
-            //         activeIcon: Icon(
-            //           Icons.circle,
-            //           color: appThemeColor,
-            //         ),
-            //         toggleSize: 12,
-            //         height: 20,
-            //         width: 30,
-            //         activeColor: appThemeColor,
-            //         value: video_call_Swith,
-            //         onToggle: (value) {
-            //           setState(() {
-            //             video_call_Swith = value;
-            //           });
-            //         })
-            //   ],
-            // ),
             GestureDetector(
               onTap: () {
                 logout();
-                // Navigator.pushReplacement(context,
-                //     MaterialPageRoute(builder: (context) => splashScreen()));
                 Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(builder: (context) => SplashScreen()),

@@ -88,7 +88,7 @@ class _ReportUserPgState extends State<ReportUserPg> {
   Future reportUser(String reason) async {
     var response =
         await http.post(Uri.parse(BASE_URL + AppConstants.REPORT_USER), body: {
-      'token': '123456789',
+      'token': Token,
       'user_id': widget.user_id,
       'reported_user_id': widget.selected_user_id,
       'reason': reason

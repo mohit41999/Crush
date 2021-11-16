@@ -24,7 +24,7 @@ class _SecureAccountPgState extends State<SecureAccountPg> {
   Future addUserPass(String userName, String password) async {
     var Response = await http
         .post(Uri.parse(BASE_URL + AppConstants.SECURE_ACC_EMAIL), body: {
-      'token': '123456789',
+      'token': Token,
       'user_id': widget.user_id,
       'username': userName,
       'password': password

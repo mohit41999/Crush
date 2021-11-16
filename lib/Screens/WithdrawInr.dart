@@ -7,7 +7,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class WithdrawInr extends StatefulWidget {
-  const WithdrawInr({Key? key}) : super(key: key);
+  final String INR;
+  const WithdrawInr({Key? key, required this.INR}) : super(key: key);
 
   @override
   _WithdrawInrState createState() => _WithdrawInrState();
@@ -24,6 +25,7 @@ class _WithdrawInrState extends State<WithdrawInr> {
 
   @override
   void initState() {
+    AmountCtl.text = widget.INR;
     // TODO: implement initState
     get_bank_details().then((value) {
       setState(() {
@@ -190,6 +192,7 @@ class _WithdrawInrState extends State<WithdrawInr> {
                 enterField(
                   label: 'Withdraw_Amount',
                   ctl: AmountCtl,
+                  readonly: true,
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20.0, 10, 20, 10),
@@ -238,7 +241,7 @@ class _WithdrawInrState extends State<WithdrawInr> {
     var response = await http.post(
         Uri.parse(
             'https://crush.notionprojects.tech/api/get_contact_details.php'),
-        body: {'token': '123456789', 'user_id': prefs.getString('user_id')});
+        body: {'token': Token, 'user_id': prefs.getString('user_id')});
     var Response = jsonDecode(response.body);
     print(Response);
     return Response;
@@ -252,7 +255,7 @@ class _WithdrawInrState extends State<WithdrawInr> {
     var response = await http.post(
         Uri.parse('https://crush.notionprojects.tech/api/wallet_withdrawl.php'),
         body: {
-          'token': '123456789',
+          'token': Token,
           'user_id': prefs.getString('user_id'),
           'ifsc_code': IFSC_CODECtl.text,
           'account_no': AccNoCtl.text,
@@ -260,11 +263,11 @@ class _WithdrawInrState extends State<WithdrawInr> {
           'holder_name': HolderNameCtl.text,
         });
     var Response = jsonDecode(response.body);
+    print(Response);
     setState(() {
       (Response['status']) ? loading = false : loading = false;
     });
 
-    print(Response);
     return Response;
   }
 }
@@ -273,6 +276,7 @@ class enterField extends StatefulWidget {
   final String label;
   final double height;
   final double width;
+  final bool readonly;
   final TextEditingController ctl;
   const enterField({
     Key? key,
@@ -280,6 +284,7 @@ class enterField extends StatefulWidget {
     this.height = 50,
     this.width = double.infinity,
     required this.ctl,
+    this.readonly = false,
   }) : super(key: key);
 
   @override
@@ -295,7 +300,8 @@ class _enterFieldState extends State<enterField> {
         constraints: BoxConstraints(maxHeight: 50),
         child: TextField(
           controller: widget.ctl,
-          keyboardType: TextInputType.number,
+          readOnly: (widget.readonly) ? true : false,
+          keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
             label: Text(widget.label),
             hintStyle: TextStyle(

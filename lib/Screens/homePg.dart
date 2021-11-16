@@ -39,7 +39,7 @@ class _HomePgState extends State<HomePg> {
   Future addFavourites(String fav_id) async {
     var response = await http
         .post(Uri.parse(BASE_URL + AppConstants.ADD_FAVOURITES), body: {
-      'token': '123456789',
+      'token': Token,
       'user_id': widget.user_id,
       'fav_user_id': fav_id
     });

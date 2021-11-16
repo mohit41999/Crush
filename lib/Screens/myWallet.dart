@@ -19,7 +19,7 @@ class MyWalletPg extends StatefulWidget {
 }
 
 class _MyWalletPgState extends State<MyWalletPg> {
-  late Map commonbody = {'token': '123456789', 'user_id': widget.user_id};
+  late Map commonbody = {'token': Token, 'user_id': widget.user_id};
   late String Money = '';
   List transactionHistory = [];
   Future myWallet() async {
@@ -77,9 +77,6 @@ class _MyWalletPgState extends State<MyWalletPg> {
     }
   }
 
-  late String coins_amount;
-  TextEditingController coins_amountController = TextEditingController();
-
   @override
   void initState() {
     // TODO: implement initState
@@ -98,175 +95,6 @@ class _MyWalletPgState extends State<MyWalletPg> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 10.0),
-              child: Text(
-                'My Wallet',
-                style: TextStyle(color: appThemeColor, fontSize: 20),
-              ),
-            ),
-            Container(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.25,
-              color: appThemeColor,
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text('INR ${Money.toString()}',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.bold)),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'Balance',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(color: Colors.white)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  'Total Coins: ${widget.coins}',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(5)),
-                              width: 118,
-                              height: 36,
-                              child: TextButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                RazorPay())).then((value) {
-                                      setState(() {
-                                        myWallet().then(
-                                            (value) => gettransactionHistory());
-                                      });
-                                    });
-                                  },
-                                  child: Text(
-                                    'Deposit',
-                                    style: TextStyle(
-                                        color: appThemeColor, fontSize: 14),
-                                  )),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(5)),
-                              width: 118,
-                              height: 36,
-                              child: TextButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                WithdrawInr())).then((value) {
-                                      setState(() {
-                                        myWallet().then(
-                                            (value) => gettransactionHistory());
-                                      });
-                                    });
-                                  },
-                                  child: Text(
-                                    'Withdraw',
-                                    style: TextStyle(
-                                        color: appThemeColor, fontSize: 14),
-                                  )),
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '0',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  fontSize: 30,
-                                  fontFamily: 'SegoeUI',
-                                  color: Colors.black),
-                            ),
-                            Text(
-                              'Promo Balance',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontFamily: 'SegoeUI',
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xff0B0D0F).withOpacity(0.6)),
-                            ),
-                          ],
-                        ),
-                        Icon(
-                          Icons.info,
-                          size: 30,
-                          color: Color(0xff0B0D0F),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.02,
-            ),
             Center(
                 child: Text(
               'Transaction History',

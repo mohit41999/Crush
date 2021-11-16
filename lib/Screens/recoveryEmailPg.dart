@@ -16,7 +16,7 @@ class RecoveryEmailPg extends StatelessWidget {
   Future addRecoveyEmail(BuildContext context) async {
     var Response = await http
         .post(Uri.parse(BASE_URL + AppConstants.RECOVEY_EMAIL), body: {
-      'token': '123456789',
+      'token': Token,
       'user_id': user_id,
       'email': recoveryEmail
     });

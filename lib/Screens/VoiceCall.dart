@@ -12,7 +12,7 @@ import 'package:stop_watch_timer/stop_watch_timer.dart';
 import '../firebase_notification_handler.dart';
 import 'VideoCallPg.dart';
 
-const APP_ID = '2af01518a23a4f35a6098c9b50467e85';
+const AGORA_APP_ID = '2af01518a23a4f35a6098c9b50467e85';
 
 class VoiceCallPg extends StatefulWidget {
   final String callStatus;
@@ -79,7 +79,7 @@ class _VoiceCallPgState extends State<VoiceCallPg> {
 
   Future<void> initialize() async {
     await [Permission.camera, Permission.microphone].request();
-    if (APP_ID.isEmpty) {
+    if (AGORA_APP_ID.isEmpty) {
       setState(() {
         _infoStrings.add(
           'APP_ID missing, please provide your APP_ID in settings.dart',
@@ -101,7 +101,7 @@ class _VoiceCallPgState extends State<VoiceCallPg> {
 
   /// Create agora sdk instance and initialize
   Future<void> _initAgoraRtcEngine() async {
-    _engine = await RtcEngine.create(APP_ID);
+    _engine = await RtcEngine.create(AGORA_APP_ID);
 
     await _engine.disableVideo();
     await _engine.setChannelProfile(ChannelProfile.LiveBroadcasting);

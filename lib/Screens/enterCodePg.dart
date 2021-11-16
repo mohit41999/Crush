@@ -42,7 +42,7 @@ class _EnterCodePgState extends State<EnterCodePg> {
   Future verifyOtp() async {
     var Response = await http
         .post(Uri.parse(BASE_URL + AppConstants.VERIFY_OTP), body: {
-      'token': '123456789',
+      'token': Token,
       'mobile_number': '${widget.mobileNumber}',
       'otp': OTP
     });

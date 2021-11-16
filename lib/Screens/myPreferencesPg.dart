@@ -24,7 +24,7 @@ class _MyPreferencesPgState extends State<MyPreferencesPg> {
     if (ischangesapplied) {
       var Response = await http
           .post(Uri.parse(BASE_URL + AppConstants.MY_PREFERENCES), body: {
-        'token': '123456789',
+        'token': Token,
         'user_id': widget.user_id,
         'city': cityValue.toString(),
         'interested': gender.toString(),
@@ -40,15 +40,7 @@ class _MyPreferencesPgState extends State<MyPreferencesPg> {
         });
       }
     } else {
-      // setState(() {
-      //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      //     backgroundColor: Colors.red,
-      //     content: Text('no changes made'),
-      //     duration: Duration(seconds: 1),
-      //   ));
-
       Navigator.pop(context);
-      // });
     }
   }
 
@@ -173,29 +165,6 @@ class _MyPreferencesPgState extends State<MyPreferencesPg> {
                   },
                 ),
               ),
-              // Container(
-              //   height: 50,
-              //   decoration: BoxDecoration(
-              //       border: Border.all(color: appThemeColor),
-              //       borderRadius: BorderRadius.circular(10)),
-              //   child: DropdownButtonHideUnderline(
-              //     child: DropdownButton(
-              //       isExpanded: true,
-              //       icon: Padding(
-              //         padding: const EdgeInsets.fromLTRB(0, 0, 25, 0),
-              //         child: Icon(
-              //           Icons.keyboard_arrow_down,
-              //           color: Colors.grey,
-              //         ),
-              //       ),
-              //       hint: Text(
-              //         '      Select City',
-              //         style: TextStyle(color: Colors.grey),
-              //       ),
-              //       items: [],
-              //     ),
-              //   ),
-              // ),
               Padding(
                 padding: const EdgeInsets.only(top: 30),
                 child: Text('I want to find.....',
