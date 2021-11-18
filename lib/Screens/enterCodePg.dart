@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:crush/Constants/constants.dart';
 import 'package:crush/Services/fcmServices.dart';
 import 'package:crush/util/App_constants/appconstants.dart';
@@ -6,9 +7,10 @@ import 'package:crush/widgets/backgroundcontainer.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:http/http.dart' as http;
+import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'buildUrProfilePg.dart';
 import 'generalHomeScreen.dart';
 
@@ -37,6 +39,12 @@ class _EnterCodePgState extends State<EnterCodePg> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('phonenumber', widget.mobileNumber.toString());
     prefs.setString('user_id', widget.user_id.toString());
+    prefs.setString('otpverify', 'true');
+  }
+
+  Future nullprefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('otpverify', 'false');
   }
 
   Future verifyOtp() async {
@@ -68,7 +76,13 @@ class _EnterCodePgState extends State<EnterCodePg> {
                               user_id: widget.user_id,
                             )));
               })
-        : print('false');
+        : nullprefs().then((value) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              backgroundColor: Colors.red,
+              content: Text(response['message']),
+              duration: Duration(seconds: 2, milliseconds: 30),
+            ));
+          });
   }
 
   @override

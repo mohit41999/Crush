@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:crush/Constants/constants.dart';
 import 'package:crush/Screens/generalHomeScreen.dart';
 import 'package:crush/Screens/signinScreen.dart';
@@ -8,7 +6,6 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
 
 import '../firebase_notification_handler.dart';
 
@@ -23,11 +20,14 @@ class _SplashScreenState extends State<SplashScreen> {
   isloggedin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var phonenumber = prefs.getString('phonenumber');
+    var otpverify = prefs.getString('otpverify');
+    print(otpverify.toString() + 'otpverify');
     print(phonenumber);
     String? user_id = prefs.getString('user_id');
     print(user_id);
     print(phonenumber.toString());
-    (phonenumber == null && user_id == null)
+    (otpverify.toString() == 'null' ||
+            otpverify.toString() == 'false'.toString())
         ? Navigator.push(
             context, CupertinoPageRoute(builder: (_) => SignInScreen()))
         : Navigator.push(
