@@ -426,8 +426,8 @@ class _UserPgState extends State<UserPg> {
                     onPressed: () {
                       CheckBlockUser()
                           .CheckBlock(widget.user_id, widget.selected_user_id)
-                          .then((value) {
-                        if (value['status']) {
+                          .then((v) {
+                        if (v['status']) {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             duration: Duration(seconds: 1, milliseconds: 30),
                             backgroundColor: Colors.red,
@@ -438,7 +438,8 @@ class _UserPgState extends State<UserPg> {
                         } else {
                           (callType == 'Audio')
                               ? (double.parse(myAccount.data[0].total_coins) >=
-                                      5)
+                                      double.parse(
+                                          value['data']['audio_call_rate']))
                                   ? {
                                       generatechannel()
                                           .GenerateChannel(widget.user_id)
@@ -487,7 +488,8 @@ class _UserPgState extends State<UserPg> {
                                       ))
                                     }
                               : (double.parse(myAccount.data[0].total_coins) >=
-                                      10)
+                                      double.parse(
+                                          value['data']['video_call_rate']))
                                   ? {
                                       generatechannel()
                                           .GenerateChannel(widget.user_id)

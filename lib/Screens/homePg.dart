@@ -35,7 +35,6 @@ class _HomePgState extends State<HomePg> {
   int startIndex = 0;
   late String cn;
 
-
   Future addFavourites(String fav_id) async {
     var response = await http
         .post(Uri.parse(BASE_URL + AppConstants.ADD_FAVOURITES), body: {
@@ -342,9 +341,9 @@ class _HomePgState extends State<HomePg> {
                       CheckBlockUser()
                           .CheckBlock(widget.user_id,
                               gethomeDetails.data[startIndex].userId)
-                          .then((value) {
-                        (value['status']);
-                        if (value['status']) {
+                          .then((v) {
+                        (v['status']);
+                        if (v['status']) {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             duration: Duration(seconds: 1, milliseconds: 30),
                             backgroundColor: Colors.red,
@@ -356,7 +355,8 @@ class _HomePgState extends State<HomePg> {
                         } else {
                           (callType == 'Audio')
                               ? (double.parse(myAccount.data[0].total_coins) >=
-                                      5)
+                                      double.parse(
+                                          value['data']['audio_call_rate']))
                                   ? {
                                       generatechannel()
                                           .GenerateChannel(widget.user_id)
@@ -393,10 +393,9 @@ class _HomePgState extends State<HomePg> {
                                                                 .data[
                                                                     startIndex]
                                                                 .profileImage,
-                                                      ))).then(
-                                                  (value) {
-                                                Rejcted = false;
-                                              });
+                                                      ))).then((value) {
+                                            Rejcted = false;
+                                          });
                                         });
                                       })
                                     }
@@ -411,7 +410,8 @@ class _HomePgState extends State<HomePg> {
                                       ))
                                     }
                               : (double.parse(myAccount.data[0].total_coins) >=
-                                      10)
+                                      double.parse(
+                                          value['data']['video_call_rate']))
                                   ? {
                                       generatechannel()
                                           .GenerateChannel(widget.user_id)
