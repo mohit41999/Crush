@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "334315383425-u1jq25d8qu6d6v2esp4lhtmcipivkbr3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ranaca.crush",
+            "certificate_hash": "39a6b6592ff0218e2282d6e96727942718e46dee"
+          }
+        },
+        {
           "client_id": "334315383425-c656nfrjv0onpk8100r9h4k8sovhhvmb.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -94,7 +94,8 @@ class _FavouritesPgState extends State<FavouritesPg> {
                                               .data[index].profilePicture),
                                     ),
                                     title: Text(
-                                      favourite_users.data[index].fullName,
+                                      favourite_users.data[index].fullName
+                                          .toString(),
                                       style: TextStyle(
                                         fontFamily: 'SegoeUI',
                                         fontWeight: FontWeight.bold,

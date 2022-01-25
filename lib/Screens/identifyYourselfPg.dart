@@ -5,6 +5,8 @@ import 'package:crush/Services/identify_yourself_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:csc_picker/csc_picker.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'buildUrProfilePg.dart';
 
@@ -29,6 +31,7 @@ class _IdentifyYourselgPgState extends State<IdentifyYourselgPg> {
   late String gender;
   late String name;
   DateTime currentDate = DateTime.now();
+  GoogleSignInAccount? googleSignInAccount = GoogleSignIn().currentUser;
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -45,6 +48,21 @@ class _IdentifyYourselgPgState extends State<IdentifyYourselgPg> {
 
         print(currentDate);
       });
+  }
+
+  Future getUserData() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    namecontroller.text = preferences.getString('displayName')!;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    setState(() {
+      getUserData();
+    });
+
+    super.initState();
   }
 
   @override

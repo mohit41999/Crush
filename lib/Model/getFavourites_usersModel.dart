@@ -42,7 +42,7 @@ class Datum {
   });
 
   String userId;
-  String fullName;
+  dynamic fullName;
   dynamic profilePicture;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(

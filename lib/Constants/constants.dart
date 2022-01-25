@@ -2,12 +2,16 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 Color appThemeColor = Color(0xff0E72EC);
-String Token='123456789';
+String Token = '123456789';
 
 class commonBtn extends StatelessWidget {
   final String s;
+  final bool isIcon;
+  final Color IconColor;
+  final IconData Icondata;
   final Color bgcolor;
   final Color textColor;
   final VoidCallback onPressed;
@@ -21,32 +25,72 @@ class commonBtn extends StatelessWidget {
     required this.onPressed,
     this.height = 50,
     this.width = 320,
+    this.isIcon = false,
+    this.Icondata = FontAwesomeIcons.phone,
+    this.IconColor = Colors.blue,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: height,
-      width: width,
-      child: TextButton(
-        style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(bgcolor),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ))),
-        onPressed: onPressed,
-        child: Text(
-          s,
-          style: TextStyle(
-              fontSize: 18,
-              color: textColor,
-              fontFamily: 'SegoeUI',
-              letterSpacing: 1,
-              fontWeight: FontWeight.w700),
-        ),
-      ),
-    );
+    return (isIcon)
+        ? Container(
+            height: height,
+            width: width,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
+                border: Border.all(color: Colors.black)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                TextButton(
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(bgcolor),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ))),
+                  onPressed: onPressed,
+                  child: Text(
+                    s,
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: textColor,
+                        fontFamily: 'SegoeUI',
+                        letterSpacing: 1,
+                        fontWeight: FontWeight.w700),
+                  ),
+                ),
+                Icon(
+                  Icondata,
+                  color: IconColor,
+                )
+              ],
+            ),
+          )
+        : SizedBox(
+            height: height,
+            width: width,
+            child: TextButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(bgcolor),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ))),
+              onPressed: onPressed,
+              child: Text(
+                s,
+                style: TextStyle(
+                    fontSize: 18,
+                    color: textColor,
+                    fontFamily: 'SegoeUI',
+                    letterSpacing: 1,
+                    fontWeight: FontWeight.w700),
+              ),
+            ),
+          );
   }
 }
 

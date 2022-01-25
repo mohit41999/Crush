@@ -7,6 +7,7 @@ import 'package:crush/Services/sendnotification.dart';
 import 'package:crush/util/App_constants/appconstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -41,7 +42,13 @@ class _AppSettingsPgState extends State<AppSettingsPg> {
   }
 
   logout() async {
+    GoogleSignIn _googleSignIn = GoogleSignIn(
+      scopes: ['email'],
+    );
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+
+    GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signOut();
     prefs.remove('phonenumber');
     prefs.remove('user_id');
   }
