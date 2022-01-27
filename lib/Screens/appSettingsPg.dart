@@ -5,7 +5,9 @@ import 'package:crush/Screens/signinScreen.dart';
 import 'package:crush/Screens/splashScreen.dart';
 import 'package:crush/Services/sendnotification.dart';
 import 'package:crush/util/App_constants/appconstants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
@@ -27,6 +29,21 @@ class _AppSettingsPgState extends State<AppSettingsPg> {
   TextStyle reportText =
       TextStyle(color: Color(0xff0B0D0F).withOpacity(0.8), fontSize: 16);
 
+  Future getinstance() async {
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        print(user!.displayName);
+        print('User is currently signed out!');
+      } else {
+        print(user.displayName);
+        print(user.email);
+        print(user.phoneNumber);
+
+        print('User is signed in!');
+      }
+    });
+  }
+
   Future deleteUser() async {
     var Response = await http.post(
         Uri.parse(BASE_URL + AppConstants.DELETE_ACCOUNT),
@@ -46,11 +63,19 @@ class _AppSettingsPgState extends State<AppSettingsPg> {
       scopes: ['email'],
     );
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool facebook = prefs.getBool('isFacebook')!;
+    (facebook) ? await FacebookLogin().logOut() : await _googleSignIn.signOut();
+    FirebaseAuth.instance.signOut();
     prefs.clear();
 
-    GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signOut();
     prefs.remove('phonenumber');
     prefs.remove('user_id');
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
   }
 
   @override

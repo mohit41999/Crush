@@ -26,9 +26,9 @@ class HomePg extends StatefulWidget {
 }
 
 class _HomePgState extends State<HomePg> {
-  bool loading = false;
-  bool loading2 = false;
-  late Future<Home> home;
+  bool loading = true;
+  bool loading2 = true;
+  bool nodata = false;
   late Future<MyAccount> macc;
   late Home gethomeDetails;
   late MyAccount myAccount;
@@ -54,17 +54,22 @@ class _HomePgState extends State<HomePg> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    home = HomeService().getHomeDetails(widget.user_id).then((value) {
+    HomeService().getHomeDetails(widget.user_id).then((value) {
       setState(() {
-        gethomeDetails = value;
-        loading = true;
+        if (value.data == []) {
+          nodata = true;
+        } else {
+          gethomeDetails = value;
+          // return gethomeDetails;
+        }
+        loading = false;
       });
-      return gethomeDetails;
+      return value;
     });
     macc = myAccountService().get_myAccount(widget.user_id).then((value) {
       setState(() {
         myAccount = value;
-        loading2 = true;
+        loading2 = false;
       });
       return myAccount;
     });
@@ -72,161 +77,170 @@ class _HomePgState extends State<HomePg> {
 
   @override
   Widget build(BuildContext context) {
-    return (!loading && !loading2)
+    return (loading || loading2)
         ? Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
             ),
           )
-        : Scaffold(
-            resizeToAvoidBottomInset: false,
-            backgroundColor: Colors.white,
-            body: Container(
-              width: double.infinity,
-              height: double.infinity,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: NetworkImage(
-                          gethomeDetails.data[startIndex].profileImage),
-                      fit: BoxFit.cover)),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Text(
-                            (gethomeDetails.data[startIndex].status
-                                        .toString() ==
-                                    'Online')
-                                ? 'Online  '
-                                : 'Offline  ',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontFamily: 'SegoeUI',
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          Icon(
-                            Icons.circle,
-                            color: (gethomeDetails.data[startIndex].status
-                                        .toString() ==
-                                    'Online')
-                                ? Color(0xff0FD97B)
-                                : Colors.red,
-                            size: 10,
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 80,
-                    ),
-                    Column(
+        : (nodata)
+            ? Scaffold(
+                body: Center(
+                  child: Text(
+                      'No data found... Please complete your profile first'),
+                ),
+              )
+            : Scaffold(
+                resizeToAvoidBottomInset: false,
+                backgroundColor: Colors.white,
+                body: Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: NetworkImage(
+                              gethomeDetails.data[startIndex].profileImage),
+                          fit: BoxFit.cover)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => UserPg(
-                                        homeuser: true,
-                                        user_id: widget.user_id,
-                                        selected_user_id: gethomeDetails
-                                            .data[startIndex].userId)));
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              '${gethomeDetails.data[startIndex].fullName}, ${gethomeDetails.data[startIndex].age}',
-                              style: TextStyle(
-                                color: Color(0xffF0EEEF),
-                                fontSize: 22,
-                                fontFamily: 'SegoeUI',
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                              child: Icon(Icons.location_on,
-                                  size: 20, color: Colors.grey),
-                            ),
-                            Text(
-                              '${gethomeDetails.data[startIndex].city}',
-                              style:
-                                  TextStyle(color: Colors.grey, fontSize: 16),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.05,
-                        ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              GestureDetector(
-                                onTap: () {
-                                  if (startIndex <
-                                      gethomeDetails.data.length - 1) {
-                                    setState(() {
-                                      startIndex++;
-                                      print(gethomeDetails.data.length
-                                          .toString());
-                                    });
-                                  }
-                                },
-                                child: homeIconBtn(
-                                  icon: Icons.close,
+                              Text(
+                                (gethomeDetails.data[startIndex].status
+                                            .toString() ==
+                                        'Online')
+                                    ? 'Online  '
+                                    : 'Offline  ',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontFamily: 'SegoeUI',
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                  alertbox(context, 'Audio');
-                                },
-                                child: homeIconBtn(
-                                  icon: Icons.call,
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  alertbox(context, 'Video');
-                                },
-                                child: homeIconBtn(
-                                  icon: Icons.videocam,
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  addFavourites(
-                                      gethomeDetails.data[startIndex].userId);
-                                },
-                                child: homeIconBtn(
-                                  icon: Icons.favorite,
-                                ),
+                              Icon(
+                                Icons.circle,
+                                color: (gethomeDetails.data[startIndex].status
+                                            .toString() ==
+                                        'Online')
+                                    ? Color(0xff0FD97B)
+                                    : Colors.red,
+                                size: 10,
                               )
                             ],
                           ),
                         ),
+                        SizedBox(
+                          height: 80,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => UserPg(
+                                            homeuser: true,
+                                            user_id: widget.user_id,
+                                            selected_user_id: gethomeDetails
+                                                .data[startIndex].userId)));
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  '${gethomeDetails.data[startIndex].fullName}, ${gethomeDetails.data[startIndex].age}',
+                                  style: TextStyle(
+                                    color: Color(0xffF0EEEF),
+                                    fontSize: 22,
+                                    fontFamily: 'SegoeUI',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                                  child: Icon(Icons.location_on,
+                                      size: 20, color: Colors.grey),
+                                ),
+                                Text(
+                                  '${gethomeDetails.data[startIndex].city}',
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 16),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.05,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      if (startIndex <
+                                          gethomeDetails.data.length - 1) {
+                                        setState(() {
+                                          startIndex++;
+                                          print(gethomeDetails.data.length
+                                              .toString());
+                                        });
+                                      }
+                                    },
+                                    child: homeIconBtn(
+                                      icon: Icons.close,
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      alertbox(context, 'Audio');
+                                    },
+                                    child: homeIconBtn(
+                                      icon: Icons.call,
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      alertbox(context, 'Video');
+                                    },
+                                    child: homeIconBtn(
+                                      icon: Icons.videocam,
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      addFavourites(gethomeDetails
+                                          .data[startIndex].userId);
+                                    },
+                                    child: homeIconBtn(
+                                      icon: Icons.favorite,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        )
                       ],
-                    )
-                  ],
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          );
+              );
   }
 
   Future alertbox(BuildContext context, String CallType) async {

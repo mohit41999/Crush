@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="app_name">Crush</string>
+<string name="facebook_app_id">1329819757532888</string>
+<string name="fb_login_protocol_scheme">fb1329819757532888</string>
+<string name="facebook_client_token">dee2c651abb6d2a30afb468ffee4dc02</string>
+</resources>

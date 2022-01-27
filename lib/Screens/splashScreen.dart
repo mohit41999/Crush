@@ -26,14 +26,14 @@ class _SplashScreenState extends State<SplashScreen> {
     String? user_id = prefs.getString('user_id');
     print(user_id);
     print(phonenumber.toString());
-    (otpverify.toString() == 'null' ||
-            otpverify.toString() == 'false'.toString())
+    (user_id == null)
         ? Navigator.push(
             context, CupertinoPageRoute(builder: (_) => SignInScreen()))
         : Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (_) => GeneralHomeScreen(user_id: user_id)));
+                // builder: (_) => GeneralHomeScreen(user_id: user_id)));
+                builder: (_) => SignInScreen()));
   }
 
   Future<void> initDynamicLinks() async {

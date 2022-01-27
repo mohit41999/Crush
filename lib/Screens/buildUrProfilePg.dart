@@ -1,6 +1,8 @@
 import 'package:crush/Constants/constants.dart';
 import 'package:crush/widgets/backgroundcontainer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'identifyYourselfPg.dart';
 import 'package:image_picker/image_picker.dart';
@@ -16,6 +18,7 @@ class BuildUrProfilePg extends StatefulWidget {
 
 class _BuildUrProfilePgState extends State<BuildUrProfilePg> {
   bool isagree = false;
+  User? user;
   Future _getpostImage() async {
     var image =
         await ImagePicker.platform.pickImage(source: ImageSource.gallery);
@@ -38,6 +41,15 @@ class _BuildUrProfilePgState extends State<BuildUrProfilePg> {
     } else {
       print('image not selected');
     }
+  }
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
   }
 
   @override

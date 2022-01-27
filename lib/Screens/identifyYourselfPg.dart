@@ -31,7 +31,6 @@ class _IdentifyYourselgPgState extends State<IdentifyYourselgPg> {
   late String gender;
   late String name;
   DateTime currentDate = DateTime.now();
-  GoogleSignInAccount? googleSignInAccount = GoogleSignIn().currentUser;
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -50,17 +49,9 @@ class _IdentifyYourselgPgState extends State<IdentifyYourselgPg> {
       });
   }
 
-  Future getUserData() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    namecontroller.text = preferences.getString('displayName')!;
-  }
-
   @override
   void initState() {
     // TODO: implement initState
-    setState(() {
-      getUserData();
-    });
 
     super.initState();
   }

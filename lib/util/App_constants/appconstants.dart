@@ -5,6 +5,8 @@ const String BASE_URL = 'http://crush.notionprojects.tech/api/';
 class AppConstants {
   static const String LOGIN_WITH_MOBILE_URL = 'login_with_mobile.php';
   static const String LOGIN_WITH_EMAIL_URL = 'login_with_email.php';
+  static const String LOGIN_WITH_USERNAME = 'login_with_username.php';
+  static const String LOGIN_WITH_AUTH = 'login_with_auth.php';
   static const String FRIENDS = 'friends.php';
   //static const String GET_PROFILE = 'get_profile.php';
   static const String VERIFY_OTP = 'otp_verifiy.php';

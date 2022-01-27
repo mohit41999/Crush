@@ -5,6 +5,7 @@ import 'package:crush/util/App_constants/appconstants.dart';
 import 'package:crush/widgets/backgroundcontainer.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'generalHomeScreen.dart';
 import 'infoPg.dart';
 
@@ -19,6 +20,7 @@ class InterestPg extends StatefulWidget {
 class _InterestPgState extends State<InterestPg> {
   late String gender;
   Future Interested() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     var Response = await http
         .post(Uri.parse(BASE_URL + AppConstants.INTERESTED), body: {
       'token': Token,
@@ -28,6 +30,7 @@ class _InterestPgState extends State<InterestPg> {
     var response = jsonDecode(Response.body);
     if (response['status']) {
       setState(() {
+        prefs.setString('profile', 'Completed');
         Navigator.push(
             context,
             MaterialPageRoute(
