@@ -202,8 +202,6 @@ class _SignInScreenState extends State<SignInScreen> {
                     s: 'Sign In with Facebook',
                     onPressed: () {
                       fbsignini();
-                      // Navigator.push(context,
-                      //     MaterialPageRoute(builder: (_) => VerifyNumberPg()));
                     },
                     textColor: appThemeColor,
                   ),

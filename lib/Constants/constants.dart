@@ -33,25 +33,63 @@ class commonBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return (isIcon)
-        ? Container(
-            height: height,
-            width: width,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
-                border: Border.all(color: Colors.black)),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                TextButton(
-                  style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(bgcolor),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ))),
-                  onPressed: onPressed,
+        ? GestureDetector(
+            onTap: onPressed,
+            child: Container(
+              height: height,
+              width: width,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
+                  border: Border.all(color: Colors.black)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: bgcolor,
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Center(
+                      child: Text(
+                        s,
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: textColor,
+                            fontFamily: 'SegoeUI',
+                            letterSpacing: 1,
+                            fontWeight: FontWeight.w700),
+                      ),
+                    ),
+                  ),
+                  // TextButton(
+                  //   style: ButtonStyle(
+                  //       backgroundColor:
+                  //           MaterialStateProperty.all<Color>(bgcolor),
+                  //       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  //           RoundedRectangleBorder(
+                  //
+                  //       ))),
+                  //   onPressed: onPressed,
+                  //   child:
+                  // ),
+                  Icon(
+                    Icondata,
+                    color: IconColor,
+                  )
+                ],
+              ),
+            ),
+          )
+        : GestureDetector(
+            onTap: onPressed,
+            child: SizedBox(
+              height: height,
+              width: width,
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0), color: bgcolor),
+                child: Center(
                   child: Text(
                     s,
                     style: TextStyle(
@@ -62,32 +100,6 @@ class commonBtn extends StatelessWidget {
                         fontWeight: FontWeight.w700),
                   ),
                 ),
-                Icon(
-                  Icondata,
-                  color: IconColor,
-                )
-              ],
-            ),
-          )
-        : SizedBox(
-            height: height,
-            width: width,
-            child: TextButton(
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(bgcolor),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ))),
-              onPressed: onPressed,
-              child: Text(
-                s,
-                style: TextStyle(
-                    fontSize: 18,
-                    color: textColor,
-                    fontFamily: 'SegoeUI',
-                    letterSpacing: 1,
-                    fontWeight: FontWeight.w700),
               ),
             ),
           );

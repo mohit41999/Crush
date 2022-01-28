@@ -31,12 +31,16 @@ class _InterestPgState extends State<InterestPg> {
     if (response['status']) {
       setState(() {
         prefs.setString('profile', 'Completed');
-        Navigator.push(
+        Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
                 builder: (context) => GeneralHomeScreen(
                       user_id: widget.user_id,
-                    )));
+                    )),
+            (route) => false);
+        // push(
+        //     context,
+        //     );
       });
     }
   }

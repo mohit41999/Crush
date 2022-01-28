@@ -144,7 +144,7 @@ class _VoiceCallPgState extends State<VoiceCallPg> {
           _infoStrings.add(info);
           _users.add(uid);
           (widget.callStatus == 'o')
-              ? CheckBalanceServices().checkaudiobalance()
+              ? CheckBalanceServices().checkaudiobalance(widget.caller_id!)
               : null;
 
           _stopWatchTimer.onExecute.add(StopWatchExecute.start);
@@ -154,7 +154,9 @@ class _VoiceCallPgState extends State<VoiceCallPg> {
               print(
                   'hello after 5 secsssssssssssssssssssssssssssssssssss audio');
               (widget.callStatus == 'o')
-                  ? CheckBalanceServices().checkaudiobalance().then((value) {
+                  ? CheckBalanceServices()
+                      .checkaudiobalance(widget.caller_id!)
+                      .then((value) {
                       print(value['data']['status'].toString());
                       if (value['data']['status'].toString() == 'n') {
                         timer.cancel();

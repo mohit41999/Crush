@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CheckBalanceServices {
-  Future checkvideobalance() async {
+  Future checkvideobalance(String coin_reciever_id) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     var response = await http.post(
         Uri.parse(
@@ -15,13 +15,14 @@ class CheckBalanceServices {
         body: {
           'token': Token,
           'user_id': preferences.getString('user_id'),
+          'coin_reciever_id': coin_reciever_id
         });
     var Response = jsonDecode(response.body);
 
     return Response;
   }
 
-  Future checkaudiobalance() async {
+  Future checkaudiobalance(String coin_reciever_id) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     var response = await http.post(
         Uri.parse(
@@ -30,6 +31,7 @@ class CheckBalanceServices {
         body: {
           'token': Token,
           'user_id': preferences.getString('user_id'),
+          'coin_reciever_id': coin_reciever_id,
         });
     var Response = jsonDecode(response.body);
     return Response;
