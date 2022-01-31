@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:country_state_city_picker/country_state_city_picker.dart';
 import 'package:crush/Constants/constants.dart';
 import 'package:crush/Model/myAccountModel.dart';
 import 'package:crush/Services/myAccountService.dart';
@@ -8,6 +8,7 @@ import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
 class MyPreferencesPg extends StatefulWidget {
@@ -94,6 +95,24 @@ class _MyPreferencesPgState extends State<MyPreferencesPg> {
                   ),
                 ),
               ),
+              SelectState(
+                // style: TextStyle(color: Colors.red),
+                onCountryChanged: (value) {
+                  setState(() {
+                    countryValue = value;
+                  });
+                },
+                onStateChanged: (value) {
+                  setState(() {
+                    stateValue = value;
+                  });
+                },
+                onCityChanged: (value) {
+                  setState(() {
+                    cityValue = value;
+                  });
+                },
+              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: CSCPicker(
@@ -127,7 +146,7 @@ class _MyPreferencesPgState extends State<MyPreferencesPg> {
                       fontWeight: FontWeight.bold),
 
                   ///DropdownDialog Item style [OPTIONAL PARAMETER]
-                  dropdownItemStyle: TextStyle(
+                  dropdownItemStyle: GoogleFonts.poppins(
                     color: Colors.black,
                     fontSize: 14,
                   ),

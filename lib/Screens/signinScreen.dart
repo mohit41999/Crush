@@ -20,7 +20,10 @@ import 'package:http/http.dart' as http;
 import 'enterCodePg.dart';
 
 class SignInScreen extends StatefulWidget {
-  const SignInScreen({Key? key}) : super(key: key);
+  const SignInScreen({Key? key, this.invited = false, this.referal_id = ''})
+      : super(key: key);
+  final bool invited;
+  final String? referal_id;
 
   @override
   State<SignInScreen> createState() => _SignInScreenState();
@@ -28,6 +31,7 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   late FirebaseMessaging _getfcmtoken;
+  late bool invited;
   Future fbsignini() async {
     final fb = FacebookLogin();
     final res = await fb.logIn(permissions: [
@@ -95,6 +99,19 @@ class _SignInScreenState extends State<SignInScreen> {
     _getfcmtoken.getToken().then((value) {
       Fcm_Services().sendfcm(APIRESPONSE['data']['user_id'], value!);
     });
+    if (APIRESPONSE['status']) {
+      if (invited) {
+        await http.post(Uri.parse(BASE_URL + AppConstants.ADD_REFERAL_COINS),
+            body: {
+              'token': '123456789',
+              'user_id': widget.referal_id
+            }).then((value) {
+          setState(() {
+            invited = false;
+          });
+        });
+      }
+    }
 
     (APIRESPONSE['status'])
         ? Navigator.push(
@@ -135,6 +152,13 @@ class _SignInScreenState extends State<SignInScreen> {
     } catch (error) {
       print(error);
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    invited = widget.invited;
+    super.initState();
   }
 
   @override

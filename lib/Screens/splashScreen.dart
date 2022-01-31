@@ -10,7 +10,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../firebase_notification_handler.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -43,25 +45,36 @@ class _SplashScreenState extends State<SplashScreen> {
       if (deeplink != null) {
         print(deeplink.queryParameters.toString());
         var id = deeplink.queryParameters['userid'];
+        var invite = deeplink.queryParameters['isInvite'];
         print(id);
+        print(invite.toString() + 'pppppppppppp');
         print(deeplink.toString() + 'sssssssssssssssssss');
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        var phonenumber = prefs.getString('phonenumber');
-        print(phonenumber);
+
         String? user_id = prefs.getString('user_id');
         print(user_id);
-        print(phonenumber.toString());
-        (phonenumber == null && user_id == null)
-            ? Navigator.push(
-                context, CupertinoPageRoute(builder: (_) => SplashScreen()))
-            : Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => UserPg(
-                          user_id: user_id,
-                          selected_user_id: id.toString(),
-                          homeuser: true,
-                        )));
+
+        (user_id == id)
+            ? print('noooo')
+            : (user_id == null)
+                ? (invite.toString() == 'true')
+                    ? Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                            builder: (_) => SignInScreen(
+                                  invited: true,
+                                  referal_id: id,
+                                )))
+                    : Navigator.push(context,
+                        CupertinoPageRoute(builder: (_) => SignInScreen()))
+                : Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => UserPg(
+                              user_id: user_id,
+                              selected_user_id: id.toString(),
+                              homeuser: true,
+                            )));
         print(deeplink.toString());
       }
     }, onError: (OnLinkErrorException e) async {

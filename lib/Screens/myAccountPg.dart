@@ -40,7 +40,8 @@ class _MyAccountPgState extends State<MyAccountPg> {
     final DynamicLinkParameters parameters = DynamicLinkParameters(
       // This should match firebase but without the username query param
       // This can be whatever you want for the uri, https://yourapp.com/groupinvite?username=$userName
-      link: Uri.parse('https://ranaca.page.link/crush?userid=$user_id'),
+      link: Uri.parse(
+          'https://ranaca.page.link/crush?userid=$user_id&isInvite=false'),
       androidParameters: AndroidParameters(
         packageName: 'com.ranaca.crush',
         minimumVersion: 1,
@@ -431,7 +432,9 @@ class _MyAccountPgState extends State<MyAccountPg> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (_) => InviteFriendsPg()));
+                                  builder: (_) => InviteFriendsPg(
+                                        user_id: widget.user_id,
+                                      )));
                         });
                       },
                       child: accountPgOptions(
