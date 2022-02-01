@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "334315383425-ocqaqnid6d92i94n89dq347e6nf779ad.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ranaca.crush",
+            "certificate_hash": "9b932ef21a8cb4e26928417d179f0a348ebaf65d"
+          }
+        },
+        {
+          "client_id": "334315383425-phantrobk90o88i8dci02g0fi1qb5a6g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ranaca.crush",
+            "certificate_hash": "5c29d7d6a2a2d16a87cf1c100c6a35e4314d0253"
+          }
+        },
+        {
           "client_id": "334315383425-u1jq25d8qu6d6v2esp4lhtmcipivkbr3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
