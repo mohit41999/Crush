@@ -30,6 +30,14 @@
           }
         },
         {
+          "client_id": "334315383425-pokhlt6pr17qpc6muojsltp76usi8ug4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ranaca.crush",
+            "certificate_hash": "5cb05cb5e78fff93b3607ddffcd984767dd082ed"
+          }
+        },
+        {
           "client_id": "334315383425-u1jq25d8qu6d6v2esp4lhtmcipivkbr3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

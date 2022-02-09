@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:crush/Constants/constants.dart';
+import 'package:crush/Screens/myAccountPg.dart';
 import 'package:crush/widgets/backgroundcontainer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -20,8 +21,8 @@ class RazorPay extends StatefulWidget {
 
 class _RazorPayState extends State<RazorPay> {
   late Razorpay _razorpay;
-  String username = 'rzp_test_XZiANpd7i5zBJo';
-  String password = 'nf5Mxscuk78JAsKLFVVY9dY2';
+  String username = 'rzp_live_X3R1v9OJUUnIrW';
+  String password = 'vXphjk77VgMKKqHBpFLSSw6M';
   TextEditingController payamount = TextEditingController();
   var amount;
   var user_id;
@@ -50,7 +51,12 @@ class _RazorPayState extends State<RazorPay> {
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     // Do something when payment succeeds
-    depositsuccess();
+    depositsuccess().then((value) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => MyAccountPg(user_id: user_id)));
+    });
     print('order' + response.orderId.toString());
     print('paymentId' + response.paymentId.toString());
     print('signature' + response.signature.toString());
@@ -91,10 +97,7 @@ class _RazorPayState extends State<RazorPay> {
       "currency": "INR",
       "receipt": "Receipt no. 1",
       "payment_capture": 1,
-      "notes": {
-        "notes_key_1": "Tea, Earl Grey, Hot",
-        "notes_key_2": "Tea, Earl Grey… decaf."
-      }
+      "notes": {}
     };
     request.add(utf8.encode(json.encode(orderOptions)));
     final response = await request.close();
