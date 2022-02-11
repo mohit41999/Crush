@@ -109,8 +109,8 @@ class _RazorPayState extends State<RazorPay> {
         'key': username,
         'amount': amount,
         "currency": "INR",
-        'name': 'E Drives',
-        'description': 'E Bike',
+        'name': 'Crush',
+        'description': 'Crush',
         'order_id': orderId, // Generate order_id using Orders API
         'timeout': 300,
       };
